@@ -1,0 +1,300 @@
+.top-nav{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	background: #000;
+	height: 105px;
+	z-index: 10000;
+	.container{
+		height: 100%;
+	}
+	.logo-box{
+		img{
+			height: 75px;
+		}
+	}
+	.nav-box{
+		a{
+			color: #fff;
+			font-size: 18px;
+		}
+		li{
+			margin: 0 20px;
+		}
+	}
+}
+
+.website{
+    color: #333333;
+	h1{
+		font-size: 38px;
+		font-weight: 400;
+	}
+	h4{
+		font-size: 20px;
+		font-weight: 500;
+		margin-bottom: 5px;
+	}
+	.banner-swiper {
+		width: 100%;
+		position: relative;
+		color: #fff;
+		.swiper-button-next,
+		.swiper-button-prev {
+			background-image: none;
+			color: #fff;
+			// border: 1px solid #fff;
+			width: 50px;
+			height: 50px;
+			transition: all 0.5s ease 0s;
+			opacity: 0;
+		}
+
+		.swiper-button-prev {
+			left: -100px;
+		}
+
+		.swiper-button-next {
+			right: -100px;
+		}
+
+		img,svg{
+			width: 100%;
+		}
+	}
+
+	.banner-swiper:hover .swiper-button-prev {
+		left: 100px;
+		opacity: 1;
+	}
+
+	.banner-swiper:hover .swiper-button-next {
+		right: 100px;
+		opacity: 1;
+	}
+
+	.auction{
+		padding: 70px 20px;
+		.container{
+			width: 1140px;
+		}
+		h1.title {
+		    margin-bottom: 20px;
+			span{
+			    color: #ae2129;
+			}
+		}
+		h2{
+			font-size: 28px;
+    		margin-top: 60px;
+    		margin-bottom: 15px;
+		    font-weight: 500;
+		    line-height: 1.1;
+			color: #343434;
+		}
+		.lead {
+		    font-size: 21px;
+			font-weight: 300;
+		    margin-bottom: 60px;
+		}
+		.auction-img-box{
+			img{
+				width: 100%;
+			}
+		}
+		.auction-top-right{
+			padding: 0 20px;
+			p{
+				margin-bottom: 10px;
+			}
+			.list-unstyled{
+				li{
+					padding: 5px 0;
+					.svg-icon{
+					    fill: #ae2129;
+						padding-right: 10px;
+					}
+				}
+			}
+		}
+		.auction-bottom{
+			p{
+				margin-bottom: 10px;
+				font-size: 14px;
+				line-height: 1.5;
+			}
+			.el-col{
+				padding-left: 20px;
+				&:first-child{
+					padding-left: 0;
+					padding-right: 20px;
+				}
+			}
+		}
+	}
+
+	.share{
+		padding: 80px 0;
+		background: #282828;
+		height: 550px;
+		color: #fff;
+		h1{
+			margin-bottom: 50px;
+		}
+		.title-icon{
+			margin: auto;
+			margin-bottom: 30px;
+			width: 300px;
+			.share-icon,.bbs-icon{
+				color: #fff;
+				width: 150px;
+				height: 54px;
+				font-size: 28px;
+				line-height: 50px;
+				border: 1px solid #fff;
+				padding: 0 10px;
+				box-sizing: border-box;
+				&.active{
+					background: #fff;
+					color: #A72225;
+				}
+			}
+			.share-icon{
+				border-top-left-radius:54px;
+				border-bottom-left-radius:54px;
+			}
+			.bbs-icon{
+				border-top-right-radius:54px;
+				border-bottom-right-radius:54px;
+			}
+		}
+		.share-mid-box{
+			width: 1100px;
+			margin: auto;
+			font-size: 18px;
+			line-height: 35px;
+			margin-bottom: 70px;
+		}
+		.mid-icon-box{
+			width: 900px;
+			margin: auto;
+			font-size: 28px;
+			img{
+				display: block;
+				margin-right: 20px;
+			}
+			&.bottom{
+				width: 500px;
+			}
+		}
+	}
+
+	.brand{
+		padding: 80px 0;
+		h1{
+			margin-bottom: 30px;
+		}
+		.brands-box{
+			width: 1100px;
+			margin: 50px auto;
+			font-size: 20px;
+			color: #282828;
+			.brand-box{
+				margin-bottom: 30px;
+				.img-box{
+					padding: 0 50px;
+					height: 200px;
+					box-sizing: border-box;
+					img{
+						width: 100%;
+					}
+				}
+
+				.brand-text{
+					height: 65px;
+					p{
+						margin-bottom: 10px;
+					}
+				}
+			}
+		}
+		.brand-btn{
+			width: 140px;
+			height: 36px;
+			margin: auto;
+			a{
+				display: block;
+				height:36px;
+				font-size: 12px;
+				line-height: 36px;
+				border: 1px solid #979797;
+				&:hover{
+					border: 1px solid #A72225;
+					background: #A72225;
+					color: #fff;
+				}
+			}
+		}
+	}
+
+	.news{
+		padding: 80px 0;
+		background: #0b0b0b;
+		color: #fff;
+		.container{
+			width: 1150px;
+			.space{
+				margin-top: 50px;
+			}
+			>h1{
+				margin-bottom: 30px;
+			}
+			>h2{
+				font-size: 28px;
+				margin-top: 50px;
+				margin-bottom: 20px;
+				i{
+					display: inline-block;
+					height: 18px;
+					width: 6px;
+					background: #fff;
+					margin-right: 15px;
+					margin-left: -20px;
+				}
+			}
+			>p{
+				margin-bottom: 5px;
+				line-height: 1.5;
+			}
+		}
+		.knowledge-card{
+			color: #000;
+			opacity: 0.8;
+			height: 320px;
+			background: #F2F2F2;
+			padding: 30px 20px 0 20px;
+			font-size: 14px;
+			h5{
+				font-size: 14px;
+				margin-bottom: 5px;
+				&.en-title{
+					margin-bottom: 20px;
+					height: 40px;
+					line-height: 20px;
+				}
+			}
+			p{
+				padding: 8px;
+				position: relative;
+				.svg-icon{
+					fill: #ae2129;
+					position: absolute;
+					left: -10px;
+
+				}
+			}
+		}
+
+	}
+}

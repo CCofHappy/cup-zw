@@ -1,0 +1,47 @@
+.logistics-img-box{
+  margin: auto;
+  width: 980px;
+  padding: 60px 0;
+  .img-box{
+    width: 80px;
+    position: relative;
+    b{
+      margin-top: 20px;
+      color: #979797;
+      text-align: center;
+      font-size: 20px;
+      display: block;
+    }
+    &::after{
+      content: '';
+      position: absolute;
+      border-top: 8px dotted #ddd;
+      top: 45%;
+      left: 100px;
+      width: 180px;
+    }
+    &:last-child{
+      &::after{
+        width: 0;
+      }
+    }
+    &.active{
+      &::after{
+        border-color: #E1765E;
+      }
+      b{
+        color: @base-black;
+      }
+    }
+  }
+}
+.order-state-box{
+  margin: auto;
+  width: 980px;
+  border: none;
+  .order-state{
+    border-top: 1px dashed #ddd;
+    border-bottom: none;
+    padding: 20px 0 0 0;
+  }
+}

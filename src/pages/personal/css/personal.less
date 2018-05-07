@@ -1,0 +1,241 @@
+@import url('../../../css/less-const.less');
+
+.container {
+	margin-bottom: 20px;
+}
+
+.nav-title {
+	margin: 20px 0 35px;
+	border-bottom: 1px solid #f5f5f5;
+	min-height: 30px;
+}
+
+.nav-subtitle {
+	margin: 0 0 20px 40px;
+	padding: 10px 0 10px 10px;
+	background: #FAF9F4;
+	font-weight: 500;
+}
+
+.nav-record-subtitle {
+	margin: 0 0 20px 40px;
+	padding: 10px 0 10px 10px;
+
+	h5{
+		font-weight: normal;
+		padding-bottom: 20px;
+		border-bottom: 5px solid #f2f2f2;
+		margin-bottom: 20px;
+	}
+
+	p{
+		font-size: 14px;
+		color: #979797;
+		b{
+			color: #333;
+		}
+	}
+
+	.price {
+		font-size: 24px;
+		color: #942c15;
+	}
+
+	.record-table {
+		margin-top: 30px;
+	}
+}
+
+.myAddressList{
+	.nav-record-subtitle {
+		border-bottom: 5px solid #f2f2f2;
+	}
+}
+/**
+ * 账户安全
+ */
+.safe-from {
+	.el-form-item {
+		margin: 25px 0;
+		&:nth-child(1),&:nth-child(2){
+			margin: 15px 0;
+		}
+		.code-btn{
+			display: inline-block;
+			&.disabled{
+				color: #ccc;
+			}
+		}
+	}
+
+	.el-input {
+		width: 200px;
+	}
+}
+/**
+ * 个人信息
+ */
+.personal-container {
+	margin: 0 0 20px 40px;
+
+	.personal-info {
+		padding: 20px 0;
+		font-size: 14px;
+
+		.user-name-box{
+			height: 40px;
+			line-height: 40px;
+			>b{
+				margin-right: 80px;
+				color: #000;
+				font-weight: normal;
+			}
+		}
+
+		.user-sex-box{
+			margin: 10px 0;
+		}
+
+		.avatar {
+			width: 112px;
+			height: 112px;
+			border-radius: 100%;
+			border: 1px solid #f3f3f3;
+			background-size: 100%;
+			background-position: center;
+		}
+
+		.el-input {
+			width: 200px;
+		}
+
+		.customer-name-input {
+			width: 120px;
+		}
+	}
+
+	.el-upload {
+		cursor: pointer;
+		overflow: hidden;
+	}
+
+	.el-form-item {
+		margin-bottom: 0;
+	}
+
+	.el-input__inner {
+		color: @less-black;
+
+		&::placeholder {
+			color: inherit;
+		}
+	}
+
+	.hobby-item {
+		color: #979797;
+		display: inline-block;
+		border: 1px solid #ddd;
+		padding: 0 20px;
+		margin: 20px 30px 10px 0;
+		position: relative;
+
+		.triangle {
+			width: 0;
+			height: 0;
+			border-bottom: 10px solid #360a2b;
+			border-left: 10px solid transparent;
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			display: none;
+		}
+
+		&.active,&:hover {
+			border-color: #000;
+			color: #000;
+
+			.triangle {
+				display: block;
+			}
+		}
+	}
+
+	.save-btn{
+		width: 250px;
+		height: 45px;
+		line-height: 45px;
+		font-size: 16px;
+		background: #000;
+		color: #fff;
+	}
+}
+/**
+ * 收货地址
+ */
+.address-list {
+	.box-card {
+		margin: 0 0 20px 40px;
+		background-image: url("../../../img/background/addr-bg-bl.png");
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		height: 180px;
+		position: relative;
+	}
+
+	.item {
+		padding:0 0 5px 0;
+
+		span {
+			display: inline-block;
+		}
+		&.btn{
+			position: absolute;
+			bottom: 15px;
+			height: 26px;
+			line-height: 26px;
+		}
+		&.name{
+			margin-bottom: 10px;
+		}
+
+	}
+
+	.default{
+		background: #000;
+		color: #fff;
+		font-size: 12px;
+		padding: 0 10px;
+	}
+	.defaultBtn {
+		font-size: 12px;
+		color: #000;
+		cursor: pointer;
+
+		&:hover {
+			color: @dark-red;
+		}
+	}
+
+	.el-card {
+		border: 3px solid #f3f3f3;
+		border-radius: 0;
+		box-shadow: none;
+	}
+
+	.del-btn{
+		float: right;
+	}
+
+	.addAddress{
+		border: 1px solid #000;
+		line-height: 32px;
+		height: 32px;
+		padding: 0 10px;
+		color: #000;
+		transition: all .5s;
+		&:hover{
+			background: #000;
+			color: #fff;
+		}
+	}
+}

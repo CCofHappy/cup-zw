@@ -1,0 +1,195 @@
+.container {
+	padding-bottom: 50px;
+	overflow: hidden;
+}
+
+.top-nav {
+	margin: 20px 0 10px;
+}
+
+.order-state-box {
+	padding: 30px 20px;
+	font-size: 13px;
+	margin-top: 10px;
+	border-top: 1px solid #f2f2f2;
+	border-bottom: 5px solid #f2f2f2;
+
+	.wait-order-num{
+		margin-right: 60px;
+		.order-num{
+			font-size: 16px;
+			color: #000;
+			margin-bottom: 10px;
+		}
+	}
+
+	.order-state {
+		font-size: 18px;
+		padding-bottom: 30px;
+		border-bottom: 1px solid #ddd;
+
+		.icon {
+			margin-right: 10px;
+		}
+	}
+
+	.logistics-detail {
+		padding: 20px 0;
+		border-bottom: 1px dashed #ddd;
+
+		> div:first-child {
+			margin-right: 80px;
+		}
+	}
+
+	.logistics-step {
+		padding: 30px 0;
+
+		.step-box {
+			border-left: 2px solid #d8d8d8;
+			padding-left: 30px;
+			padding-bottom: 40px;
+			margin-left: 10px;
+			position: relative;
+
+			&:last-child {
+				border-color: #fff;
+				padding-bottom: 0;
+			}
+
+			&.active {
+				&::after {
+					z-index: 1000;
+					content: '';
+					position: absolute;
+					border-radius: 50%;
+					width: 10px;
+					height: 10px;
+					background: @dark-red;
+					top: 5px;
+					left: -6px;
+				}
+
+				&::before {
+					background: #bb8276;
+				}
+			}
+
+			&::before {
+				z-index: 100;
+				content: '';
+				position: absolute;
+				border-radius: 50%;
+				width: 20px;
+				height: 20px;
+				background: #d8d8d8;
+				border: 3px solid #fff;
+				top: -3px;
+				left: -14px;
+			}
+
+			.time {
+				flex-shrink: 0;
+			}
+
+			.detail {
+				margin-left: 30px;
+			}
+		}
+	}
+}
+
+.info-box {
+	font-size: 13px;
+	margin-top: 30px;
+	border-bottom: 5px solid #f2f2f2;
+
+	.title {
+		padding: 0 20px;
+		font-size: 16px;
+		color: #000;
+	}
+
+	.info {
+		border-top: none;
+		padding: 20px;
+		line-height: 28px;
+
+		&.invoice-info {
+			line-height: 40px;
+		}
+
+		p {
+			label {
+				margin-right: 60px;
+			}
+		}
+	}
+}
+
+.goods-list-box {
+	font-size: 13px;
+	margin-top: 50px;
+
+	.title {
+	    padding: 15px 20px;
+		font-size: 16px;
+		color: #000;
+
+		.el-col {
+			text-align: center;
+		}
+	}
+
+	.goods {
+		height: 180px;
+		border-top: none;
+
+		> .el-col {
+			height: 100%;
+
+			&:last-child {
+				border: none;
+			}
+
+			> div {
+				padding: 10px;
+
+				.img-box {
+					height: 160px;
+					width: 160px;
+					background: #ddd;
+					margin-right: 15px;
+				}
+
+				.price {
+					font-size: 16px;
+				}
+
+				.cost-price {
+					text-decoration: line-through;
+				}
+			}
+
+			.detail-box {
+				padding: 0;
+
+				> div {
+					width: 50%;
+					line-height: 30px;
+					float: left;
+				}
+			}
+		}
+	}
+}
+
+.goods-price {
+	margin-top: 20px;
+	float: right;
+	font-size: 14px;
+
+	.font-dark-red {
+		font-size: 20px;
+	}
+}

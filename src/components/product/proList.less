@@ -1,0 +1,120 @@
+.goods-box {
+	.container {
+		background: #fff;
+		box-sizing: border-box;
+		padding: 40px 20px;
+	}
+
+	.good-box {
+		position: relative;
+		padding-bottom: 20px;
+		margin-bottom: 40px;
+
+		.img-box {
+			overflow: hidden;
+			margin-bottom: 10px;
+		}
+
+		.good-status {
+			position: absolute;
+			top: 0;
+			left: 0;
+			height: 100%;
+			width: 100%;
+			background: rgba(0, 0, 0, 0.1);
+			color: #fff;
+
+			.good-status-txt {
+				font-size: 30px;
+				font-weight: 400;
+			}
+		}
+
+		.text-box {
+			padding: 0 5px;
+
+			.title-cn {
+				margin-bottom: 5px;
+			}
+
+			.price-box {
+				margin-top: 10px;
+
+				.price {
+					font-size: 20px;
+					color: #942C15;
+					height: 28px;
+					line-height: 28px;
+
+					small {
+						font-size: 12px;
+					}
+				}
+
+				.tag {
+					margin-top: 5px;
+					min-height: 25px;
+
+					img {
+						margin: 0 5px;
+					}
+				}
+			}
+			.buy-btn{
+				height: 38px;
+				line-height: 38px;
+				width: 100px;
+				margin: auto;
+				margin-top: 25px;
+				color: #fff;
+				background: #000;
+				a{
+					height: 38px;
+					line-height: 38px;
+					width: 100px;
+					display: block;
+				}
+			}
+		}
+
+		.good-box-tool {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			display: none;
+			z-index: 100000;
+			.icon {
+				padding: 5px 0;
+			}
+		}
+
+		&:hover {
+			box-shadow: 0 0 10px #ddd;
+
+			.good-box-tool {
+				display: block;
+				animation: fadeInRight 1s infinite;
+				-webkit-animation: fadeInRight 1s infinite;
+				animation-iteration-count: 1;
+			}
+		}
+	}
+}
+@keyframes fadeInRight {
+	from {
+		right: 0;
+	}
+
+	to {
+		right: 10px;
+	}
+}
+@-webkit-keyframes fadeInRight {
+	from {
+		right: 0;
+	}
+
+	to {
+		right: 10px;
+	}
+}

@@ -1,0 +1,760 @@
+//重置elUI框架的样式
+@import url('less-const.less'); //引入less变量
+//搜索栏
+
+.searchBar {
+	.el-input {
+		input.el-input__inner {
+			border-right: 0;
+			height: 30px;
+			width: 120px;
+			border-radius: 0;
+			border-color: #d8d8d8;
+			padding: 0 0 0 10px;
+		}
+
+		.el-input__suffix {
+			right: 0;
+		}
+
+		.el-input-group__append {
+			background: #fff;
+			border-radius: 0;
+			padding: 0;
+			overflow: hidden;
+			border-color: #d8d8d8;
+		}
+
+		.el-button {
+			padding: 0;
+			margin: auto;
+			height: 28px;
+			width: 35px;
+		}
+
+		.el-button--default {
+			color: #000;
+		}
+	}
+}
+
+.search .search-input{
+	.el-input {
+		input.el-input__inner {
+			border-radius: 0;
+			border-color: #d8d8d8;
+			padding: 0 0 0 10px;
+		}
+
+		.el-button{
+			padding: 12px 25px;
+		}
+
+		.el-input-group__append {
+			background: #000;
+			border-radius: 0;
+			overflow: hidden;
+			border-color: #000;
+			color: #fff;
+		}
+	}
+}
+//品牌详情
+
+.brandDetail {
+	.el-breadcrumb__item {
+		.el-breadcrumb__inner {
+			color: #fff;
+		}
+	}
+}
+//官网
+
+.website {
+	.el-collapse-item__content {
+		background: #fafafa;
+		border: 1px solid #f0f0f0;
+		padding: 15px;
+	}
+
+	.el-collapse-item__header {
+		color: #fff;
+		font-size: 16px;
+		background: #343434;
+		padding: 0 10px;
+
+		&:hover {
+			color: #fff;
+			background: #ae2129;
+		}
+	}
+
+	.el-collapse-item.is-active {
+		.el-collapse-item__header {
+			color: #fff;
+			background: #ae2129;
+		}
+	}
+}
+//首页
+.home {
+	.bestArea,
+	.exclusive-firdt-box {
+		.el-rate__icon {
+			font-size: 10px;
+		}
+	}
+
+	.productArea {
+		.el-tabs__header {
+			margin: 0;
+			border: 0;
+
+			.el-tabs__nav-wrap {
+				display: flex;
+
+				.el-tabs__nav-scroll {
+					margin: auto;
+
+					.el-tabs__item.is-active {
+						color: @pale-red;
+					}
+
+					.el-tabs__active-bar {
+						background-color: @pale-red;
+					}
+				}
+			}
+		}
+	}
+}
+//搜索商品
+
+.search {
+	.orther-box {
+		.el-input {
+			.el-input__inner {
+				height: 30px;
+				line-height: 30px;
+				border-radius: 0;
+				padding: 0 10px;
+			}
+		}
+	}
+}
+//登录
+
+.login {
+	.login-box {
+		.el-tabs__header {
+			margin: 0;
+		}
+
+		.el-tabs__nav {
+			width: 100%;
+
+			.el-tabs__active-bar {
+				width: 50%;
+				background-color: @dark-red;
+			}
+
+			.el-tabs__item {
+				height: 50px;
+				line-height: 50px;
+				font-size: 16px;
+				font-weight: bold;
+				text-align: center;
+				width: 50%;
+
+				&.is-active {
+					color: @dark-red;
+				}
+			}
+		}
+
+		.el-form-item {
+			margin-bottom: 30px;
+		}
+	}
+}
+//注册
+
+.register-content {
+	h1 {
+		font-size: 30px;
+		font-weight: normal;
+		margin-bottom: 50px;
+		color: #000;
+	}
+
+	.el-input__inner {
+		line-height: 56px;
+		height: 56px;
+		padding-left: 120px;
+	}
+
+	.el-input-group__prepend {
+		line-height: 56px;
+		height: 56px;
+		border-radius: 0;
+		width: 60px;
+		position: absolute;
+		top: 0;
+		left: 0;
+		text-align: right;
+		background: none;
+		border: none;
+	}
+
+	.el-checkbox__input {
+		.el-checkbox__inner {
+			&:hover {
+				border-color: #6CCE00;
+			}
+		}
+	}
+
+	.el-checkbox__input.is-checked {
+		.el-checkbox__inner {
+			background-color: #6CCE00;
+			border-color: #6CCE00;
+		}
+	}
+
+	.el-checkbox__input.is-focus {
+		.el-checkbox__inner {
+			border-color: #6CCE00;
+		}
+	}
+
+	.bank{
+		.el-form-item__content{
+			margin-left: 120px;
+		}
+		.el-input.el-input--suffix{
+			margin-left: 0;
+		}
+		.el-input__inner{
+			border: none;
+			padding-left: 0;
+		}
+	}
+}
+//忘记密码
+
+.forgetPassword {
+	.el-step__head.is-text.is-success {
+		background-color: @pale-brown;
+		border-color: @pale-brown;
+	}
+	// .el-step__title.is-success {
+	// 	color: @pale-brown;
+	// }
+}
+//选择支付方式
+
+.chosePay {
+	.el-radio-group {
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: -o-box;
+		display: box;
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+	}
+
+	.el-radio__input .el-radio__inner {
+		display: none;
+	}
+
+	.el-radio__label {
+		padding: 0;
+	}
+}
+//退货退款
+
+.returnRefund {
+	.el-textarea {
+		textarea {
+			border-radius: 0;
+		}
+	}
+
+	.el-radio {
+		border-radius: 0;
+		height: 40px;
+		line-height: 40px;
+		padding: 0 20px 0 10px;
+
+		.el-radio__label {
+			font-size: 14px;
+		}
+
+		.el-radio__input.is-checked+.el-radio__label {
+			color: @dark-red;
+		}
+
+		.el-radio__input.is-checked .el-radio__inner {
+			border-color: @dark-red;
+			background: @dark-red;
+		}
+
+		.el-radio.is-bordered.is-checked {
+			border-color: @dark-red;
+		}
+	}
+
+	.el-form-item {
+		margin-bottom: 40px;
+	}
+
+	.el-form-item.is-success .el-textarea__inner {
+		border-color: #d8dce5;
+	}
+}
+//新增地址
+
+.newAddress {
+	.el-dialog__header {
+		padding: 20px 30px;
+
+		.el-dialog__title {
+			font-size: 16px;
+			color: #000;
+			font-weight: bold;
+		}
+	}
+
+	.el-dialog__headerbtn {
+		top: -15px;
+		right: -15px;
+
+		.el-dialog__close {
+			color: #fff;
+			background: #000;
+			border-radius: 50%;
+			width: 30px;
+			height: 30px;
+			line-height: 30px;
+		}
+	}
+
+	.el-dialog__body,
+	.el-form-item__label {
+		font-size: 14px;
+
+		.el-form-item {
+			margin-bottom: 25px;
+
+			&.address-box {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	.address-box {
+		.el-select {
+			width: 120px;
+		}
+	}
+}
+//个人信息
+
+.personalInfo {
+	.el-icon-edit {
+		font-size: 16px;
+	}
+
+	.customer-name-input {
+		input {
+			padding: 0 10px;
+			width: 100%;
+			margin-left: 10px;
+			height: 30px;
+			border-radius: 0;
+			border-color: #fff;
+		}
+
+		&.edit {
+			input {
+				border: 1px solid #efefef;
+			}
+		}
+	}
+
+	.el-form-item__label {
+		font-size: 14px;
+		color: #979797;
+	}
+}
+//账号安全
+
+.accountSafty {
+	.el-form-item__label {
+		font-size: 14px;
+		color: #000;
+	}
+}
+//消费记录
+
+.myFocus {
+	.el-table td:first-child .cell,
+	.el-table th:first-child .cell {
+		padding-left: 10px;
+	}
+
+	.el-table th {
+		background: #fff;
+		color: #000;
+	}
+}
+//发票列表
+
+.newInvoice {
+	.invoice-name-item {
+		&.active {
+			input {
+				border-color: #000;
+			}
+		}
+	}
+
+	.el-radio.is-bordered {
+		border-radius: 0;
+	}
+}
+//购物车
+
+.shopCart {
+	.el-checkbox__label {
+		display: none;
+	}
+
+	.el-checkbox__input.is-checked .el-checkbox__inner {
+		background: #000;
+		border-color: #000;
+	}
+
+	.el-checkbox__input .el-checkbox__inner:hover {
+		border-color: #000;
+	}
+
+	.el-checkbox__input.is-focus .el-checkbox__inner {
+		border-color: #000;
+	}
+}
+//获奖产品
+
+.prizeGoods {
+	.chose-time-box {
+		.el-form-item__label {
+			font-size: 14px;
+		}
+	}
+}
+/*
+分页器样式
+ */
+.el-pagination {
+	.el-pager {
+		margin: 0 30px;
+
+		li {
+			height: 34px;
+			width: 34px;
+			line-height: 34px;
+			margin-left: 20px;
+			border: 1px solid #000;
+
+			&:first-child {
+				margin-left: 0;
+			}
+
+			&.number.active {
+				background: #000;
+
+				&:hover {
+					color: #FFF;
+				}
+			}
+
+			&:hover {
+				color: #000;
+			}
+
+			&.active {
+				color: #fff;
+			}
+
+			&.active+li {
+				border: 1px solid #000;
+			}
+		}
+	}
+
+	button {
+		&.btn-next,
+		&.btn-prev {
+			height: 34px;
+			width: 34px;
+			line-height: 34px;
+			border: 1px solid #48414A;
+			color: #48414A;
+
+			&:hover {
+				color: #48414A;
+			}
+		}
+
+		&.disabled {
+			border-color: #979797;
+			color: #979797;
+		}
+	}
+}
+/*
+  checkbox样式
+ */
+.el-checkbox.is-checked {
+	.el-checkbox__label {
+		color: @gold;
+	}
+}
+
+.el-checkbox__input {
+	.el-checkbox__inner {
+		width: 18px;
+		height: 18px;
+		border-radius: 0;
+
+		&:hover {
+			border-color: @gold;
+		}
+
+		&::after {
+			width: 5px;
+			height: 9px;
+			left: 5px;
+		}
+	}
+}
+
+.el-checkbox__input.is-checked {
+	.el-checkbox__inner {
+		background: @gold;
+		border-color: @gold;
+	}
+}
+
+.el-checkbox__input.is-focus {
+	.el-checkbox__inner {
+		border-color: @gold;
+	}
+}
+/*
+  表单输入框样式
+ */
+
+.el-form-item {
+	&.is-error {
+		.el-input {
+			.el-input__inner {
+				border-color: @dark-red;
+			}
+		}
+
+		.el-form-item__error {
+			color: @dark-red;
+		}
+	}
+
+	.el-input {
+		.el-input__inner {
+			border-color: #eaeaea;
+			border-radius: 0;
+		}
+	}
+}
+
+.el-input__inner {
+	padding: 0 30px 0 15px;
+}
+
+.el-form--label-top .el-form-item__label {
+	padding: 0;
+}
+
+.el-form-item__content {
+	font-size: 12px;
+}
+/**
+ * chenggf  覆盖el样式
+ */
+/*
+下拉框 选中样式
+ */
+.el-cascader-menu__item.is-active,
+.el-select-dropdown__item.selected {
+	background-color: rgba(55, 9, 44, 0.75);
+	color: #fff;
+
+	&.hover,
+	&:hover {
+		background-color: #37092c;
+	}
+}
+
+.el-select .el-input__inner {
+	border-color: #a4a4a4;
+
+	&:focus {
+		border-color: #37092c;
+	}
+}
+
+.el-cascader,
+.el-select {
+	.el-input .el-input__icon {
+		color: rgba(55, 9, 44, 0.75);
+	}
+}
+/**
+ *  按钮默认样式修改
+ */
+.el-button:hover {
+	color: #000;
+	border-color: #000;
+}
+
+.el-button {
+	border-radius: 0;
+}
+
+.el-button--primary {
+	background-color: #000;
+	border-color: #000;
+	color: #fff;
+
+	&:hover {
+		background-color: #000;
+		border-color: #000;
+		color: #fff;
+
+		&:focus {
+			background: #000;
+			border-color: #000;
+			color: #fff;
+		}
+	}
+
+	&:focus {
+		background-color: #000;
+		border-color: #000;
+	}
+}
+/**
+ * table样式覆盖
+ */
+.el-table {
+	border: 1px solid #efefee;
+
+	&::after,
+	&::before {
+		background-color: #fff;
+	}
+
+	th {
+		background-color: #faf9f4;
+
+		& > .cell {
+			background-color: inherit;
+		}
+	}
+}
+
+.el-table td,
+.el-table th.is-leaf {
+	border-bottom: 1px solid #efefee;
+}
+/**
+ * 单选按钮样式覆盖
+ */
+.el-radio {
+	font-weight: 400;
+}
+
+.el-radio__label {
+	font-size: 12px;
+}
+
+.el-radio__input.is-checked+.el-radio__label {
+	color: #000;
+}
+
+.el-radio__input.is-checked .el-radio__inner {
+	border-color: #000;
+	background: #000;
+}
+
+.el-radio.is-bordered.is-checked {
+	border-color: #000;
+}
+/**
+ * tab页 激活状态样式覆盖
+ */
+.el-tabs__item:hover {
+	color: #000;
+}
+
+.el-tabs__active-bar {
+	background-color: #000;
+}
+
+.el-tabs__item.is-active {
+	color: #000;
+}
+/**
+ * dailog footer
+ */
+.el-dialog__header {
+	border-bottom: 1px solid #f3f3f3;
+}
+
+.el-dialog__footer {
+	border-top: 1px solid #f3f3f3;
+	padding-top: 15px;
+}
+
+.el-dialog__body,
+.el-form-item__label {
+	font-size: 12px;
+
+	.el-form-item {
+		margin-bottom: 10px;
+	}
+}
+
+.el-textarea__inner {
+	border-radius: 0;
+}
+
+.el-menu {
+	background: #fafafa;
+	border: 1px solid #eee;
+	border-radius: 3px;
+
+	.el-submenu {
+		.el-menu-item {
+			color: #666;
+			font-size: 12px;
+			height: 40px;
+			line-height: 40px;
+			min-width: 180px;
+
+			&:hover {
+				background: transparent;
+			}
+		}
+	}
+}

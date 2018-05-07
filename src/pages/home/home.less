@@ -1,0 +1,163 @@
+.banner-swiper {
+	height: 576px;
+	width: 1200px;
+	margin: auto;
+	overflow: hidden;
+
+	.swiper-button-next,
+	.swiper-button-prev {
+		background-image: none;
+		color: #fff;
+		// border: 1px solid #fff;
+		width: 50px;
+		height: 50px;
+		transition: all 0.5s ease 0s;
+		opacity: 0;
+	}
+
+	.swiper-button-prev {
+		left: -100px;
+	}
+
+	.swiper-button-next {
+		right: -100px;
+	}
+
+	img,svg{
+		width: 100%;
+	}
+}
+
+.banner-swiper:hover .swiper-button-prev {
+	left: 100px;
+	opacity: 1;
+}
+
+.banner-swiper:hover .swiper-button-next {
+	right: 100px;
+	opacity: 1;
+}
+
+.goods-title {
+	h4 {
+		color: #000;
+		font-size: 28px;
+		font-weight: normal;
+		position: relative;
+		margin-bottom: 30px;
+		span{
+			font-size: 18px;
+			margin-left: 10px;
+			font-weight: 500;
+		}
+	}
+}
+
+.limit-goods {
+	padding-top: 110px;
+	h4{
+		.fl-right{
+			font-size: 16px;
+			line-height: 36px;
+			svg{
+				margin-top: 3px;
+				color: #000
+			}
+		}
+	}
+}
+
+.new-goods {
+	padding: 80px 0 40px;
+	.goods-box {
+		.img-box{
+			display: block;
+		}
+		.left-box{
+			height: 630px;
+			width: 630px;
+			margin-right: 30px;
+		}
+		.right-box{
+			height: 630px;
+			width: 740px;
+			.top-box{
+				margin-bottom: 30px;
+			}
+			.top-box,.bottom-box{
+				height: 300px;
+				overflow: hidden;
+			}
+		}
+	}
+}
+
+.prize-goods {
+	padding: 40px 0;
+
+	.top-box {
+		height: 200px;
+		background: #ddd;
+		margin-bottom: 60px;
+	}
+
+	.goods-box {
+		width: 1200px;
+		.good-box {
+			padding-bottom: 20px;
+			margin-bottom: 20px;
+
+			.img-box {
+				margin-bottom: 10px;
+				&&.price-img{
+					width: 440.5px;
+					height: 440.5px;
+				}
+			}
+
+			.text-box {
+				padding: 0 5px;
+
+				.title-en {
+					font-size: 18px;
+					margin-bottom: 5px;
+				}
+
+				.price-box {
+					margin-top: 10px;
+
+					.price {
+						font-size: 20px;
+						color: #942C15;
+						height: 28px;
+						line-height: 28px;
+
+						small {
+							font-size: 12px;
+						}
+					}
+				}
+			}
+
+			.buy-btn{
+				height: 38px;
+				line-height: 38px;
+				width: 100px;
+				margin: auto;
+				margin-top: 25px;
+				color: #fff;
+				background: #000;
+				a{
+					height: 38px;
+					line-height: 38px;
+					width: 100px;
+					display: block;
+				}
+			}
+
+			&:hover {
+				box-shadow: 0 0 10px #ddd;
+			}
+		}
+	}
+}

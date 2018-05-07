@@ -1,0 +1,128 @@
+.header-img {
+	height: 200px;
+	margin-bottom: 30px;
+	overflow: hidden;
+
+	img {
+		width: 100%;
+	}
+}
+.container {
+	overflow: hidden;
+}
+
+.goods-nav {
+	.container {
+
+		.title {
+			width: 60px;
+			line-height: 60px;
+			flex-shrink: 0;
+		}
+
+		.chose-button {
+			.button {
+				float: left;
+				line-height: 30px;
+				height: 30px;
+				margin: 15px 20px;
+
+				&.active,
+				&.more,
+				&:hover {
+					color: #942C15;
+				}
+			}
+		}
+
+		.region-chose {
+			border-top: 1px solid #E3E3E3;
+			border-bottom: 1px dashed #ddd;
+		}
+
+		.brand-chose {
+			border-bottom: 1px dashed #ddd;
+		}
+
+		.ml-chose {
+			border-bottom: 1px solid #E3E3E3;
+		}
+	}
+}
+
+.goods-box {
+	padding: 40px 0;
+
+	.container {
+		background: #fff;
+		box-sizing: border-box;
+		.good-box {
+			margin-bottom: 50px;
+
+			.img-box {
+				height: 310px;
+				width: 310px;
+			}
+
+			.detail-box {
+				position: relative;
+				width: 360px;
+				padding: 20px;
+
+				.title-box {
+					.title {
+						font-size: 21px;
+						color: #000;
+						line-height: 2;
+						&.cn{
+							font-size: 14px;
+						}
+					}
+				}
+
+				.small-box {
+					width: 280px;
+					color: #333;
+					padding: 10px 0;
+					margin: 10px 0;
+				}
+
+				.describe-box {
+					padding-bottom: 10px;
+				}
+
+				.price-box {
+					position: absolute;
+					bottom: 80px;
+					left: 20px;
+					color: @dark-red;
+					font-size: 20px;
+
+					small {
+						font-size: 12px;
+					}
+				}
+
+				.stock-box {
+					height: 38px;
+					line-height: 38px;
+					width: 100px;
+					background: #f2f2f2;
+					font-size: 14px;
+					position: absolute;
+					bottom: 30px;
+					left: 20px;
+
+					.icon {
+						margin-right: 10px;
+					}
+
+					&.buy {
+						background: #000;
+						color: #fff;
+					}
+				}
+			}
+		}
+	}
+}

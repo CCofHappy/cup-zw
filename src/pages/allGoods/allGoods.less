@@ -1,0 +1,61 @@
+.header-img {
+	height: 200px;
+	margin-bottom: 30px;
+	overflow: hidden;
+
+	img {
+		width: 100%;
+	}
+}
+
+.container {
+	overflow: hidden;
+}
+
+.goods-nav {
+	.container {
+		.title {
+			width: 60px;
+			line-height: 60px;
+			flex-shrink: 0;
+		}
+
+		.chose-button {
+			.button {
+				float: left;
+				line-height: 30px;
+				height: 30px;
+				margin: 15px 20px;
+
+				&.active,
+				&.more,
+				&:hover {
+					color: #942C15;
+				}
+			}
+		}
+
+		.region-chose {
+			border-top: 1px solid #E3E3E3;
+			border-bottom: 1px dashed #ddd;
+		}
+
+		.brand-chose {
+			border-bottom: 1px dashed #ddd;
+		}
+
+		.ml-chose {
+			border-bottom: 1px solid #E3E3E3;
+		}
+	}
+}
+
+.goods-box {
+	padding: 40px 0;
+
+	.container {
+		background: #fff;
+		box-sizing: border-box;
+		padding: 40px 20px;
+	}
+}

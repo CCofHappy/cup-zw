@@ -1,0 +1,151 @@
+.header-img {
+	height: 200px;
+	margin-bottom: 30px;
+	overflow: hidden;
+	img {
+		width: 100%;
+	}
+}
+
+.prize-nav-box {
+	.box-flex{
+		flex-shrink: 0;
+	}
+	.prize-nav {
+		height: 82px;
+		text-align: center;
+		font-size: 18px;
+		padding: 0 15px;
+		box-sizing: border-box;
+
+		.cn {
+			font-size: 16px;
+			line-height: 20px;
+		}
+
+		&.active {
+			background: #000;
+			color: #fff;
+			position: relative;
+		}
+	}
+}
+
+.prize-desc-box {
+	margin: 50px 0;
+	padding: 20px;
+	box-sizing: border-box;
+
+	.prize-title {
+		padding-bottom: 20px;
+
+		.img-box {
+			width: 120px;
+			margin-right: 20px;
+			img{
+				width: 100%;
+			}
+		}
+
+		.text-box {
+			font-size: 16px;
+			.en {
+				color: #000;
+				font-size: 28px;
+				margin-bottom: 10px;
+			}
+		}
+	}
+
+	.prize-desc {
+		padding-top: 20px;
+		font-size: 16px;
+	}
+}
+
+.chose-time-box {
+	position: relative;
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+	height: 60px;
+	box-sizing: border-box;
+	padding: 10px 50px;
+	.el-select {
+		width: 120px;
+		height: 30px;
+		line-height: 30px;
+	}
+	.price-sort-box{
+		font-size: 14px;
+		width: 240px;
+		line-height: 24px;
+		position: absolute;
+		right: 50px;
+		top: 18px;
+		.button:hover{
+			color: #000;
+		}
+		.button.active{
+			font-weight: bold;
+			color: #000;
+		}
+	}
+}
+
+.prize-goods-box {
+	.good-box{
+		padding: 30px 0;
+		border-bottom: 1px solid #F2F2F2;
+		.good-img{
+			width: 560px;
+			height: 560px;
+			overflow: hidden;
+			img{
+				height: 100%;
+			}
+		}
+		.brand-icon{
+			width: 100px;
+			height: 100px;
+			margin: auto;
+			img{
+				width: 100%;
+			}
+		}
+		.good-text,.good-detail{
+			h4{
+				font-size: 21px;
+				font-weight: normal;
+				color: #000;
+				line-height: 1.5;
+					margin-bottom: 20px;
+			}
+		}
+		.good-text{
+			margin-top: 10px;
+			p{
+				margin: 5px 0 10px 0;
+				font-size: 16px;
+				color: #979797;
+				&.price{
+					font-size: 21px;
+					color: #A82225;
+				}
+			}
+		}
+		.good-detail{
+			padding: 20px;
+			border-top: 1px solid #979797;
+			border-bottom: 1px solid #979797;
+			p{
+				border-top: 1px dashed #dfdfdf;
+				font-size: 16px;
+				color: #333;
+				line-height: 40px;
+			}
+		}
+	}
+	.good-page-box{
+		margin: 40px auto;
+	}
+}
