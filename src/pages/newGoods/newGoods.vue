@@ -17,7 +17,7 @@
 				<div class="title">
 					分&nbsp;&nbsp;&nbsp;&nbsp;类：
 				</div>
-				<div class="chose-button box box-align-center">
+				<div class="chose-button box">
 					<div class="button" @click="choseCategory()"  :class="{active:!categoryId}">全部</div>
 					<div class="button" v-for="item in categoryList" @click="choseCategory(item)" :class="{active:categoryId==item.id}">{{item.name}}</div>
 				</div>

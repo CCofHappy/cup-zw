@@ -13,7 +13,7 @@
 				<div class="title">
 					分&nbsp;&nbsp;&nbsp;&nbsp;类：
 				</div>
-				<div class="chose-button box box-align-center">
+				<div class="chose-button box">
 					<div class="button" @click="choseCategory()" :class="{active:!categoryId}">全部</div>
 					<div class="button" v-for="item in categoryList" @click="choseCategory(item)" :class="{active:categoryId==item.id}">{{item.name}}</div>
 				</div>
@@ -38,7 +38,7 @@
 					<div class="button more" v-if="brandList && brandList.length>30 && max!=30" @click="checkMore(0)">收起更多</div>
 					</div>
 			</div>
-			<div class="ml-chose box box-align-center">
+			<div class="ml-chose box">
 				<div class="title">净含量：</div>
 				<div class="chose-button">
 					<div class="button" :class="{active:!volumeValueId}" @click="choseVolumeId()">全部</div>
