@@ -168,10 +168,17 @@ export default new Router({
 					children: []
 				},
 				{
-					//我的订单
+					//售后服务
 					name: "saleService",
 					path: '/c2FsZVNlcnZpY2U',
 					component: resolve => require(['../pages/personal/saleService'], resolve),
+					children: []
+				},
+				{
+					//申请售后
+					name: "applyAfterSale",
+					path: '/YXBwbHlBZnRlclNhbGU',
+					component: resolve => require(['../pages/personal/applyAfterSale'], resolve),
 					children: []
 				},
 				{

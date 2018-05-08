@@ -1,5 +1,5 @@
 <template>
-<div class="myOrder">
+<div class="saleService">
 	<perHeader></perHeader>
 	<div class="container">
 		<div class="nav-title">
@@ -66,9 +66,9 @@
 									</el-row>
 								</el-col>
 								<el-col :span="3" class="box box-center">
-									<div>
-										<div class="text-color-help">申请售后</div>
-									</div>
+									<router-link :to="{ name: 'applyAfterSale' }" class="text-color-help">
+										申请售后
+									</router-link>
 								</el-col>
 							</el-row>
 						</div>
@@ -91,7 +91,7 @@ import perHeader from '@/components/header/header'
 import perFooter from '@/components/footer/footer'
 import leftBar from './leftBar'
 export default {
-	name: 'myOrder',
+	name: 'saleService',
 	data() {
 		return {
 			loadError: false,
