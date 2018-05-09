@@ -178,7 +178,6 @@
 	}
 }
 //注册
-
 .register-content {
 	h1 {
 		font-size: 30px;
@@ -273,7 +272,6 @@
 	}
 }
 //退货退款
-
 .returnRefund {
 	.el-textarea {
 		textarea {
@@ -314,7 +312,6 @@
 	}
 }
 //新增地址
-
 .newAddress {
 	.el-dialog__header {
 		padding: 20px 30px;
@@ -360,7 +357,6 @@
 	}
 }
 //个人信息
-
 .personalInfo {
 	.el-icon-edit {
 		font-size: 16px;
@@ -453,6 +449,48 @@
 		}
 	}
 }
+
+//申请售后
+.applyAfterSale{
+	.el-form-item__label{
+		font-size: 16px;
+		color: #000;
+		line-height: 46px;
+		height: 46px;
+		padding-right: 20px;
+	}
+	.two{
+		.el-input{
+			width: 150px;
+		}
+	}
+	.three{
+		.el-input{
+			width: 180px;
+		}
+	}
+	.el-form-item__content{
+
+		.el-textarea{
+			width: 360px;
+		}
+	}
+	.el-upload{
+		background: #fff;
+		border-radius: 0;
+		position: relative;
+		&:hover{
+			border-color: #000;
+		}
+		.el-icon-plus{
+			background: #ddd;
+			color: #fff;
+			border-radius: 50%;
+			padding: 5px;
+		}
+	}
+}
+
 /*
 分页器样式
  */
@@ -585,9 +623,6 @@
 	padding: 0;
 }
 
-.el-form-item__content {
-	font-size: 12px;
-}
 /**
  * chenggf  覆盖el样式
  */
@@ -596,28 +631,38 @@
  */
 .el-cascader-menu__item.is-active,
 .el-select-dropdown__item.selected {
-	background-color: rgba(55, 9, 44, 0.75);
+	background-color: #000;
 	color: #fff;
 
 	&.hover,
 	&:hover {
-		background-color: #37092c;
+		background-color: #000;
 	}
 }
 
 .el-select .el-input__inner {
-	border-color: #a4a4a4;
+	border-color: #000;
 
 	&:focus {
-		border-color: #37092c;
+		border-color: #000;
 	}
 }
 
 .el-cascader,
 .el-select {
 	.el-input .el-input__icon {
-		color: rgba(55, 9, 44, 0.75);
+		color: #000;
+		border-color: #000;
 	}
+	.el-input.is-focus{
+		.el-input__inner{
+			border-color: #000;
+		}
+	}
+}
+
+.el-form-item.is-success .el-input__inner:focus{
+	border-color: #000;
 }
 /**
  *  按钮默认样式修改
@@ -629,6 +674,9 @@
 
 .el-button {
 	border-radius: 0;
+	&:hover {
+		background-color: #fff;
+	}
 }
 
 .el-button--primary {

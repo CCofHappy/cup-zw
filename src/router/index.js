@@ -182,6 +182,27 @@ export default new Router({
 					children: []
 				},
 				{
+					//我要采购
+					name: "myPurchase",
+					path: '/bXlQdXJjaGFzZQ',
+					component: resolve => require(['../pages/personal/myPurchase'], resolve),
+					children: []
+				},
+				{
+					//我的需求单
+					name: "myDemand",
+					path: '/bXlEZW1hbmQ',
+					component: resolve => require(['../pages/personal/myDemand'], resolve),
+					children: []
+				},
+				{
+					//我要采购
+					name: "myInventory",
+					path: '/bXlJbnZlbnRvcnk',
+					component: resolve => require(['../pages/personal/myInventory'], resolve),
+					children: []
+				},
+				{
 					//个人信息
 					path: '/cGVyc29uYWxJbmZv',
 					component: resolve => require(['../pages/personal/personalInfo'], resolve),

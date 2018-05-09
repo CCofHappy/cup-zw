@@ -40,6 +40,22 @@
 		<router-link :to="{ name: 'saleService', query:{page:1, tabIndex: 6}  }">售后服务</router-link>
 	</div>
 
+	<div class="title-box" v-bind:class="{ active:  navNum>12}">
+		<b>采购管理</b>
+	</div>
+	<router-link :to="{ name: 'myPurchase', query:{page:1, tabIndex: 13}  }">
+		<div class="line-box" v-bind:class="{ active: navNum==13}">我要采购
+		</div>
+	</router-link>
+	<router-link :to="{ name: 'myDemand', query:{page:1, tabIndex: 14}  }">
+		<div class="line-box" v-bind:class="{ active: navNum==14}">我的需求单
+		</div>
+	</router-link>
+	<router-link :to="{ name: 'myInventory', query:{page:1, tabIndex: 15} }">
+		<div class="line-box" v-bind:class="{ active: navNum==15}">我的清单
+		</div>
+	</router-link>
+
 	<div class="title-box" v-bind:class="{ active: navNum>6 && navNum<11}">
 		<b>我的设置</b>
 	</div>
