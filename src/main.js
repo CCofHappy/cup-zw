@@ -48,7 +48,11 @@ Vue.prototype.ajaxData = function(params, cb, errorcb) {
 		cb(res)
 	})
 	.catch(function(err) {
-		errorcb(err)
+		if (errorcb) {
+			errorcb(err)
+		}else {
+			console.log(err);
+		}
 	});
 };
 

@@ -29,7 +29,7 @@
 					<!--表内容-->
 					<div class="order-list" v-else v-for="order in orderData.records">
 						<div class="order-title box box-between box-align-center">
-							<div class="box-flex text-color-help"><span>订单号：{{order.orderNo}}</span>&nbsp;&nbsp;&nbsp;&nbsp;下单时间：{{forDate(order.createDate)}}</div>
+							<div class="box-flex">订单号：{{order.orderNo}}&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-color-help">下单时间：{{forDate(order.createDate)}}</span></div>
 							<div class="font-dark-red" v-if="order.orderStatus == 1">待付款</div>
 							<div class="font-dark-red" v-if="order.orderStatus == 2">待发货</div>
 							<div class="font-dark-red" v-if="order.orderStatus == 3">待收货</div>
@@ -94,7 +94,6 @@
 							</div>
 						</div>
 					</div>
-
 				</div>
 
 				<!--分页器-->
