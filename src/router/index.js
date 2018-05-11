@@ -239,6 +239,20 @@ export default new Router({
 					children: []
 				},
 				{
+					//收益明细
+					name: "incomeDetail",
+					path: '/aW5jb21lRGV0YWls',
+					component: resolve => require(['../pages/personal/incomeDetail'], resolve),
+					children: []
+				},
+				{
+					//我的客户
+					name: "myCustomer",
+					path: '/bXlDdXN0b21lcg',
+					component: resolve => require(['../pages/personal/myCustomer'], resolve),
+					children: []
+				},
+				{
 					//如何登录与注册
 					path: '/bG9naW5BbmRSZWdpc3Rlcg==',
 					component: resolve => require(['../pages/helpCenter/loginAndRegister'], resolve),

@@ -17,36 +17,7 @@
 	font-weight: 500;
 }
 
-.nav-record-subtitle {
-	margin: 0 0 20px 40px;
-	padding: 10px 0 10px 10px;
-
-	h5{
-		font-weight: normal;
-		padding-bottom: 20px;
-		border-bottom: 5px solid #f2f2f2;
-		margin-bottom: 20px;
-	}
-
-	p{
-		font-size: 14px;
-		color: #979797;
-		b{
-			color: #333;
-		}
-	}
-
-	.price {
-		font-size: 24px;
-		color: #942c15;
-	}
-
-	.record-table {
-		margin-top: 30px;
-	}
-}
-
-.myAddressList{
+.myAddressList {
 	.nav-record-subtitle {
 		border-bottom: 5px solid #f2f2f2;
 	}
@@ -54,15 +25,20 @@
 /**
  * 账户安全
  */
+
 .safe-from {
 	.el-form-item {
 		margin: 25px 0;
-		&:nth-child(1),&:nth-child(2){
+
+		&:nth-child(1),
+		&:nth-child(2) {
 			margin: 15px 0;
 		}
-		.code-btn{
+
+		.code-btn {
 			display: inline-block;
-			&.disabled{
+
+			&.disabled {
 				color: #ccc;
 			}
 		}
@@ -75,6 +51,7 @@
 /**
  * 个人信息
  */
+
 .personal-container {
 	margin: 0 0 20px 40px;
 
@@ -82,17 +59,18 @@
 		padding: 20px 0;
 		font-size: 14px;
 
-		.user-name-box{
+		.user-name-box {
 			height: 40px;
 			line-height: 40px;
-			>b{
+
+			> b {
 				margin-right: 80px;
 				color: #000;
 				font-weight: normal;
 			}
 		}
 
-		.user-sex-box{
+		.user-sex-box {
 			margin: 10px 0;
 		}
 
@@ -150,7 +128,8 @@
 			display: none;
 		}
 
-		&.active,&:hover {
+		&.active,
+		&:hover {
 			border-color: #000;
 			color: #000;
 
@@ -160,7 +139,7 @@
 		}
 	}
 
-	.save-btn{
+	.save-btn {
 		width: 250px;
 		height: 45px;
 		line-height: 45px;
@@ -172,6 +151,7 @@
 /**
  * 收货地址
  */
+
 .address-list {
 	.box-card {
 		margin: 0 0 20px 40px;
@@ -183,29 +163,31 @@
 	}
 
 	.item {
-		padding:0 0 5px 0;
+		padding: 0 0 5px;
 
 		span {
 			display: inline-block;
 		}
-		&.btn{
+
+		&.btn {
 			position: absolute;
 			bottom: 15px;
 			height: 26px;
 			line-height: 26px;
 		}
-		&.name{
+
+		&.name {
 			margin-bottom: 10px;
 		}
-
 	}
 
-	.default{
+	.default {
 		background: #000;
 		color: #fff;
 		font-size: 12px;
 		padding: 0 10px;
 	}
+
 	.defaultBtn {
 		font-size: 12px;
 		color: #000;
@@ -222,20 +204,85 @@
 		box-shadow: none;
 	}
 
-	.del-btn{
+	.del-btn {
 		float: right;
 	}
 
-	.addAddress{
+	.addAddress {
 		border: 1px solid #000;
 		line-height: 32px;
 		height: 32px;
 		padding: 0 10px;
 		color: #000;
-		transition: all .5s;
-		&:hover{
+		transition: all 0.5s;
+
+		&:hover {
 			background: #000;
 			color: #fff;
 		}
+	}
+}
+//消费明细
+
+.myConsumeRecord {
+	.myWallet {
+		margin-bottom: 30px;
+
+		.el-col {
+			height: 110px;
+			border-right: 1px solid #d8d8d8;
+
+			&:last-child {
+				border-right: none;
+			}
+
+			h5 {
+				font-size: 16px;
+				color: #333;
+				font-weight: normal;
+				margin-bottom: 20px;
+
+				b {
+					font-size: 28px;
+				}
+			}
+
+			p {
+				font-size: 14px;
+				color: #656565;
+				line-height: 28px;
+			}
+
+			.button {
+				border: 1px solid #979797;
+				margin: 0 30px;
+				width: 80px;
+				height: 35px;
+				line-height: 35px;
+				&.recharge{
+					background: #000;
+					color: #fff;
+					border-color: #000;
+				}
+			}
+		}
+	}
+
+	.record-table{
+		padding-top: 25px;
+		border-top: 5px solid #F2F2F2;
+
+		.record-title{
+			border-bottom: 1px solid #d8d8d8;
+			padding-bottom: 10px;
+		}
+	}
+}
+//业务中心 —— 收益明细
+
+.incomeDetail {
+	.income-table {
+		border-top: 5px solid #f2f2f2;
+		margin-top: 30px;
 	}
 }

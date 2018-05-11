@@ -21,8 +21,8 @@ module.exports = {
 		proxyTable: {
 			'/api/': {
 				// target: 'http://192.168.0.199:8088/api/',
-				target: 'http://dev.wmall.cwhisky.com/api/', //测试环境 商城api
-				// target: 'http://share.wmall.cwhisky.com/api/', //开发环境 商城api
+				// target: 'http://dev.wmall.cwhisky.com/api/', //测试环境 商城api
+				target: 'http://share.wmall.cwhisky.com/api/', //开发环境 商城api
 				changeOrigin: true,
 				pathRewrite: { //需要rewrite重写的, 如果在服务器端做了处理则可以不要这段
 					'^/api/': ''
@@ -30,8 +30,8 @@ module.exports = {
 			},
 			'/core/': {
 			 	// target: 'http://192.168.0.199:8087/core/',
-				target: 'http://dev.core.cwhisky.com/core/', //测试环境通用api
-				// target: 'http://share.core.cwhisky.com/core/', //开发环境通用api
+				// target: 'http://dev.core.cwhisky.com/core/', //测试环境通用api
+				target: 'http://share.core.cwhisky.com/core/', //开发环境通用api
 				changeOrigin: true,
 				pathRewrite: { //需要rewrite重写的, 如果在服务器端做了处理则可以不要这段
 					'^/core/': ''
@@ -39,8 +39,8 @@ module.exports = {
 			},
 			'/dbcenter/': {
 				// target: 'http://192.168.0.199:8088/dbcenter/',
-				target: 'http://dev.dbcenter.cwhisky.com/dbcenter/', //数据中心api
-				// target: 'http://share.dbcenter.cwhisky.com/dbcenter/', //开发环境 数据中心api
+				// target: 'http://dev.dbcenter.cwhisky.com/dbcenter/', //数据中心api
+				target: 'http://share.dbcenter.cwhisky.com/dbcenter/', //开发环境 数据中心api
 				changeOrigin: true,
 				pathRewrite: { //需要rewrite重写的, 如果在服务器端做了处理则可以不要这段
 					'^/dbcenter/': ''

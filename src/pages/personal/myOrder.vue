@@ -15,7 +15,7 @@
 			<el-col :span="20">
 				<div class="order-container order">
 					<!--表头-->
-					<el-row class="order-tit box box-center">
+					<el-row class="order-tit box box-align-center">
 						<el-col :span="9" class="text-left">下单时间：
 							<el-select v-model="selectedIndex" placeholder="请选择">
 								<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">

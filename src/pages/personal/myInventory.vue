@@ -22,7 +22,7 @@
 						</el-col>
 					</el-row>
 					<div class="inventory-list">
-						<div class="inventory-content">
+						<div class="inventory-goods">
 							<el-row class="text-center box box-center">
 								<el-col :span="2" class="shop-card-checkbox">
 									<el-checkbox text-color="#fff"></el-checkbox>
@@ -50,7 +50,7 @@
 												<button class="chose-btn box box-center button">
 								                	<icon name="minus" scale="1.5" class="icon"></icon>
 								                </button>
-												<input class="chose-count" type="number" :disabled="false" v-model="count">
+												<input class="chose-count" type="number">
 												<button class="chose-btn box box-center button">
 						                			<icon name="add" scale="1.5" class="icon"></icon>
 						              			</button>
@@ -60,11 +60,26 @@
 								</el-col>
 								<el-col :span="2" class="box box-center">
 									<div class="button">
-										11删除
+										删除
 									</div>
 								</el-col>
 							</el-row>
 						</div>
+					</div>
+					<div class="settlement-box">
+						<el-row>
+							<el-col :span="2" class="inventory-checkbox box box-center">
+								<el-checkbox v-model="checkAll"></el-checkbox><span>全选</span>
+							</el-col>
+							<el-col :span="22" class="box box-between box-align-center">
+								<div class="button del-btn">删除选中商品</div>
+								<div class="box box-align-center">
+									已选商品&nbsp;&nbsp;<b>1</b>&nbsp;&nbsp;件&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									总计：<span class="settlement-price font-dark-red">￥14000.00</span>
+									<div class="button settlement-btn">去结算</div>
+								</div>
+							</el-col>
+						</el-row>
 					</div>
 				</div>
 			</el-col>

@@ -40,19 +40,19 @@
 		<router-link :to="{ name: 'saleService', query:{page:1, tabIndex: 6}  }">售后服务</router-link>
 	</div>
 
-	<div class="title-box" v-bind:class="{ active:  navNum>12}">
+	<div class="title-box" v-bind:class="{ active:  navNum>14}">
 		<b>采购管理</b>
 	</div>
-	<router-link :to="{ name: 'myPurchase', query:{page:1, tabIndex: 13}  }">
-		<div class="line-box" v-bind:class="{ active: navNum==13}">我要采购
+	<router-link :to="{ name: 'myPurchase', query:{page:1, tabIndex: 15}  }">
+		<div class="line-box" v-bind:class="{ active: navNum==15}">我要采购
 		</div>
 	</router-link>
-	<router-link :to="{ name: 'myDemand', query:{page:1, tabIndex: 14}  }">
-		<div class="line-box" v-bind:class="{ active: navNum==14}">我的需求单
+	<router-link :to="{ name: 'myDemand', query:{page:1, tabIndex: 16}  }">
+		<div class="line-box" v-bind:class="{ active: navNum==16}">我的需求单
 		</div>
 	</router-link>
-	<router-link :to="{ name: 'myInventory', query:{page:1, tabIndex: 15} }">
-		<div class="line-box" v-bind:class="{ active: navNum==15}">我的清单
+	<router-link :to="{ name: 'myInventory', query:{page:1, tabIndex: 17} }">
+		<div class="line-box" v-bind:class="{ active: navNum==17}">我的清单
 		</div>
 	</router-link>
 
@@ -84,6 +84,18 @@
 	</router-link>
 	<router-link to="/bXlIaXN0b3J5">
 		<div class="line-box" v-bind:class="{ active: navNum==12}">浏览历史
+		</div>
+	</router-link>
+
+	<div class="title-box" v-bind:class="{ active: navNum>12}">
+		<b>业务中心</b>
+	</div>
+	<router-link :to="{ name: 'incomeDetail', query:{page:1, tabIndex: 13} }">
+		<div class="line-box" v-bind:class="{ active: navNum==13}">收益明细
+		</div>
+	</router-link>
+	<router-link :to="{ name: 'myCustomer', query:{page:1, tabIndex: 14} }">
+		<div class="line-box" v-bind:class="{ active: navNum==14}">我的客户
 		</div>
 	</router-link>
 </div>
