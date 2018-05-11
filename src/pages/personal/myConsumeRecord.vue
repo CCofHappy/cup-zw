@@ -131,16 +131,6 @@ export default {
 	},
 	mounted() {
 		this.initData();
-
-		let times=[0,8,10,13,15,17,19,20,21];
-		let d = new Date();
-		let nowHour = d.getHours();
-		for (var i = 0; i < times.length; i++) {
-			if (times[i]>nowHour){
-				console.log("下一场是第"+i+"场","时间是："+times[i]+"点");
-				return;
-			}
-		}
 	}
 }
 </script>
