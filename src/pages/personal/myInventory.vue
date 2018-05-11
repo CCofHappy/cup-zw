@@ -60,7 +60,7 @@
 								</el-col>
 								<el-col :span="2" class="box box-center">
 									<div class="button">
-										删除
+										11删除
 									</div>
 								</el-col>
 							</el-row>
