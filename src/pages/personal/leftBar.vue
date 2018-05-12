@@ -56,6 +56,34 @@
 		</div>
 	</router-link>
 
+	<div class="title-box" v-bind:class="{ active:  navNum>17}">
+		<b>商品管理</b>
+	</div>
+	<router-link :to="{ name: 'myGoods', query:{page:1, tabIndex: 18}  }">
+		<div class="line-box" v-bind:class="{ active: navNum==18}">我的商品
+		</div>
+	</router-link>
+	<router-link :to="{ name: 'addGoods', query:{page:1, tabIndex: 19}  }">
+		<div class="line-box" v-bind:class="{ active: navNum==19}">新增商品
+		</div>
+	</router-link>
+
+	<div class="title-box" v-bind:class="{ active:  navNum>19}">
+		<b>我的销售单</b>
+	</div>
+	<router-link :to="{ name: 'salesSlip', query:{page:1, tabIndex: 20}  }">
+		<div class="line-box" v-bind:class="{ active: navNum==20}">代发货
+		</div>
+	</router-link>
+	<router-link :to="{ name: 'salesSlip', query:{page:1, tabIndex: 21}  }">
+		<div class="line-box" v-bind:class="{ active: navNum==21}">待结算
+		</div>
+	</router-link>
+	<router-link :to="{ name: 'salesSlip', query:{page:1, tabIndex: 22} }">
+		<div class="line-box" v-bind:class="{ active: navNum==22}">已完成
+		</div>
+	</router-link>
+
 	<div class="title-box" v-bind:class="{ active: navNum>6 && navNum<11}">
 		<b>我的设置</b>
 	</div>

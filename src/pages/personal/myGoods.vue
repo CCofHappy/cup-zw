@@ -1,11 +1,11 @@
 <template>
-<div class="myPurchase">
+<div class="myGoods">
 	<perHeader></perHeader>
 	<div class="container">
 		<div class="nav-title">
 			<el-breadcrumb separator-class="el-icon-arrow-right">
 				<el-breadcrumb-item :to="{ path: '/aG9tZQ' }">首页</el-breadcrumb-item>
-				<el-breadcrumb-item>我的采购单</el-breadcrumb-item>
+				<el-breadcrumb-item>我的商品</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
 		<el-row :gutter="20">
@@ -13,10 +13,10 @@
 				<leftBar :navNum="tabIndex"></leftBar>
 			</el-col>
 			<el-col :span="20">
-				<div class="purchase-container">
+				<div class="myGoods-container">
 					<el-row class="search-box box box-align-center">
 						<el-col :span="11" class="box-flex">
-							商品种类：&nbsp;&nbsp;<input></input>
+							商品名称：&nbsp;&nbsp;<input></input>
 						</el-col>
 						<el-col :span="11" class="box-flex">
 							品牌：&nbsp;&nbsp;<input></input>
@@ -120,7 +120,7 @@ import perHeader from '@/components/header/header'
 import perFooter from '@/components/footer/footer'
 import leftBar from './leftBar'
 export default {
-	name: 'myPurchase',
+	name: 'myGoods',
 	data() {
 		return {
 			loadError: false,

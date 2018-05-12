@@ -203,6 +203,27 @@ export default new Router({
 					children: []
 				},
 				{
+					//我的商品
+					name: "myGoods",
+					path: '/bXlHb29kcw',
+					component: resolve => require(['../pages/personal/myGoods'], resolve),
+					children: []
+				},
+				{
+					//新增商品
+					name: "addGoods",
+					path: '/YWRkR29vZHM',
+					component: resolve => require(['../pages/personal/addGoods'], resolve),
+					children: []
+				},
+				{
+					//我的销售单
+					name: "salesSlip",
+					path: '/c2FsZXNTbGlw',
+					component: resolve => require(['../pages/personal/salesSlip'], resolve),
+					children: []
+				},
+				{
 					//个人信息
 					path: '/cGVyc29uYWxJbmZv',
 					component: resolve => require(['../pages/personal/personalInfo'], resolve),
