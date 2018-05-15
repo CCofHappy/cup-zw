@@ -1,7 +1,7 @@
 <template>
 <div class="register-box">
 	<cwHeader></cwHeader>
-	<!-- <div class="container">
+	<div class="container">
 		<div class="register-classify">
 			<div class="register-btn" :class="{active:type==1}" @click="type=1">
 				<router-link to="/cmVnaXN0ZXI/dXNlcg" class="box box-align-center">
@@ -19,7 +19,7 @@
 				</router-link>
 			</div>
 		</div>
-	</div> -->
+	</div>
 	<router-view></router-view>
 	<cwFooter></cwFooter>
 </div>
