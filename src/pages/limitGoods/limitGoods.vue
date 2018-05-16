@@ -6,25 +6,12 @@
 	</div>
 	<div class="container">
 		<div class="header-img"><img src="../../img/seize/banner-s4.jpg"></div>
-		<div class="goods-box">
+
+		<LoadError v-if="loadError"></LoadError>
+		<div class="goods-box" v-else>
 			<el-row :gutter="10">
-				<el-col :span="8">
-					<limitGood></limitGood>
-				</el-col>
-				<el-col :span="8">
-					<limitGood></limitGood>
-				</el-col>
-				<el-col :span="8">
-					<limitGood></limitGood>
-				</el-col>
-				<el-col :span="8">
-					<limitGood></limitGood>
-				</el-col>
-				<el-col :span="8">
-					<limitGood></limitGood>
-				</el-col>
-				<el-col :span="8">
-					<limitGood></limitGood>
+				<el-col :span="8" v-for="(item, index) in limitGoods">
+					<limitGood :itemData="item" :nowTime="nowTime"></limitGood>
 				</el-col>
 			</el-row>
 		</div>
@@ -42,6 +29,10 @@ export default {
 	data() {
 		return {
 			nav: 1,
+			limitGoods:[],
+			loadError:false,
+			page: 1,
+			nowTime: 0,
 		}
 	},
 	components: {
@@ -49,11 +40,25 @@ export default {
 		cwFooter,
 		limitGood,
 	},
-	mounted() {
-
+	methods:{
+		initData(){
+			var params = { //首页数据查询接口参数
+				apiUrl: this.config.mallApi + "goods/list/buying",
+				size: 10,
+				current: this.page,
+			}
+			this.ajaxData(params, (res)=> {
+				if (res.data.code=="0000") {
+					this.limitGoods = res.data.data.records;
+					this.nowTime = Date.parse(new Date());
+				}else {
+					this.loadError = true;
+				}
+			})
+		}
 	},
-	beforeDestroy() {
-
+	mounted() {
+		this.initData();
 	}
 }
 </script>
@@ -73,8 +78,7 @@ export default {
         width: 100%;
     }
 }
-.goods-box{
-	padding: 30px 0;
+.goods-box {
+    padding: 30px 0;
 }
-
 </style>

@@ -327,4 +327,5 @@ export default {
 <style lang="less" scoped>
 @import url('../../css/less-const.less'); //引入less变量
 @import url('css/common.less');
+
 </style>

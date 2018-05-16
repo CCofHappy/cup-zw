@@ -46,6 +46,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
 @import url('../../css/less-const.less'); //引入less变量
+
 .register-box .container {
     position: relative;
 }

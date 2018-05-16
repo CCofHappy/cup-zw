@@ -1,16 +1,16 @@
-/**
- * 限时商品 模板
- */
+<!--
+限时商品 模板
+ -->
 <template>
     <div class="limitGood">
         <div class="good-box box">
             <div class="img-box">
-                <img>
+				<img class="goodsImg1" v-lazy="itemData.image">
             </div>
             <div class="detail-box">
                 <div class="title-box">
-                    <div class="title text-overflow-more text-overflow-two">Ben Nevis 63 Years Old 1926 Single</div>
-                    <div class="title cn text-overflow-more text-overflow-one">麦卡伦 63年 1926 单一麦芽威士忌</div>
+                    <div class="title text-overflow-more text-overflow-two">{{itemData.enName}}</div>
+                    <div class="title cn text-overflow-more text-overflow-one">{{itemData.fullName}}</div>
                 </div>
 				<el-row :gutter="20" class="progress-box box box-align-center text-center">
 					<el-col :span="15">
@@ -21,7 +21,12 @@
 					</el-col>
 				</el-row>
                 <div class="price-box">暂无</div>
-                <div class="stock-box buy box box-center">立即购买</div>
+				<div v-if="nowTime>itemData.beginDate&&nowTime<itemData.endDate">
+                	<div class="stock-box buy box box-center" v-if="itemData.productCount>0">立即购买</div>
+                	<div class="stock-box buy box box-center" v-else>已抢光</div>
+				</div>
+                <div class="stock-box box box-center" v-if="nowTime>itemData.endDate">已结束</div>
+                <div class="stock-box box box-center" v-if="nowTime<itemData.beginDate">即将开始</div>
             </div>
         </div>
     </div>
@@ -30,6 +35,7 @@
 <script>
 export default {
 	name: 'limitGood',
+	props: ["itemData","nowTime"],
 	data() {
 		return {
 		}
@@ -66,6 +72,9 @@ export default {
                 .title {
                     font-size: 16px;
                     color: #000;
+					&:first-child{
+						height: 42px;
+					}
                     &.cn{
                         font-size: 14px;
                         margin: 10px 0;
@@ -106,6 +115,7 @@ export default {
                 &.buy {
                     background: #000;
                     color: #fff;
+					cursor: pointer;				
                 }
             }
         }

@@ -1,4 +1,6 @@
-.myPurchase ,.myGoods{
+.addGoods,
+.myGoods,
+.myPurchase {
 	.search-box {
 		height: 45px;
 		font-size: 16px;
@@ -78,6 +80,42 @@
 				background: #e8e8e8;
 				outline: none;
 				border: none;
+			}
+		}
+	}
+}
+
+.addGoods {
+	.search-box {
+		input {
+			width: 200px;
+		}
+	}
+
+	.goods-list {
+		.goods-title {
+			border-bottom: none;
+			padding-bottom: 0;
+		}
+
+		.goods-box {
+			border-bottom: 1px solid #f5f5f5;
+
+			&:nth-child(2n) {
+				background: #fff;
+			}
+
+			.add-btn {
+				width:48px;
+				height: 24px;
+				line-height: 24px;
+				text-align: center;
+				border: 1px solid #000;
+				&:hover{
+					background: #000;
+					border-color: #000;
+					color: #fff;
+				}
 			}
 		}
 	}

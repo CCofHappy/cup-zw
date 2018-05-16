@@ -29,7 +29,7 @@
 		<div class="container">
 			<div class="goods-title">
 				<h4>限时抢购<span>FLASH SALE</span>
-				<router-link :to="'/bGltaXRHb29kcw'" class="fl-right box box-center">
+				<router-link :to="{name:'limitGoods'}" class="fl-right box box-center">
 					<div>更多</div><icon name="arrow-right2" scale="2"></icon>
 				</router-link>
 			</h4>
@@ -198,7 +198,7 @@ export default {
 		// },
 		initData: function() {
 			let that = this;
-			var params = {
+			var params = {//首页数据查询接口参数
 				apiMethod:"get",
 				apiUrl: that.config.mallApi+"goods/list/home",
 			}
@@ -233,12 +233,16 @@ export default {
 						}
 					}
 					that.$nextTick(function(){
+						if (that.prizeGoods.goods.length==0)return;
 						that.priczeImgHeight = that.$refs.priczeImgBox[0].offsetWidth + 'px';
 		            })
 				} else {
 					console.log(res.data.message)
 				}
 			},'get')
+
+
+
 		}
 	},
 	mounted() {

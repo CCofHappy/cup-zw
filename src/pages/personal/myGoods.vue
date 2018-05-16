@@ -66,7 +66,7 @@
 			              			</button>
 								</div>
 							</el-col>
-							<el-col :span="4">
+							<el-col :span="4" class="box box-center">
 								<div class="button">
 									加入清单
 								</div>

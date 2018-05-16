@@ -7,12 +7,12 @@ import md5 from 'js-md5';
 import config from './components/config/config' //引入参数文件
 import util from './components/util/util' //引入公共方法
 import VueLazyload from 'vue-lazyload' //vue图片懒加载插件
-import '!style-loader!css-loader!less-loader!./css/common.less' //公共样式
 import Icon from 'vue-svg-icon/Icon.vue' //引入svg图标
 import VueAwesomeSwiper from 'vue-awesome-swiper' //引入swiper滑块插件
 import 'swiper/dist/css/swiper.css' //引入swiper滑块样式
 import 'element-ui/lib/theme-chalk/index.css' //引入el UI框架的样式
-import '!style-loader!css-loader!less-loader!./css/el-reset.less' //重置el UI框架的样式
+import '!style-loader!css-loader!less-loader!./css/common.less' //公共样式
+import '!style-loader!css-loader!less-loader!./css/elReset.less' //重置el UI框架的样式
 import 'vue2-animate/dist/vue2-animate.min.css'; //引入animate库
 import LoadError from './components/util/loadError.vue'
 import NoData from './components/util/noData.vue'
