@@ -128,10 +128,11 @@ export default {
 			}else {
 				params.apiUrl = that.config.mallApi + parUrl
 				that.ajaxData(params, function(res) {
+					console.log(res);
 					const div = document.createElement('div');
                     div.innerHTML = res.data;
                     document.body.appendChild(div);
-					let formName = that.payType==1?'punchout_form':'pay_form';
+					let formName = that.payType==1?'alipaysubmit':'pay_form';
 					document.forms[formName].submit();
 				})
 			}

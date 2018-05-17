@@ -20,9 +20,13 @@
 						已抢1000件
 					</el-col>
 				</el-row>
-                <div class="price-box">暂无</div>
+                <div class="price-box">
+				 	<div class="font-dark-red">￥{{itemData.activityPrice}}<span>￥{{itemData.price}}</span></div>
+				</div>
 				<div v-if="nowTime>itemData.beginDate&&nowTime<itemData.endDate">
-                	<div class="stock-box buy box box-center" v-if="itemData.productCount>0">立即购买</div>
+					<div  v-if="itemData.productCount>0">
+						<router-link class="stock-box buy box box-center" :to="{ name: 'goodsDetail', query: {id:itemData.productId}}">立即购买</router-link>
+					</div>
                 	<div class="stock-box buy box box-center" v-else>已抢光</div>
 				</div>
                 <div class="stock-box box box-center" v-if="nowTime>itemData.endDate">已结束</div>
@@ -91,13 +95,15 @@ export default {
 			}
 
             .price-box {
-                color: @dark-red;
-                font-size: 15px;
+                font-size: 20px;
                 margin-top: 10px;
                 margin-bottom: 20px;
 
-                small {
+                span {
+                	margin-left: 10px;
                     font-size: 12px;
+					color: #979797;
+					text-decoration: line-through;
                 }
             }
 
@@ -115,7 +121,7 @@ export default {
                 &.buy {
                     background: #000;
                     color: #fff;
-					cursor: pointer;				
+					cursor: pointer;
                 }
             }
         }

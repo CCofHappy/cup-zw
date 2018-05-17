@@ -25,92 +25,61 @@
 							酒龄：&nbsp;&nbsp;<input></input>
 						</el-col>
 						<el-col :span="2">
-							<div class="search-btn">
+							<div class="search-btn" @click="searchGoods">
 								搜索
 							</div>
 						</el-col>
 					</el-row>
 					<div class="goods-list">
 						<el-row class="text-center goods-title">
-							<el-col :span="2">商品编号</el-col>
+							<el-col :span="3">商品编号</el-col>
 							<el-col :span="2">商品图片</el-col>
 							<el-col :span="3">商品名称</el-col>
 							<el-col :span="2">价格(￥)</el-col>
 							<el-col :span="2">品牌</el-col>
 							<el-col :span="2">系列</el-col>
+							<el-col :span="2">木桶类型</el-col>
 							<el-col :span="3">蒸馏时间</el-col>
-							<el-col :span="3">木桶类型</el-col>
 							<el-col :span="3">装瓶时间</el-col>
 							<el-col :span="2">操作</el-col>
 						</el-row>
-						<el-row class="text-center goods-box box box-align-center">
-							<el-col :span="2">
-								<p class="">GS21234</p>
+						<el-row class="text-center goods-box box box-align-center" v-for="(item,index) in goodsList">
+							<el-col :span="3">
+								<p class="">{{item.code}}</p>
 							</el-col>
 							<el-col :span="2" class="box-center box">
 								<div class="img-box">
-									<img v-lazy="" class="goodsImg1">
+									<img class="goodsImg1" v-lazy="item.image">
 								</div>
 							</el-col>
 							<el-col :span="3">
-								<p class="">麦卡伦18年麦卡伦18年麦卡伦18年麦卡伦18年</p>
+								<p class="">{{item.fullName}}</p>
 							</el-col>
 							<el-col :span="2">
 								<p class="">233%</p>
 							</el-col>
 							<el-col :span="2">
-								<p class="">麦卡伦</p>
+								<p class="">{{item.brandName}}</p>
 							</el-col>
 							<el-col :span="2">
-								<p class="">璀璨</p>
+								<p class="">{{item.series||'暂缺'}}</p>
+							</el-col>
+							<el-col :span="2">
+								<p class="">{{item.bucketType}}</p>
 							</el-col>
 							<el-col :span="3">
-								<p class="">雪莉桶</p>
+								<p class="">{{item.distillTime||'暂缺'}}</p>
 							</el-col>
 							<el-col :span="3">
-								<p class="">1992-09-09</p>
-							</el-col>
-							<el-col :span="3">
-								<p class="">1992-09-09</p>
+								<p class="">{{item.bottlingTime||'暂缺'}}</p>
 							</el-col>
 							<el-col :span="2" class="box box-center">
 								<div class="button add-btn">选择</div>
 							</el-col>
 						</el-row>
-						<el-row class="text-center goods-box box box-align-center">
-							<el-col :span="2">
-								<p class="">GS21234</p>
-							</el-col>
-							<el-col :span="2" class="box-center box">
-								<div class="img-box">
-									<img v-lazy="" class="goodsImg1">
-								</div>
-							</el-col>
-							<el-col :span="3">
-								<p class="">麦卡伦18年麦卡伦18年麦卡伦18年麦卡伦18年</p>
-							</el-col>
-							<el-col :span="2">
-								<p class="">233%</p>
-							</el-col>
-							<el-col :span="2">
-								<p class="">麦卡伦</p>
-							</el-col>
-							<el-col :span="2">
-								<p class="">璀璨</p>
-							</el-col>
-							<el-col :span="3">
-								<p class="">雪莉桶</p>
-							</el-col>
-							<el-col :span="3">
-								<p class="">1992-09-09</p>
-							</el-col>
-							<el-col :span="3">
-								<p class="">1992-09-09</p>
-							</el-col>
-							<el-col :span="2" class="box box-center">
-								<div class="button add-btn">选择</div>
-							</el-col>
-						</el-row>
+					</div>
+					<div class="text-right" v-if="goodsTotal>count">
+						<el-pagination layout="prev, pager, next" :total="goodsTotal" :page-size="count" :current-page="page" @current-change="changePage"></el-pagination>
 					</div>
 				</div>
 			</el-col>
@@ -130,7 +99,9 @@ export default {
 			loadError: false,
 			tabIndex: '1',
 			page: 1,
-			count: 1,
+			count: 10,
+			goodsList:[],
+			goodsTotal: 0,
 		}
 	},
 	components: {
@@ -145,6 +116,29 @@ export default {
 	},
 	methods: {
 		initData: function() {
+			let params={
+				apiUrl: this.config.mallApi + "supplier/goods/search",
+				current:this.page,
+				size:this.count,
+				fullName:"",
+				brandId:"",
+				storage:"",
+			}
+			this.ajaxData(params, (res)=> {
+				if (res.data.code=="0000") {
+					this.goodsList = res.data.data.records;
+					this.goodsTotal = res.data.data.total;
+				}else {
+					this.loadError = true;
+				}
+			})
+		},
+		searchGoods: function () {
+			console.log(1)
+		},
+		changePage: function (e) {
+			this.page = e;
+			this.initData();
 		}
 	},
 	mounted() {

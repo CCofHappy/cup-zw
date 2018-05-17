@@ -30,7 +30,7 @@
 							</div>
 						</div>
 						<div class="buy-btn text-center">
-							<router-link :to="{ path: '/Z29vZHNEZXRhaWw', query: {id:item.id}}" target="_blank">
+							<router-link :to="{ name: 'goodsDetail', query: {id:item.id}}" target="_blank">
                                 <span v-if="item.stock==0">暂时缺货</span>
                                 <span v-else>立即购买</span>
                             </router-link>

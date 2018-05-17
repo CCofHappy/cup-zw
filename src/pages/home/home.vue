@@ -34,7 +34,7 @@
 				</router-link>
 			</h4>
 			</div>
-			<el-row :gutter="10" class="goods-box">
+			<!-- <el-row :gutter="10" class="goods-box">
 				<el-col :span="8">
 					<limitGood></limitGood>
 				</el-col>
@@ -44,7 +44,7 @@
 				<el-col :span="8">
 					<limitGood></limitGood>
 				</el-col>
-			</el-row>
+			</el-row> -->
 		</div>
 	</div>
 	<div class="new-goods">
