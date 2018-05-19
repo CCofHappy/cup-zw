@@ -1,6 +1,4 @@
-/**
- * 商品列表 模板
- */
+<!-- 商品列表 模板 -->
 <template>
 <div class="proList">
 	<div class="goods-box">
@@ -129,7 +127,6 @@ export default {
 	},
 	mounted() {
 		this.navType = this.$route.query.type;
-
 	},
 }
 </script>

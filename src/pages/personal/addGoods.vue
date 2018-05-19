@@ -16,21 +16,25 @@
 				<div class="addGoods-container">
 					<el-row class="search-box box box-align-center">
 						<el-col :span="8">
-							商品名称：&nbsp;&nbsp;<input></input>
+							商品名称：&nbsp;&nbsp;<input v-model="fullName"></input>
 						</el-col>
 						<el-col :span="7">
-							品牌：&nbsp;&nbsp;<input></input>
+							品牌：&nbsp;&nbsp;<input v-model="brand"></input>
 						</el-col>
 						<el-col :span="7">
-							酒龄：&nbsp;&nbsp;<input></input>
+							酒龄：&nbsp;&nbsp;<input v-model="storage"></input>
 						</el-col>
 						<el-col :span="2">
-							<div class="search-btn" @click="searchGoods">
+							<div class="search-btn button" @click="initData">
 								搜索
 							</div>
 						</el-col>
 					</el-row>
-					<div class="goods-list">
+					<div class="no-data text-center" v-if="goodsTotal==0">
+						<p>数据中心暂无此商品</p>
+						<router-link :to="{ name: 'handAdd', query: {tabIndex: tabIndex} }">手动添加</router-link>
+					</div>
+					<div class="goods-list" v-else>
 						<el-row class="text-center goods-title">
 							<el-col :span="3">商品编号</el-col>
 							<el-col :span="2">商品图片</el-col>
@@ -74,13 +78,17 @@
 								<p class="">{{item.bottlingTime||'暂缺'}}</p>
 							</el-col>
 							<el-col :span="2" class="box box-center">
-								<div class="button add-btn">选择</div>
+								<router-link  class="button add-btn" :to="{ name: 'choseAdd', query: {tabIndex: tabIndex,id:item.productId} }">选择</router-link>
 							</el-col>
 						</el-row>
 					</div>
+
 					<div class="text-right" v-if="goodsTotal>count">
 						<el-pagination layout="prev, pager, next" :total="goodsTotal" :page-size="count" :current-page="page" @current-change="changePage"></el-pagination>
 					</div>
+				</div>
+				<div class="addGoods-container" v-if="goodsList.length>0">
+
 				</div>
 			</el-col>
 		</el-row>
@@ -101,7 +109,10 @@ export default {
 			page: 1,
 			count: 10,
 			goodsList:[],
-			goodsTotal: 0,
+			goodsTotal: 1,
+			fullName: "",
+			brand: "",
+			storage: "",
 		}
 	},
 	components: {
@@ -120,9 +131,9 @@ export default {
 				apiUrl: this.config.mallApi + "supplier/goods/search",
 				current:this.page,
 				size:this.count,
-				fullName:"",
-				brandId:"",
-				storage:"",
+				fullName:this.fullName,
+				brand:this.brand,
+				storage:this.storage,
 			}
 			this.ajaxData(params, (res)=> {
 				if (res.data.code=="0000") {
@@ -134,7 +145,7 @@ export default {
 			})
 		},
 		searchGoods: function () {
-			console.log(1)
+			this.initData();
 		},
 		changePage: function (e) {
 			this.page = e;

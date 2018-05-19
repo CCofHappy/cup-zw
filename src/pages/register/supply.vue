@@ -7,18 +7,18 @@
 				<h4 class="form-title">
 					账户基本信息
 				</h4>
-				<el-form-item prop="name">
-					<el-input v-model="supplyForm.name" placeholder="请输入用户名">
+				<el-form-item prop="customerName">
+					<el-input v-model="supplyForm.customerName" placeholder="请输入用户名">
 						<template slot="prepend">用&nbsp;&nbsp;户&nbsp;&nbsp;名</template>
 					</el-input>
 				</el-form-item>
-				<el-form-item prop="password">
-					<el-input v-model="supplyForm.password" placeholder="请输入密码">
+				<el-form-item prop="customerPwd">
+					<el-input v-model="supplyForm.customerPwd" placeholder="请输入密码">
 						<template slot="prepend">密&nbsp;&nbsp;&nbsp;&nbsp;码</template>
 					</el-input>
 				</el-form-item>
-				<el-form-item prop="passwordSc">
-					<el-input v-model="supplyForm.passwordSc" placeholder="请再次输入密码">
+				<el-form-item prop="confirmPassword">
+					<el-input v-model="supplyForm.confirmPassword" placeholder="请再次输入密码">
 						<template slot="prepend">确认密码</template>
 					</el-input>
 				</el-form-item>
@@ -26,35 +26,32 @@
 				<h4 class="form-title">
 					联系人信息
 				</h4>
-				<el-form-item prop="contactName">
-					<el-input v-model="supplyForm.contactName" placeholder="请输入联系人姓名">
+				<el-form-item prop="realName">
+					<el-input v-model="supplyForm.realName" placeholder="请输入联系人姓名">
 						<template slot="prepend">联系人姓名</template>
 					</el-input>
 				</el-form-item>
-				<el-form-item prop="contactTel">
-					<el-input v-model="supplyForm.contactTel" placeholder="请输入联系人电话">
-						<template slot="prepend">联系人电话</template>
-					</el-input>
-				</el-form-item>
-				<el-form-item prop="tel">
-					<el-input v-model="supplyForm.tel" placeholder="请输入您的手机号码">
-						<template slot="prepend">手机号码</template>
+				<el-form-item prop="customerMobile">
+					<el-input v-model="supplyForm.customerMobile" placeholder="请输入联系人电话">
+						<template slot="prepend">联系人手机号</template>
 					</el-input>
 				</el-form-item>
 				<el-row :gutter="10" class="telCode-box">
 					<el-col :span="18">
-						<el-form-item prop="telCode" class="telCode">
-							<el-input v-model="supplyForm.telCode" placeholder="请输入手机验证码">
+						<el-form-item prop="smsCode" class="telCode">
+							<el-input v-model="supplyForm.smsCode" placeholder="请输入手机验证码">
 								<template slot="prepend">手机验证码</template>
 							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :span="6">
-						<div class="code-btn button">获取验证码</div>
+						<div class="code-btn disabled" v-show="!checkMobile && !sendMessage">获取验证码</div>
+						<div class="code-btn button" @click="sendCode" v-show="checkMobile && !sendMessage">获取验证码</div>
+						<div class="code-btn disabled" v-show="sendMessage">重新获取({{codeTime}}s)</div>
 					</el-col>
 				</el-row>
-				<el-form-item prop="referralCode">
-					<el-input v-model="supplyForm.referralCode" placeholder="请输入您的推荐码">
+				<el-form-item prop="customerCode">
+					<el-input v-model="supplyForm.customerCode" placeholder="请输入您的推荐码">
 						<template slot="prepend">推&nbsp;荐&nbsp;码</template>
 					</el-input>
 				</el-form-item>
@@ -67,55 +64,38 @@
 						<template slot="prepend">公司名称</template>
 					</el-input>
 				</el-form-item>
-				<el-form-item prop="taxesCode">
-					<el-input v-model="supplyForm.taxesCode" placeholder="请输入纳税人识别号">
+				<el-form-item prop="identificationNumber">
+					<el-input v-model="supplyForm.identificationNumber" placeholder="请输入纳税人识别号">
 						<template slot="prepend">纳税人识别号</template>
 					</el-input>
 				</el-form-item>
-				<el-form-item prop="bank" class="bank">
+				<el-form-item prop="bankName" class="bank">
 					<div class="el-input-group__prepend">
 						开&nbsp;户&nbsp;行
 					</div>
-					<el-select v-model="supplyForm.bank" placeholder="请选择">
+					<el-select v-model="supplyForm.bankName" placeholder="请选择">
 						<el-option v-for="item in bankOptions" :key="item.value" :label="item.label" :value="item.value">
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item prop="bankId">
-					<el-input v-model="supplyForm.bankId" placeholder="请输入开户账号">
+				<el-form-item prop="bankCard">
+					<el-input v-model="supplyForm.bankCard" placeholder="请输入开户账号">
 						<template slot="prepend">开户行账号</template>
 					</el-input>
 				</el-form-item>
-				<el-form-item prop="companyAddress">
-					<el-input v-model="supplyForm.companyAddress" placeholder="请输入详细地址">
+				<el-form-item prop="companyAddressDetail">
+					<el-input v-model="supplyForm.companyAddressDetail" placeholder="请输入详细地址">
 						<template slot="prepend">公司地址</template>
 					</el-input>
 				</el-form-item>
-				<el-form-item prop="companyImg">
-					<el-upload action="#" :file-list="supplyForm.companyImg">
+				<el-form-item prop="businessLicenseImg">
+					<el-upload list-type="picture" :action="uploadUrl" :before-upload="beforeAvatarUpload" :on-success="handleAvatarSuccess" :on-remove="removeImage">
 						<el-button>上传营业执照</el-button>
 					</el-upload>
 				</el-form-item>
-				<!-- <el-form-item label="组织机构代码：" prop="companyId">
-					<el-input v-model="supplyForm.bankId" placeholder="请输入组织机构代码"></el-input>
-				</el-form-item>
-				<el-form-item label="机构代码证：" prop="companyIdImg">
-					<el-upload action="#" :file-list="supplyForm.companyImg">
-						<el-button>上传机构代码证</el-button>
-					</el-upload>
-				</el-form-item>
-				<el-form-item label="开户许可证：" prop="openIdImg">
-					<el-upload action="#" :file-list="supplyForm.companyImg">
-						<el-button>上传开户许可证</el-button>
-					</el-upload>
-				</el-form-item>
-				<el-form-item label="证明文件：" prop="proveImg">
-					<el-upload action="#" :file-list="supplyForm.companyImg">
-						<el-button>上传证明文件</el-button>
-					</el-upload>
-				</el-form-item> -->
-				<el-checkbox class="purchaser" v-model="agreeRule"><small>我已阅读并同意中威的《用户注册协议》</small></el-checkbox>
+				<el-checkbox v-model="agreeRule"><small>我已阅读并同意中威的<u class="button" @click="dialogVisible = true">《用户注册协议》</u></small></el-checkbox>
 				<el-button type="primary" class="register-btn button">立即注册</el-button>
+				<registerRule :dialogVisible="dialogVisible" @closeDialog="dialogVisible=false;"></registerRule>
 			</el-form>
 			<div class="tips">
 				<small>服务须知：我们的审核时限为24小时(工作日)，遇法定节假日顺延。如有疑问，请拨打企业专享热线：400-026-0000。</small>
@@ -125,48 +105,109 @@
 </div>
 </template>
 <script>
+import registerRule from '@/components/registerRule/registerRule'
 export default {
 	name: 'supply',
 	data() {
+		var checkLogin = (rule, value, callback) => {
+				let that = this;
+				if (value) {
+					let b = new RegExp("[^a-zA-Z0-9\_\u4e00-\u9fa5]", "i");
+					if (b.test(value)) {
+						return callback(new Error('用户名含有非法字符'));
+					}
+					if (value.length > 2 && value.length < 7) {
+						let params = {
+							apiUrl: this.config.mallApi + "auth/reg/validatename/" + value,
+							apiMethod: "get",
+						}
+						this.ajaxData(params, function(res) {
+							if (res.data.code == "0000") {
+								callback();
+							} else {
+								return callback(new Error('用户名已被占用'));
+							}
+						})
+					} else {
+						return callback(new Error('长度在 3 到 6 个字符'));
+					}
+				}
+			},
+			checkPwd = (rule, value, callback) => {
+				if (value.indexOf(" ") >= 0) {
+					return callback(new Error('密码不能含有空格!'));
+				} else {
+					callback();
+				}
+			},
+			checkConfirmPwd = (rule, value, callback) => {
+				if (value == this.userForm.customerPwd) {
+					callback();
+				} else {
+					return callback(new Error('两次输入密码不一致!'));
+				}
+			},
+			checkMobile = (rule, value, callback) => {
+				let that = this;
+				if (value.length == 11) {
+					if (that.util.checkTel(value)) return callback(new Error('手机号不正确'));
+					let params = {
+						apiUrl: that.config.mallApi + "auth/reg/validatephone/" + value,
+						apiMethod: "get",
+					}
+					this.ajaxData(params, function(res) {
+						if (res.data.code == "0000") {
+							that.checkMobile = true;
+							callback();
+						} else {
+							return callback(new Error('手机号已被占用'));
+							that.checkMobile = false;
+						}
+					})
+				}
+			};
 		return {
 			agreeRule: true,
+			dialogVisible: false,
+			codeTime: 60,
+			sendMessage: false,
+			checkMobile: false,
+			uploadUrl: this.config.commonApi + "common/core/uploadObject2OSS", //图片上传地址
 			supplyForm: {
-				name: '',
-				password: '',
-				passwordSc: '',
-				referralCode: '',
-				tel: '',
-				telCode: '',
-				contactName: '',
-				contactTel: '',
+				customerName: '',
+				customerPwd: '',
+				confirmPassword: '',
+				realName: '',
+				customerMobile: '',
+				smsCode: '',
+				customerCode: '',
 				companyName: '',
-				taxesCode: '',
-				bank: '',
-				bankId: '',
-				companyArea: [],
-				companyAddress: '',
-				companyId: '',
-				companyImg: [],
-				companyIdImg: [],
-				openIdImg: [],
-				proveImg: [],
+				identificationNumber: '',
+				bankName: '',
+				bankCard: '',
+				companyAddressDetail: '',
+				businessLicenseImg: [],
 			},
 			rules: {
-				name: [{
+				customerName: [{
 						required: true,
 						message: '用户名不能为空',
 						trigger: 'blur'
 					},
 					{
 						min: 3,
-						max: 10,
-						message: '长度在 3 到 10 个字符',
+						max: 12,
+						message: '长度在 3 到 12 个字符',
 						trigger: 'blur'
-					}
+					},
+					{
+						validator: checkLogin,
+						trigger: 'blur'
+					},
 				],
-				password: [{
+				customerPwd: [{
 						required: true,
-						message: '密码不能为空',
+						message: '请输入密码',
 						trigger: 'blur'
 					},
 					{
@@ -174,33 +215,29 @@ export default {
 						max: 20,
 						message: '长度在 6 到 20 个字符',
 						trigger: 'blur'
-					}
+					},
+					{
+						validator: checkPwd,
+						trigger: 'blur'
+					},
 				],
-				passwordSc: [{
+				confirmPassword: [{
 						required: true,
-						message: '确认密码不能为空',
+						message: '请输入确认密码',
 						trigger: 'blur'
 					},
 					{
 						min: 6,
-						max: 5,
+						max: 20,
 						message: '长度在 6 到 20 个字符',
-						trigger: 'blur'
-					}
-				],
-				tel: [{
-						required: true,
-						message: '手机号码不能为空',
 						trigger: 'blur'
 					},
 					{
-						min: 11,
-						max: 11,
-						message: '长度为 11 个字符',
+						validator: checkConfirmPwd,
 						trigger: 'blur'
-					}
+					},
 				],
-				telCode: [{
+				smsCode: [{
 						required: true,
 						message: '手机验证码不能为空',
 						trigger: 'blur'
@@ -212,12 +249,12 @@ export default {
 						trigger: 'blur'
 					}
 				],
-				contactName: [{
+				realName: [{
 					required: true,
 					message: '联系人姓名不能为空',
 					trigger: 'blur'
 				}, ],
-				contactTel: [{
+				customerMobile: [{
 						required: true,
 						message: '联系人手机号码不能为空',
 						trigger: 'blur'
@@ -227,51 +264,40 @@ export default {
 						max: 11,
 						message: '长度为 11 个字符',
 						trigger: 'blur'
-					}
+					},
+					{
+						validator: checkMobile,
+						trigger: 'blur'
+					},
 				],
 				companyName: [{
 					required: true,
 					message: '公司名称不能为空',
 					trigger: 'blur'
 				}, ],
-				taxesCode: [{
+				identificationNumber: [{
 					required: true,
 					message: '纳税人识别号不能为空',
 					trigger: 'blur'
 				}, ],
-				bank: [{
+				bankName: [{
 					required: true,
 					message: '请选择开户银行',
 					trigger: 'blur'
 				}, ],
-				bankId: [{
+				bankCard: [{
 					required: true,
 					message: '开户账号不能为空',
 					trigger: 'blur'
 				}, ],
-				companyAddress: [{
+				companyAddressDetail: [{
 					required: true,
 					message: '公司地址不能为空',
 					trigger: 'blur'
 				}, ],
-				companyId: [{
-					required: true,
-					message: '组织机构代码不能为空',
-					trigger: 'blur'
-				}, ],
-				companyImg: [{
+				businessLicenseImg: [{
 					required: true,
 					message: '清上传营业执照',
-					trigger: 'blur'
-				}, ],
-				companyIdImg: [{
-					required: true,
-					message: '清上传机构代码证',
-					trigger: 'blur'
-				}, ],
-				openIdImg: [{
-					required: true,
-					message: '清上传开户许可证',
 					trigger: 'blur'
 				}, ],
 			},
@@ -291,59 +317,55 @@ export default {
 				value: '5',
 				label: '交通银行'
 			}],
-			areaOptions: [{
-				value: '1',
-				label: '广东',
-				children: [{
-					value: '11',
-					label: '广州',
-					children: [{
-						value: '111',
-						label: '天河'
-					}, {
-						value: '112',
-						label: '体育西'
-					}]
-				}, {
-					value: '12',
-					label: '惠州',
-					children: [{
-						value: '121',
-						label: '惠城区'
-					}, {
-						value: '122',
-						label: '江北'
-					}]
-				}]
-			}, {
-				value: '2',
-				label: '广东',
-				children: [{
-					value: '21',
-					label: '广州',
-					children: [{
-						value: '211',
-						label: '天河'
-					}, {
-						value: '212',
-						label: '体育西'
-					}]
-				}, {
-					value: '22',
-					label: '惠州',
-					children: [{
-						value: '221',
-						label: '惠城区'
-					}, {
-						value: '222',
-						label: '江北'
-					}]
-				}]
-			}],
 		}
 	},
-	methods: {},
-	components: {},
+	components:{
+		registerRule,
+	},
+	methods: {
+		sendCode: function() {
+			this.$refs['supplyForm'].validateField("customerMobile", (valid) => {
+				if (!valid) {
+					let params = {
+						"phone": this.supplyForm.customerMobile,
+						"type": 1,
+					}
+					this.util.sendCode(that, params)
+				}
+			})
+		},
+		//上传成功回调
+		handleAvatarSuccess(res, file) {
+			if (res.code == "0000") {
+				this.supplyForm.businessLicenseImg.push(res.data)
+			}
+		},
+		//上传图片
+		beforeAvatarUpload(file) {
+			//const isJPG = file.type === 'image/jpeg';
+			const isLt3M = file.size / 1024 / 1024 < 3;
+			// if (!isJPG) {
+			// 	this.$notify.error('上传的图片只支持JPG格式!');
+			// 	return false;
+			// }
+			if (!isLt3M) {
+				this.$notify.error('上传的图片大小不能超过3MB!');
+				return false;
+			}
+			return isLt3M;
+		},
+		//删除上传图片
+		removeImage(file,fileList){
+			let removeData = file.response.data;
+			let imgList = this.supplyForm.businessLicenseImg;
+			for (let i = 0; i < imgList.length; i++) {
+				if (imgList[i] == removeData)imgList.splice(i,1);
+			}
+		},
+	},
+	mounted() {
+	 	this.$emit('childType',2);
+	},
 }
 </script>
 

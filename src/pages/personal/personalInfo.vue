@@ -18,7 +18,7 @@
 					<el-form ref="customerInfo" :model="customerInfo" label-width="100px" label-position="left">
 						<el-row class="personal-info box">
 							<el-col :span="3">
-								<el-upload :action="uploadUrl" :show-file-list="false" :headers="imgHeaders" :before-upload="beforeAvatarUpload" :on-success="handleAvatarSuccess">
+								<el-upload :action="uploadUrl" :show-file-list="false" :before-upload="beforeAvatarUpload" :on-success="handleAvatarSuccess">
 									<div class="avatar" :style="{backgroundImage: 'url(' + customerInfo.imgUrl + ')' }" v-if="customerInfo.imgUrl">
 									</div>
 									<div class="avatar" :style="{backgroundImage: 'url(/static/img/head-icon.png)' }" v-else>
@@ -79,10 +79,10 @@ export default {
 			customerBirthday: "",
 			imageUrl: '',
 			uploadUrl: this.config.commonApi + "common/core/uploadObject2OSS", //上传地址
-			imgHeaders: {
-				'Accept': "application/json, text/plain, */*",
-				'Authentication': this.util.getCookie('token') //上传地址添加头部token
-			},
+			// imgHeaders: {
+			// 	 'Accept': "application/json, text/plain, */*",
+			// 	 'Authentication': this.util.getCookie('token') //上传地址添加头部token
+			// },
 			brandList: [],
 		}
 	},

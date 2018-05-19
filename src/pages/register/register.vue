@@ -20,7 +20,7 @@
 			</div>
 		</div>
 	</div>
-	<router-view></router-view>
+	<router-view @childType = "childType"></router-view>
 	<cwFooter></cwFooter>
 </div>
 </template>
@@ -34,7 +34,11 @@ export default {
 			type: 1,
 		}
 	},
-	methods: {},
+	methods: {
+		childType(data){
+	        this.type = data;
+	    }
+	},
 	mounted() {},
 	components: {
 		cwHeader,

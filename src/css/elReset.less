@@ -181,12 +181,18 @@
 //注册
 
 .register-content {
-	h1 {
-		font-size: 30px;
-		font-weight: normal;
-		margin-bottom: 50px;
+	.el-button{
+		background: #fff;
+		border-color: #000;
 		color: #000;
+
+		&:hover{
+			background: #000;
+			color: #fff;
+		}
 	}
+
+
 
 	.el-input__inner {
 		line-height: 56px;
@@ -497,6 +503,35 @@
 		}
 	}
 }
+//手动录入商品
+.handAdd{
+	.el-input__inner {
+		line-height: 44px;
+		height: 44px;
+	}
+	.el-input-group__prepend {
+		line-height: 44px;
+		height: 44px;
+		border-radius: 0;
+		position: absolute;
+		top: 0;
+		left: 0;
+		text-align: right;
+		background: none;
+		border: none;
+	}
+	.el-form-item__label{
+		height: 44px;
+		line-height: 44px;
+		font-size: 16px;
+		color: #333;
+	}
+	.el-textarea__inner{
+		border: 1px solid #eaeaea;
+	}
+
+}
+
 //我的清单
 
 .myInventory {

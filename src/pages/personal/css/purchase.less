@@ -2,9 +2,10 @@
 .myGoods,
 .myPurchase {
 	.search-box {
-		height: 45px;
 		font-size: 16px;
 		color: #333333;
+		padding-bottom: 50px;
+		border-bottom: 5px solid #f2f2f2;
 
 		input {
 			line-height: 43px;
@@ -28,7 +29,6 @@
 
 	.goods-list {
 		margin: 50px 0;
-		border-top: 5px solid #f2f2f2;
 
 		.goods-title {
 			margin-top: 25px;
@@ -92,6 +92,25 @@
 		}
 	}
 
+	.no-data {
+		padding: 120px 0;
+
+		p {
+			margin-bottom: 40px;
+		}
+
+		a {
+			display: block;
+			height: 45px;
+			line-height: 45px;
+			margin: auto;
+			width: 200px;
+			background: #e1e1e1;
+			font-size: 16px;
+			color: #000;
+		}
+	}
+
 	.goods-list {
 		.goods-title {
 			border-bottom: none;
@@ -106,17 +125,48 @@
 			}
 
 			.add-btn {
-				width:48px;
+				width: 48px;
 				height: 24px;
 				line-height: 24px;
 				text-align: center;
 				border: 1px solid #000;
-				&:hover{
+
+				&:hover {
 					background: #000;
 					border-color: #000;
 					color: #fff;
 				}
 			}
+		}
+	}
+}
+
+.choseAdd,
+.handAdd {
+	.form-box,
+	.goods-box {
+		padding: 30px 80px;
+	}
+
+	.add-nav {
+		line-height: 24px;
+		padding-bottom: 15px;
+		border-bottom: 5px solid #f2f2f2;
+
+		.el-breadcrumb {
+			line-height: 24px;
+		}
+	}
+}
+
+.choseAdd {
+	font-size: 16px;
+	.goods-row {
+		height: 60px;
+		line-height: 60px;
+		border-bottom: 1px solid #F5F5F5;
+		span{
+			color: #979797; 
 		}
 	}
 }

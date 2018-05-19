@@ -236,6 +236,20 @@ export default new Router({
 			children: []
 		},
 		{
+			//选择录入商品
+			name: "choseAdd",
+			path: '/Y2hvc2VBZGQ',
+			component: resolve => require(['../pages/personal/choseAdd'], resolve),
+			children: []
+		},
+		{
+			//手动录入商品
+			name: "handAdd",
+			path: '/aGFuZEFkZA',
+			component: resolve => require(['../pages/personal/handAdd'], resolve),
+			children: []
+		},
+		{
 			//我的销售单
 			name: "salesSlip",
 			path: '/c2FsZXNTbGlw',
