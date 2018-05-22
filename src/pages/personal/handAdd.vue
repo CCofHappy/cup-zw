@@ -25,117 +25,108 @@
 					</div>
 					<div class="form-box">
 						<el-form :model="goodsForm" :rules="rules" ref="goodsForm"  label-width="120px">
+							<el-form-item prop="customerName" label="商品图片：" class="upload">
+								<el-upload :action="uploadUrl" :show-file-list="false">
+									<div class="goodsImg" :style="{backgroundImage: 'url(' + goodsInfo.imgUrl + ')' }" v-if="goodsInfo.imgUrl">
+									</div>
+									<div class="goodsImg nothing" v-else>
+									</div>
+								</el-upload>
+							</el-form-item>
 							<el-row>
 								<el-col :span="16">
-									<el-form-item prop="customerName" label="商品全称：">
+									<el-form-item prop="fullName" label="商品全称：">
+										<el-input v-model="goodsForm.fullName">
+										</el-input>
+									</el-form-item>
+								</el-col>
+								<el-col :span="8">
+									<el-form-item prop="price" label="商品单价：">
+										<el-input v-model="goodsForm.price">
+										</el-input>
+									</el-form-item>
+								</el-col>
+								<el-col :span="8">
+									<el-form-item prop="brandId" label="品 牌：">
+										<el-input v-model="goodsForm.brandId">
+										</el-input>
+									</el-form-item>
+								</el-col>
+								<el-col :span="8">
+									<el-form-item prop="specificationValue" label="净 含 量：">
+										<el-input v-model="goodsForm.specificationValue">
+										</el-input>
+									</el-form-item>
+								</el-col>
+								<el-col :span="8">
+									<el-form-item prop="alcoholStrength" label="酒 精 度：">
+										<el-input v-model="goodsForm.alcoholStrength">
+										</el-input>
+									</el-form-item>
+								</el-col>
+								<el-col :span="8">
+									<el-form-item prop="bucketType" label="木桶类型：">
+										<el-input v-model="goodsForm.bucketType">
+										</el-input>
+									</el-form-item>
+								</el-col>
+								<el-col :span="8">
+									<el-form-item prop="productType" label="类 别：">
+										<el-input v-model="goodsForm.productType">
+										</el-input>
+									</el-form-item>
+								</el-col>
+								<el-col :span="8">
+									<el-form-item prop="bucketCode" label="木桶编号：">
+										<el-input v-model="goodsForm.bucketCode">
+										</el-input>
+									</el-form-item>
+								</el-col>
+								<el-col :span="8">
+									<el-form-item prop="series" label="系 列：">
+										<el-input v-model="goodsForm.series">
+										</el-input>
+									</el-form-item>
+								</el-col>
+								<el-col :span="8">
+									<el-form-item prop="bottler" label="装 瓶 厂：">
+										<el-input v-model="goodsForm.bottler">
+										</el-input>
+									</el-form-item>
+								</el-col>
+								<el-col :span="8">
+									<el-form-item prop="bottlerNumber" label="装瓶数量：">
+										<el-input v-model="goodsForm.bottlerNumber">
+										</el-input>
+									</el-form-item>
+								</el-col>
+								<el-col :span="8">
+									<el-form-item prop="distillTime" label="蒸馏时间：">
 										<el-input v-model="goodsForm.customerName">
 										</el-input>
 									</el-form-item>
 								</el-col>
 								<el-col :span="8">
-									<el-form-item prop="customerName" label="品 牌：">
+									<el-form-item prop="bottlingTime" label="装瓶时间：">
 										<el-input v-model="goodsForm.customerName">
 										</el-input>
 									</el-form-item>
 								</el-col>
 								<el-col :span="8">
-									<el-form-item prop="customerName" label="产 地：">
-										<el-input v-model="goodsForm.customerName">
+									<el-form-item prop="total" label="库存数量：">
+										<el-input v-model="goodsForm.total">
 										</el-input>
 									</el-form-item>
 								</el-col>
-								<el-col :span="8">
-									<el-form-item prop="customerName" label="净 含 量：">
-										<el-input v-model="goodsForm.customerName">
-										</el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :span="8">
-									<el-form-item prop="customerName" label="附加属性：">
-										<el-input v-model="goodsForm.customerName">
-										</el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :span="8">
-									<el-form-item prop="customerName" label="酒 精 度：">
-										<el-input v-model="goodsForm.customerName">
-										</el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :span="8">
-									<el-form-item prop="customerName" label="木桶类型：">
-										<el-input v-model="goodsForm.customerName">
-										</el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :span="8">
-									<el-form-item prop="customerName" label="类 别：">
-										<el-input v-model="goodsForm.customerName">
-										</el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :span="8">
-									<el-form-item prop="customerName" label="木桶编号：">
-										<el-input v-model="goodsForm.customerName">
-										</el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :span="8">
-									<el-form-item prop="customerName" label="系 列：">
-										<el-input v-model="goodsForm.customerName">
-										</el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :span="8">
-									<el-form-item prop="customerName" label="装 瓶 厂：">
-										<el-input v-model="goodsForm.customerName">
-										</el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :span="8">
-									<el-form-item prop="customerName" label="蒸馏时间：">
-										<el-input v-model="goodsForm.customerName">
-										</el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :span="8">
-									<el-form-item prop="customerName" label="装瓶时间：">
-										<el-input v-model="goodsForm.customerName">
-										</el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :span="8">
-									<div style="width:100%;height:66px;">
-										<!-- 占位 -->
-									</div>
-								</el-col>
-								<el-col :span="8">
-									<el-form-item prop="customerName" label="装瓶数量：">
-										<el-input v-model="goodsForm.customerName">
-										</el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :span="8">
-									<el-form-item prop="customerName" label="库存数量：">
-										<el-input v-model="goodsForm.customerName">
-										</el-input>
-									</el-form-item>
-								</el-col>
-								<el-col :span="8">
-									<el-form-item prop="customerName" label="商品单价：">
-										<el-input v-model="goodsForm.customerName">
-										</el-input>
-									</el-form-item>
-								</el-col>
-								<el-form-item prop="customerName" label="品酒记录：">
-									<el-input type="textarea" :rows="8" placeholder="">
-									</el-input>
-								</el-form-item>
-								<el-form-item prop="customerName" label="备 注：">
-									<el-input type="textarea" :rows="5" placeholder="">
-									</el-input>
-								</el-form-item>
 							</el-row>
+							<el-form-item prop="pinjiu" label="品酒记录：">
+								<el-input type="textarea" :rows="8" placeholder="">
+								</el-input>
+							</el-form-item>
+							<el-form-item prop="beizhu" label="备 注：">
+								<el-input type="textarea" :rows="5" placeholder="">
+								</el-input>
+							</el-form-item>
 
 							<div class="box box-center">
 								<el-button type="primary" class="register-btn button">保存</el-button>
@@ -160,11 +151,24 @@ export default {
 		return {
 			loadError: false,
 			tabIndex: '1',
+			goodsInfo: "",
+			uploadUrl: this.config.commonApi + "common/core/uploadObject2OSS", //上传地址
 			goodsForm:{
 				customerName:'',
 			},
 			rules:{
-
+				customerName: [{
+						required: true,
+						message: '用户名不能为空',
+						trigger: 'blur'
+					},
+					{
+						min: 3,
+						max: 12,
+						message: '长度在 3 到 12 个字符',
+						trigger: 'blur'
+					},
+				],
 			}
 		}
 	},
@@ -192,4 +196,17 @@ export default {
 @import url('../../css/less-const.less'); //引入less变量
 @import url('css/order.less');
 @import url('css/purchase.less');
+</style>
+
+<style lang="less">//调整elementUI样式
+.handAdd{
+	.handAdd-container{
+		.el-form-item.upload {
+			.el-form-item__label{
+				line-height: 142px;
+				height: 142px;
+			}
+		}
+	}
+}
 </style>
