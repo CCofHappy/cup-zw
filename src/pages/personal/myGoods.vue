@@ -16,7 +16,7 @@
 				<div class="myGoods-container">
 					<el-row class="search-box box box-align-center">
 						<el-col :span="10">
-							商品名称：&nbsp;&nbsp;<input></input>
+							商品名称：&nbsp;&nbsp;<input v-model="name"></input>
 						</el-col>
 						<el-col :span="6" class="text-left">状态：
 							<el-select v-model="stateIndex" placeholder="请选择">
@@ -31,56 +31,54 @@
 							</el-select>
 						</el-col>
 						<el-col :span="2">
-							<div class="search-btn">
+							<div class="search-btn button" @click="initData">
 								搜索
 							</div>
 						</el-col>
 					</el-row>
 					<LoadError v-if="loadError"></LoadError>
-					<NoData :message="'没有符合条件的商品'" v-else-if="goodsTotal==0"></NoData>
+					<NoData :message="'没有相关的商品'" v-else-if="goodsTotal==0"></NoData>
 					<div class="goods-list" v-else>
 						<el-row class="text-center goods-title">
 							<el-col :span="3">商品图片</el-col>
 							<el-col :span="3">商品名称</el-col>
-							<el-col :span="3">酒精度(%)</el-col>
-							<el-col :span="3">容量(ml)</el-col>
-							<el-col :span="3">采购价(¥)</el-col>
-							<el-col :span="5">数量</el-col>
-							<el-col :span="4">操作</el-col>
+							<el-col :span="3">单价(￥)</el-col>
+							<el-col :span="3">库存数</el-col>
+							<el-col :span="3">状态</el-col>
+							<el-col :span="4">录入时间</el-col>
+							<el-col :span="5">操作</el-col>
 						</el-row>
 						<el-row class="text-center goods-box box box-align-center" v-for="(item,index) in goodsList">
 							<el-col :span="3" class="box-center box">
 								<div class="img-box">
-									<img v-lazy="" class="goodsImg1">
+									<img v-lazy="item.image" class="goodsImg1">
 								</div>
 							</el-col>
 							<el-col :span="3">
-								<p class="">麦卡伦18年麦卡伦18年麦卡伦18年麦卡伦18年</p>
+								<p class="">{{item.fullName}}</p>
 							</el-col>
 							<el-col :span="3">
-								<p class="">45%</p>
+								<p class="">{{item.primeCost}}</p>
 							</el-col>
 							<el-col :span="3">
-								<p class="">700</p>
+								<p class="">{{item.total}}</p>
 							</el-col>
 							<el-col :span="3">
-								<p class="">319</p>
+								<p class="" v-if="item.state==-1">审核不通过</p>
+								<p class="" v-if="item.state==0">未提交</p>
+								<p class="" v-if="item.state==1">待审核</p>
+								<p class="" v-if="item.state==2">审核通过</p>
+								<p class="" v-if="item.state==4">已上架</p>
+								<p class="" v-if="item.state==5">已下架</p>
 							</el-col>
-							<el-col :span="5">
-								<div class="box box-center">
-									<button class="chose-btn box box-center button">
-					                	<icon name="minus" scale="1.5" class="icon"></icon>
-					                </button>
-									<input class="chose-count" type="number" :disabled="false" v-model="count">
-									<button class="chose-btn box box-center button">
-			                			<icon name="add" scale="1.5" class="icon"></icon>
-			              			</button>
-								</div>
+							<el-col :span="4">
+								<p class="">{{forDate(item.createTime)}}</p>
 							</el-col>
-							<el-col :span="4" class="box box-center">
-								<div class="button">
-									加入清单
-								</div>
+							<el-col :span="5" class="box box-center goods-btn-box">
+								<div class="button" v-if="item.state==2" @click="upLine(item.productId)">上架</div>
+								<div class="button" v-if="item.state==4" @click="offLine(item.productId)">下架</div>
+								<router-link class="button" :to="{ name: 'handAdd', query: {id:item.productId} }" v-if="item.state!=4">修改</router-link>
+								<div class="button" v-if="item.state!=4" @click="delGoods(item.productId)">删除</div>
 							</el-col>
 						</el-row>
 					</div>
@@ -104,37 +102,41 @@ export default {
 		return {
 			loadError: false,
 			tabIndex: '1',
+			name:'',
 			state: [{
-				value: '1',
+				value: '-1',
+				label: '审核不通过'
+			}, {
+				value: '0',
 				label: '未提交'
 			}, {
-				value: '2',
+				value: '1',
 				label: '待审核'
 			}, {
-				value: '3',
+				value: '2',
 				label: '审核通过'
 			}, {
 				value: '4',
-				label: '审核不通过'
-			}, {
-				value: '5',
 				label: '已上架'
 			}, {
-				value: '6',
+				value: '5',
 				label: '下架'
 			}],
 			time: [{
 				value: '1',
+				label: '近一个月'
+			},{
+				value: '2',
 				label: '近三个月'
 			}, {
-				value: '2',
-				label: '今年内'
+				value: '3',
+				label: '今年内订单'
 			}, {
-				value: '0',
+				value: '',
 				label: '全部'
 			}],
-			stateIndex: '1',
-			timeIndex: '1',
+			stateIndex: '',
+			timeIndex: '',
 			page: 1,
 			count: 1,
 			goodsList:[],
@@ -154,10 +156,12 @@ export default {
 	methods: {
 		initData: function() {
 			let params = {
-				apiUrl: this.config.mallApi + "/supplier/goods",
-				apiMethod: "post",
-				current: 1,
+				apiUrl: this.config.mallApi + "supplier/goods",
+				current: this.page,
 				size: 10,
+				state: this.stateIndex,
+				dateType: this.timeIndex,
+				name:this.name,
 			};
 			this.ajaxData(params, (res) =>{
 				if (res.data.code=="0000") {
@@ -171,6 +175,60 @@ export default {
 		changePage: function (e) {
 			this.page = e;
 			this.initData();
+		},
+		forDate: function(e){
+			return this.util.forDate(e,"yyyy-MM-dd hh:mm")
+		},
+		upLine:function (e) {
+			let params = {
+				apiUrl: this.config.mallApi + "supplier/goods/upLine/"+e,
+			};
+			this.ajaxData(params, (res) =>{
+				if (res.data.code=="0000") {
+					this.$notify.success({
+						message: '上架成功！',
+					});
+					this.initData();
+				}else {
+					this.$notify.error({
+						message: res.data.message,
+					});
+				}
+			})
+		},
+		offLine:function (e) {
+			let params = {
+				apiUrl: this.config.mallApi + "supplier/goods/offLine/"+e,
+			};
+			this.ajaxData(params, (res) =>{
+				if (res.data.code=="0000") {
+					this.$notify.success({
+						message: '下架成功！',
+					});
+					this.initData();
+				}else {
+					this.$notify.error({
+						message: res.data.message,
+					});
+				}
+			})
+		},
+		delGoods:function (e) {
+			let params = {
+				apiUrl: this.config.mallApi + "supplier/goods/delete/"+e,
+			};
+			this.ajaxData(params, (res) =>{
+				if (res.data.code=="0000") {
+					this.$notify.success({
+						message: '删除成功！',
+					});
+					this.initData();
+				}else {
+					this.$notify.error({
+						message: res.data.message,
+					});
+				}
+			})
 		}
 	},
 	mounted() {

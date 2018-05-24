@@ -13,12 +13,12 @@
 					</el-input>
 				</el-form-item>
 				<el-form-item prop="customerPwd">
-					<el-input v-model="purchaserForm.customerPwd" placeholder="请输入密码">
+					<el-input v-model="purchaserForm.customerPwd" placeholder="请输入密码" type="password">
 						<template slot="prepend">密&nbsp;&nbsp;&nbsp;&nbsp;码</template>
 					</el-input>
 				</el-form-item>
 				<el-form-item prop="confirmPassword">
-					<el-input v-model="purchaserForm.confirmPassword" placeholder="请再次输入密码">
+					<el-input v-model="purchaserForm.confirmPassword" placeholder="请再次输入密码" type="password">
 						<template slot="prepend">确认密码</template>
 					</el-input>
 				</el-form-item>
@@ -95,7 +95,7 @@
 					</el-upload>
 				</el-form-item>
 				<el-checkbox v-model="agreeRule"><small>我已阅读并同意中威的<u class="button" @click="dialogVisible = true">《用户注册协议》</u></small></el-checkbox>
-				<el-button type="primary" class="register-btn button">立即注册</el-button>
+				<el-button type="primary" class="register-btn button" @click="submitForm">立即注册</el-button>
 				<registerRule :dialogVisible="dialogVisible" @closeDialog="dialogVisible=false;"></registerRule>
 			</el-form>
 			<div class="tips">
@@ -142,7 +142,7 @@ export default {
 				}
 			},
 			checkConfirmPwd = (rule, value, callback) => {
-				if (value == this.userForm.customerPwd) {
+				if (value == this.purchaserForm.customerPwd) {
 					callback();
 				} else {
 					return callback(new Error('两次输入密码不一致!'));
@@ -343,12 +343,7 @@ export default {
 		},
 		//上传图片
 		beforeAvatarUpload(file) {
-			//const isJPG = file.type === 'image/jpeg';
 			const isLt3M = file.size / 1024 / 1024 < 3;
-			// if (!isJPG) {
-			// 	this.$notify.error('上传的图片只支持JPG格式!');
-			// 	return false;
-			// }
 			if (!isLt3M) {
 				this.$notify.error('上传的头像大小不能超过3MB!');
 				return false;
@@ -362,6 +357,38 @@ export default {
 			for (let i = 0; i < imgList.length; i++) {
 				if (imgList[i] == removeData)imgList.splice(i,1);
 			}
+		},
+		submitForm: function() {
+			this.$refs['purchaserForm'].validate((valid) => {
+				if (valid) {
+					var params = this.purchaserForm;
+					params.customerType = 2;
+					params.customerPwd = that.md5(params.customerPwd.replace(/\s/g, ''));
+					params.confirmPassword = that.md5(params.confirmPassword.replace(/\s/g, ''));
+					params.apiUrl = this.config.mallApi + "auth/reg/supplier";
+					params.apiMethod = "post";
+					this.ajaxData(params, (res) =>{
+						if (res.data.code == "0000") {
+							this.$message.success("提交成功，等待审核");
+							setTimeout(function() {
+								this.$router.push('/aG9tZQ');
+							}, 2000)
+						} else {
+							this.$message.error(res.data.message);
+							this.purchaserForm.customerPwd = '';
+							this.purchaserForm.confirmPassword = '';
+							this.purchaserForm.smsCode = '';
+							setTimeout(function() {
+								this.$refs['purchaserForm'].validateField("customerPwd");
+								this.$refs['purchaserForm'].validateField("confirmPassword");
+								this.$refs['purchaserForm'].validateField("smsCode");
+							}, 100)
+						}
+					})
+				} else {
+					return false;
+				}
+			});
 		},
 	},
 	mounted(){

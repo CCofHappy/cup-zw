@@ -7,11 +7,11 @@
 		<div class="top-nav">
 			<div class="nav-title">
 				<el-breadcrumb separator-class="el-icon-arrow-right">
-				  <el-breadcrumb-item :to="{ path: '/aG9tZQ' }">首页</el-breadcrumb-item>
-				  <el-breadcrumb-item :to="{ path: '/bmV3R29vZHM' }" v-if="pageType==2">新酒发布</el-breadcrumb-item>
-				  <el-breadcrumb-item :to="{ path: '/cHJpemVHb29kcw' }" v-else-if="pageType==3">获奖商品</el-breadcrumb-item>
-				  <el-breadcrumb-item :to="{ path: '/YWxsR29vZHM' }" v-else>中威酒窖</el-breadcrumb-item>
-				  <el-breadcrumb-item>{{goodsInfo.fullName}}</el-breadcrumb-item>
+					<el-breadcrumb-item :to="{ path: '/aG9tZQ' }">首页</el-breadcrumb-item>
+					<el-breadcrumb-item :to="{ path: '/bmV3R29vZHM' }" v-if="pageType==2">新酒发布</el-breadcrumb-item>
+					<el-breadcrumb-item :to="{ path: '/cHJpemVHb29kcw' }" v-else-if="pageType==3">获奖商品</el-breadcrumb-item>
+					<el-breadcrumb-item :to="{ path: '/YWxsR29vZHM' }" v-else>中威酒窖</el-breadcrumb-item>
+					<el-breadcrumb-item>{{goodsInfo.fullName}}</el-breadcrumb-item>
 				</el-breadcrumb>
 			</div>
 		</div>
@@ -64,8 +64,8 @@
 						</div>
 						<div class="text-box box box-between">
 							<el-tooltip class="item" effect="dark" :content="goodsInfo.series" placement="right">
-						      	<div class="text-overflow">系列：{{goodsInfo.series}}</div>
-						    </el-tooltip>
+								<div class="text-overflow">系列：{{goodsInfo.series}}</div>
+							</el-tooltip>
 						</div>
 						<div class="text-box box box-between">
 							<div class="text-overflow">装瓶厂：{{goodsInfo.bottler}}</div>
@@ -82,8 +82,8 @@
 						</div>
 						<div class="text-box box">
 							<el-tooltip class="item" effect="dark" :content="goodsInfo.bucketType" placement="right">
-						      	<div class="text-overflow">木桶类型：{{goodsInfo.bucketType}}</div>
-						    </el-tooltip>
+								<div class="text-overflow">木桶类型：{{goodsInfo.bucketType}}</div>
+							</el-tooltip>
 						</div>
 						<div class="text-box box">
 							<div class="text-overflow" v-if="goodsInfo.categoryLv2Name">原产地：{{goodsInfo.categoryLv1Name}}-{{goodsInfo.categoryLv2Name}}</div>
@@ -152,12 +152,41 @@
 				</div>
 			</div>
 			<div class="right-box">
-				<div class="price-box" v-if="nowVolumesInfo && nowPriceStr > 0">
-					中威价：<span class="price"><small>￥</small>{{nowPriceStr}}</span>
+				<div v-if="nowVolumesInfo && nowVolumesInfo.activity">
+					<div class="price-box">
+						抢购价：<span class="price"><small>￥</small>{{nowVolumesInfo.activity.activityPrice}}</span>
+						<span class="normalPrice">{{nowPriceStr}}</span>
+						<div class="box count-down-box">
+							<span>限时抢购</span>
+							<small>距结束</small>
+							<div class="conut-down-time box box-align-center">
+								<div>{{parseInt((countDown/1000)/3600)}}</div>
+								<p>:</p>
+								<div>{{parseInt(((countDown/1000)%3600)/60)}}</div>
+								<p>:</p>
+								<div>{{parseInt((countDown/1000)%60)}}</div>
+							</div>
+						</div>
+						<el-row :gutter="20" class="progress-box box box-align-center text-center">
+							<el-col :span="14">
+								<el-progress :percentage="10" :show-text="false" color="#000000"></el-progress>
+							</el-col>
+							<el-col :span="10">
+								已抢1000件
+							</el-col>
+						</el-row>
+
+					</div>
 				</div>
-				<div class="price-box" v-else>
-					中威价：<span class="price">暂无报价</span>
+				<div v-else>
+					<div class="price-box" v-if="nowVolumesInfo && nowPriceStr > 0">
+						中威价：<span class="price"><small>￥</small>{{nowPriceStr}}</span>
+					</div>
+					<div class="price-box" v-else>
+						中威价：<span class="price">暂无报价</span>
+					</div>
 				</div>
+
 				<div class="quality-box">
 					<div class="title">可选规格</div>
 					<div class="quality-chose">
@@ -232,7 +261,7 @@ export default {
 				loop: false,
 				slidesPerView: 5,
 				spaceBetween: 15,
-				slidesPerGroup : 1,
+				slidesPerGroup: 1,
 			},
 			goodsOption: {
 				// swiper optionss 所有的配置同swiper官方api配置
@@ -245,9 +274,9 @@ export default {
 				prevButton: '.swiper-button-prev',
 				nextButton: '.swiper-button-next',
 			},
-			nowPriceStr:"",
-			nowTotal:"",
-			goodsData:"",
+			nowPriceStr: "",
+			nowTotal: "",
+			goodsData: "",
 			goodsCount: 1,
 			goodsInfo: "",
 			volumesInfo: "",
@@ -255,20 +284,23 @@ export default {
 			volumesNum: 0,
 			prizesInfo: "",
 			flavorsInfo: "",
-			recommendsInfo: "",
-			shareInfo: "",
-			pageType:"",
-			onLoad:true,
+			recommendsInfo: "", //推荐商品数据
+			shareInfo: "", //分享瓶数据
+			pageType: "", //判断上级是哪里
+			activeEnd: "", //抢购活动结束时间
+			countDown: "",//活动倒计时
+			countDownId: "",//倒计时id
+			onLoad: true,
 		}
 	},
 	watch: {　　
 		goodsCount(curVal, oldVal) {
 			var _this = this;
 			_this.goodsCount = parseInt(curVal);
-			if (parseInt(curVal) != curVal && parseInt(curVal)== 0) {
+			if (parseInt(curVal) != curVal && parseInt(curVal) == 0) {
 				_this.goodsCount = oldVal;
-			}else if(parseInt(curVal)>_this.nowVolumesInfo.total) {
-				_this.goodsCount = _this.nowVolumesInfo.total>0?_this.nowVolumesInfo.total:1;//库存大于0时取最大库存 否则就是默认1
+			} else if (parseInt(curVal) > _this.nowVolumesInfo.total) {
+				_this.goodsCount = _this.nowVolumesInfo.total > 0 ? _this.nowVolumesInfo.total : 1; //库存大于0时取最大库存 否则就是默认1
 			}
 		},
 	},
@@ -290,40 +322,52 @@ export default {
 	methods: {
 		initData: function() {
 			let that = this;
-			let cusSeq = that.util.getCookie("customerSeq")?that.util.getCookie("customerSeq"):0;
+			let cusSeq = that.util.getCookie("customerSeq") ? that.util.getCookie("customerSeq") : 0;
 			let params = {
-				apiUrl:this.config.mallApi + "goods/detail/" + cusSeq + "/" + that.$route.query.id,
-				apiMethod:'get',
+				apiUrl: this.config.mallApi + "goods/detail/" + cusSeq + "/" + that.$route.query.id,
+				apiMethod: 'get',
 			}
-			that.ajaxData(params,function(res){
+			that.ajaxData(params, function(res) {
 				if (res.data.code == "0000") {
 					let data = res.data.data;
 					that.onLoad = false;
-					if(data){
+					if (data) {
 						that.goodsData = data;
 						that.goodsInfo = data.info;
 						that.prizesInfo = data.prizes;
 						that.flavorsInfo = data.flavors;
 						var newArr = [];
-						for(var i in data.recommends){//相关推荐只展示4只酒
-							if(i<4){
+						for (var i in data.recommends) { //相关推荐只展示4只酒
+							if (i < 4) {
 								newArr.push(data.recommends[i]);
 							}
 						}
 						that.recommendsInfo = newArr;
-						that.materialrOption.slidesPerView = data.flavors.length>4?5:data.flavors.length;
+						that.materialrOption.slidesPerView = data.flavors.length > 4 ? 5 : data.flavors.length;
 						if (data.volumes.length > 0) {
 							let arr = data.volumes;
-							for (var i = 0; i < data.volumes.length; i++) {
+							for (let i = 0; i < data.volumes.length; i++) {
 								if (data.volumes[i].isShared == 1) {
 									that.shareInfo = arr.splice(i, 1);
 								}
+								if (data.volumes[i].activity) {
+									that.activeEnd = data.volumes[i].activity.endDate;
+								}
 							}
 							that.volumesInfo = arr;
-							that.nowVolumesInfo = that.volumesInfo[0]?that.volumesInfo[0]:that.shareInfo;
-							that.nowPriceStr = that.nowVolumesInfo.priceStr;
-							that.nowTotal = that.nowVolumesInfo.total;
-							that.goodsCount = that.nowVolumesInfo.total>0?1:0;
+							that.nowVolumesInfo = that.nowVolumesInfo||that.volumesInfo[0];
+							that.nowPriceStr =  that.nowPriceStr||that.nowVolumesInfo.priceStr;
+							that.nowTotal = that.nowTotal||that.nowVolumesInfo.total;
+							that.goodsCount = that.nowVolumesInfo.total > 0 ? 1 : 0;
+
+							let nowTime = Date.parse(new Date());
+							if (that.activeEnd>nowTime) {
+								clearInterval(that.countDownId);
+								that.countDown = that.activeEnd-nowTime;
+								that.countDownId=setInterval(()=>{
+									that.countDown = that.countDown-1000;
+								},1000)
+							}
 						}
 					}
 				} else {
@@ -353,13 +397,13 @@ export default {
 				this.volumesNum = e;
 				this.nowVolumesInfo = this.volumesInfo[e];
 				this.nowPriceStr = this.volumesInfo[e].priceStr;
-				this.nowTotal= this.volumesInfo[e].total;
+				this.nowTotal = this.volumesInfo[e].total;
 			} else {
 				this.volumesNum = 'share';
 				this.nowPriceStr = this.shareInfo[0].priceStr;
-				this.nowTotal= this.shareInfo[0].total;
+				this.nowTotal = this.shareInfo[0].total;
 			}
-			this.goodsCount = this.nowVolumesInfo.total>0?1:0;
+			this.goodsCount = this.nowVolumesInfo.total > 0 ? 1 : 0;
 		},
 		//放入购物车
 		addToCart: function() {
@@ -371,7 +415,7 @@ export default {
 				});
 				return;
 			}
-			if (that.goodsCount<=0) {
+			if (that.goodsCount <= 0) {
 				that.$notify({
 					type: 'error',
 					message: '商品数量不正确'
@@ -380,12 +424,12 @@ export default {
 			}
 			if (that.util.getCookie('token')) {
 				let params = {
-					apiUrl:that.config.mallApi + "shopping/cart/add",
+					apiUrl: that.config.mallApi + "shopping/cart/add",
 					productId: that.goodsInfo.id,
 					productDetailId: that.volumesNum == 'share' ? that.shareInfo[0].id : that.nowVolumesInfo.id,
 					count: that.goodsCount,
 				}
-				that.ajaxData(params,function(res){
+				that.ajaxData(params, function(res) {
 					if (res.data.code == "0000") {
 						that.$notify({
 							type: 'success',
@@ -404,13 +448,13 @@ export default {
 					type: 'error',
 					message: '请先登录！'
 				});
-				that.$router.push('/bG9naW4?goodsId='+ that.$route.query.id);
+				that.$router.push('/bG9naW4?goodsId=' + that.$route.query.id);
 			}
 		},
 		//立即购买
-		sellNow: function(){
+		sellNow: function() {
 			let that = this;
-			if (that.goodsCount<=0) {
+			if (that.goodsCount <= 0) {
 				that.$notify({
 					type: 'error',
 					message: '购买数量不能为0'
@@ -419,30 +463,30 @@ export default {
 			}
 			if (that.util.getCookie('token')) {
 				let data = [{
-					alcoholStrength:that.goodsInfo.alcoholStrength,
-					count:that.goodsCount,
-					detailId:that.nowVolumesInfo.id,
-					enName:that.goodsInfo.enName,
-					fullName:that.goodsInfo.fullName,
-					id:that.goodsInfo.id,
-					image:that.nowVolumesInfo.imgs.length>0?that.nowVolumesInfo.imgs[0].url:that.goodsInfo.image,
-					price:that.nowVolumesInfo.price,
-					totalPrice:that.nowVolumesInfo.price*that.goodsCount,
+					alcoholStrength: that.goodsInfo.alcoholStrength,
+					count: that.goodsCount,
+					detailId: that.nowVolumesInfo.id,
+					enName: that.goodsInfo.enName,
+					fullName: that.goodsInfo.fullName,
+					id: that.goodsInfo.id,
+					image: that.nowVolumesInfo.imgs.length > 0 ? that.nowVolumesInfo.imgs[0].url : that.goodsInfo.image,
+					price: that.nowVolumesInfo.price,
+					totalPrice: that.nowVolumesInfo.price * that.goodsCount,
 					volumn: that.nowVolumesInfo.specificationValue,
 					isShared: that.nowVolumesInfo.isShared,
 				}];
-				sessionStorage.orderSubmitInfo=JSON.stringify(data);
+				sessionStorage.orderSubmitInfo = JSON.stringify(data);
 				this.$router.push('/Z2V0T3JkZXJJbmZv?type=1');
-			}else {
+			} else {
 				that.$notify({
 					type: 'error',
 					message: '请先登录！'
 				});
-				that.$router.push('/bG9naW4?goodsId='+ that.$route.query.id);
+				that.$router.push('/bG9naW4?goodsId=' + that.$route.query.id);
 			}
 		},
-		inputCount(){
-			this.goodsCount = this.goodsCount>0?this.goodsCount:1;
+		inputCount() {
+			this.goodsCount = this.goodsCount > 0 ? this.goodsCount : 1;
 		},
 		//关注商品
 		addToFocus: function() {
@@ -485,7 +529,7 @@ export default {
 					type: 'warning',
 					center: true
 				}).then(() => {
-					this.$router.push('/bG9naW4?goodsId='+ that.$route.query.id);
+					this.$router.push('/bG9naW4?goodsId=' + that.$route.query.id);
 				}).catch(() => {});
 			}
 		},

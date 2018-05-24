@@ -34,6 +34,7 @@ Vue.use(VueAwesomeSwiper);
 Vue.use(VueLazyload, {})
 
 //ajax请求数据
+Vue.prototype.axios=axios;
 Vue.prototype.ajaxData = function(params, cb, errorcb) {
 	axios({
 		method: params.apiMethod || "POST",

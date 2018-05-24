@@ -85,6 +85,23 @@
 	}
 }
 
+.myGoods{
+	.goods-btn-box{
+		.button{
+			padding: 0 10px;
+			line-height: 24px;
+			height: 24px;
+			border: 1px solid #333;
+			margin: 0 10px;
+			&:hover{
+				background: #333;
+				color: #fff;
+			}
+		}
+	}
+}
+
+
 .addGoods {
 	.search-box {
 		input {
@@ -159,33 +176,50 @@
 	}
 }
 
-.handAdd{
-	.form-box{
-		.goodsImg{
+.handAdd {
+	.form-box {
+		.goods-uploader-icon {
+			border: 1px dashed #d9d9d9;
+			font-size: 28px;
+			color: #8c939d;
 			width: 140px;
 			height: 140px;
-			&.nothing{
-				border: 1px dashed #ddd;
+			line-height: 140px;
+			text-align: center;
+			cursor: pointer;
+
+			&:hover{
+				border-color: #000;
 			}
+		}
+
+		.goods-img {
+			width: 140px;
+			height: 140px;
+			display: block;
 		}
 	}
 }
 
 .choseAdd {
 	font-size: 16px;
+
 	.goods-row {
 		height: 60px;
 		line-height: 60px;
 		border-bottom: 1px solid #F5F5F5;
-		span{
+
+		span {
 			color: #979797;
 		}
 	}
-	.input-row{
+
+	.input-row {
 		height: 45px;
 		line-height: 45px;
 		margin-top: 30px;
-		input{
+
+		input {
 			height: 43px;
 			line-height: 43px;
 			width: 200px;
