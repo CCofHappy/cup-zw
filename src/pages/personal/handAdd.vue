@@ -114,14 +114,14 @@
 								</el-col>
 								<el-col :span="8">
 									<el-form-item prop="distillTime" label="蒸馏时间：">
-										<el-input v-model="goodsForm.distillTime">
-										</el-input>
+										<el-date-picker v-model="goodsForm.distillTime"  type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+    									</el-date-picker>
 									</el-form-item>
 								</el-col>
 								<el-col :span="8">
 									<el-form-item prop="bottlingTime" label="装瓶时间：">
-										<el-input v-model="goodsForm.bottlingTime">
-										</el-input>
+										<el-date-picker v-model="goodsForm.bottlingTime"  type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+    									</el-date-picker>
 									</el-form-item>
 								</el-col>
 								<el-col :span="8">
@@ -204,17 +204,17 @@ export default {
 				}],
 				price: [{
 					required: true,
-					message: '价格不能为空',
+					message: '单价不能为空',
 					trigger: 'blur'
 				}],
 				brandId: [{
 					required: true,
-					message: '品牌不能为空',
+					message: '请选择商品品牌',
 					trigger: 'blur'
 				}],
 				specificationValue: [{
 					required: true,
-					message: '商品名不能为空',
+					message: '净含量不能为空',
 					trigger: 'blur'
 				}],
 				alcoholStrength: [{
@@ -229,47 +229,47 @@ export default {
 				}],
 				productType: [{
 					required: true,
-					message: '商品名不能为空',
+					message: '请选择商品类别',
 					trigger: 'blur'
 				}],
 				bucketCode: [{
 					required: true,
-					message: '商品名不能为空',
+					message: '木桶编号不能为空',
 					trigger: 'blur'
 				}],
 				series: [{
 					required: true,
-					message: '商品名不能为空',
+					message: '商品系列不能为空',
 					trigger: 'blur'
 				}],
 				bottler: [{
 					required: true,
-					message: '商品名不能为空',
+					message: '请选择装瓶厂',
 					trigger: 'blur'
 				}],
 				bottlerNumber: [{
 					required: true,
-					message: '商品名不能为空',
+					message: '装瓶数量不能为空',
 					trigger: 'blur'
 				}],
 				distillTime: [{
 					required: true,
-					message: '商品名不能为空',
+					message: '请选择蒸馏时间',
 					trigger: 'blur'
 				}],
 				bottlingTime: [{
 					required: true,
-					message: '商品名不能为空',
+					message: '请选择装瓶时间',
 					trigger: 'blur'
 				}],
 				total: [{
 					required: true,
-					message: '商品名不能为空',
+					message: '库存数量不能为空',
 					trigger: 'blur'
 				}],
 				tastRecord: [{
 					required: true,
-					message: '商品名不能为空',
+					message: '品酒记录不能为空',
 					trigger: 'blur'
 				}],
 			}
@@ -311,7 +311,11 @@ export default {
 				this.ajaxData(params, (res) => {
 					if (res.data.code == "0000") {
 						for (let i in this.goodsForm) {
-							console.log(i)
+							for (let k in res.data.data) {
+								if (i==k) {
+									this.goodsForm[i] = res.data.data[k]
+								}
+							}
 						}
 					}
 				})
@@ -395,6 +399,9 @@ export default {
             line-height: 140px;
             height: 140px;
         }
+		.el-date-editor.el-input{
+			width: auto;
+		}
     }
 }
 </style>

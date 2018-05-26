@@ -328,7 +328,7 @@ export default {
 			this.$refs['purchaserForm'].validateField("customerMobile", (valid) => {
 				if (!valid) {
 					let params = {
-						"phone": this.supplyForm.customerMobile,
+						"phone": this.purchaserForm.customerMobile,
 						"type": 1,
 					}
 					this.util.sendCode(that, params)
@@ -338,7 +338,7 @@ export default {
 		//上传成功回调
 		handleAvatarSuccess(res, file) {
 			if (res.code == "0000") {
-				this.supplyForm.businessLicenseImg.push(res.data)
+				this.purchaserForm.businessLicenseImg.push(res.data)
 			}
 		},
 		//上传图片
@@ -353,7 +353,7 @@ export default {
 		//删除上传图片
 		removeImage(file,fileList){
 			let removeData = file.response.data;
-			let imgList = this.supplyForm.businessLicenseImg;
+			let imgList = this.purchaserForm.businessLicenseImg;
 			for (let i = 0; i < imgList.length; i++) {
 				if (imgList[i] == removeData)imgList.splice(i,1);
 			}
@@ -363,22 +363,22 @@ export default {
 				if (valid) {
 					var params = this.purchaserForm;
 					params.customerType = 2;
-					params.customerPwd = that.md5(params.customerPwd.replace(/\s/g, ''));
-					params.confirmPassword = that.md5(params.confirmPassword.replace(/\s/g, ''));
+					params.customerPwd = this.md5(params.customerPwd.replace(/\s/g, ''));
+					params.confirmPassword = this.md5(params.confirmPassword.replace(/\s/g, ''));
 					params.apiUrl = this.config.mallApi + "auth/reg/supplier";
 					params.apiMethod = "post";
 					this.ajaxData(params, (res) =>{
 						if (res.data.code == "0000") {
 							this.$message.success("提交成功，等待审核");
-							setTimeout(function() {
+							setTimeout(()=> {
 								this.$router.push('/aG9tZQ');
-							}, 2000)
+							}, 1000)
 						} else {
 							this.$message.error(res.data.message);
 							this.purchaserForm.customerPwd = '';
 							this.purchaserForm.confirmPassword = '';
 							this.purchaserForm.smsCode = '';
-							setTimeout(function() {
+							setTimeout(()=> {
 								this.$refs['purchaserForm'].validateField("customerPwd");
 								this.$refs['purchaserForm'].validateField("confirmPassword");
 								this.$refs['purchaserForm'].validateField("smsCode");

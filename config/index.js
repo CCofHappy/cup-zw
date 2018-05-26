@@ -21,6 +21,7 @@ module.exports = {
 		proxyTable: {
 			'/api/': {
 				// target: 'http://192.168.0.202:8088/api/',
+				// target: 'http://192.168.0.149:8088/api/',
 				// target: 'http://dev.wmall.cwhisky.com/api/', //测试环境 商城api
 				target: 'http://share.wmall.cwhisky.com:81/api/', //开发环境 商城api
 				changeOrigin: true,
@@ -29,7 +30,8 @@ module.exports = {
 				}
 			},
 			'/core/': {
-			 	// target: 'http://192.168.0.202:8087/core/',
+			 	// target: 'http://192.168.0.202:8088/core/',
+			 	// target: 'http://192.168.0.149:8087/core/',
 				// target: 'http://dev.core.cwhisky.com/core/', //测试环境通用api
 				target: 'http://share.core.cwhisky.com:81/core/', //开发环境通用api
 				changeOrigin: true,
@@ -39,6 +41,7 @@ module.exports = {
 			},
 			'/dbcenter/': {
 				// target: 'http://192.168.0.202:8088/dbcenter/',
+				// target: 'http://192.168.0.149:8088/dbcenter/',
 				// target: 'http://dev.dbcenter.cwhisky.com/dbcenter/', //数据中心api
 				target: 'http://share.dbcenter.cwhisky.com:81/dbcenter/', //开发环境 数据中心api
 				changeOrigin: true,

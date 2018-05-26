@@ -14,7 +14,6 @@ export default {
 	},
 	methods: {
 		scrollTop() {
-			// document.documentElement.scrollTop = 0;	//旧版返回顶部没有动画效果
 			let scrollToptimer = setInterval(function(){
 				let top = document.body.scrollTop || document.documentElement.scrollTop;
 				let speed = top / 4;

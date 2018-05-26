@@ -360,24 +360,24 @@ export default {
 		submitForm: function() {
 			this.$refs['supplyForm'].validate((valid) => {
 				if (valid) {
-					var params = this.purchaserForm;
+					var params = this.supplyForm;
 					params.customerType = 2;
-					params.customerPwd = that.md5(params.customerPwd.replace(/\s/g, ''));
-					params.confirmPassword = that.md5(params.confirmPassword.replace(/\s/g, ''));
+					params.customerPwd = this.md5(params.customerPwd.replace(/\s/g, ''));
+					params.confirmPassword = this.md5(params.confirmPassword.replace(/\s/g, ''));
 					params.apiUrl = this.config.mallApi + "auth/reg/supplier";
 					params.apiMethod = "post";
 					this.ajaxData(params, (res) =>{
 						if (res.data.code == "0000") {
 							this.$message.success("提交成功，等待审核");
-							setTimeout(function() {
+							setTimeout(()=>{
 								this.$router.push('/aG9tZQ');
-							}, 2000)
+							}, 1000)
 						} else {
 							this.$message.error(res.data.message);
 							this.supplyForm.customerPwd = '';
 							this.supplyForm.confirmPassword = '';
 							this.supplyForm.smsCode = '';
-							setTimeout(function() {
+							setTimeout(()=>{
 								this.$refs['supplyForm'].validateField("customerPwd");
 								this.$refs['supplyForm'].validateField("confirmPassword");
 								this.$refs['supplyForm'].validateField("smsCode");

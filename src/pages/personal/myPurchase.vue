@@ -27,7 +27,9 @@
 							</div>
 						</el-col>
 					</el-row>
-					<div class="goods-list">
+					<LoadError v-if="loadError"></LoadError>
+					<NoData :message="'没有相关的商品'" v-else-if="goodsTotal==0"></NoData>
+					<div class="goods-list" v-else>
 						<el-row class="text-center goods-title">
 							<el-col :span="3">商品图片</el-col>
 							<el-col :span="3">商品名称</el-col>
@@ -37,7 +39,7 @@
 							<el-col :span="5">数量</el-col>
 							<el-col :span="4">操作</el-col>
 						</el-row>
-						<el-row class="text-center goods-box box box-align-center">
+						<el-row class="text-center goods-box box box-align-center" v-for="(item,index) in goodsList">
 							<el-col :span="3" class="box-center box">
 								<div class="img-box">
 									<img v-lazy="" class="goodsImg1">
@@ -72,41 +74,6 @@
 								</div>
 							</el-col>
 						</el-row>
-						<el-row class="text-center goods-box box box-align-center">
-							<el-col :span="3" class="box-center box">
-								<div class="img-box">
-									<img v-lazy="" class="goodsImg1">
-								</div>
-							</el-col>
-							<el-col :span="3">
-								<p class="">麦卡伦18年麦卡伦18年麦卡伦18年麦卡伦18年</p>
-							</el-col>
-							<el-col :span="3">
-								<p class="">45%</p>
-							</el-col>
-							<el-col :span="3">
-								<p class="">700</p>
-							</el-col>
-							<el-col :span="3">
-								<p class="">319</p>
-							</el-col>
-							<el-col :span="5">
-								<div class="box box-center">
-									<button class="chose-btn box box-center button">
-					                	<icon name="minus" scale="1.5" class="icon"></icon>
-					                </button>
-									<input class="chose-count" type="number" :disabled="false" v-model="count">
-									<button class="chose-btn box box-center button">
-			                			<icon name="add" scale="1.5" class="icon"></icon>
-			              			</button>
-								</div>
-							</el-col>
-							<el-col :span="4">
-								<div class="button">
-									加入清单
-								</div>
-							</el-col>
-						</el-row>
 					</div>
 				</div>
 			</el-col>
@@ -125,6 +92,8 @@ export default {
 		return {
 			loadError: false,
 			tabIndex: '1',
+			goodsList: [],
+			goodsTotal: 1,
 			page: 1,
 			count: 1,
 		}
@@ -149,14 +118,26 @@ export default {
 				current: 1,
 				size: 10,
 			};
-			this.ajaxData(params, function(res) {
-				console.log(res)
+			this.ajaxData(params, (res) =>{
+				if (res.data.code=="0000") {
+					this.goodsList = res.data.data.records;
+					this.goodsTotal = res.data.data.total;
+				}else {
+					this.loadError = true;
+				}
 			})
 		}
 	},
 	mounted() {
 		this.tabIndex = this.$route.query.tabIndex || 1;
 		this.initData();
+		var str = "https://dev.wap.cwhisky.com/?from=groupmessage#/html/proDetails.html?goodsID=2018052567&auctionID=2018052414&for=IOS";
+		var one ='',two='';
+    	if (str.split("/#")[0].indexOf("?from")!='-1') {
+			one = str.split("/?")[0],two= str.split("/?")[1].split("#/")[1];
+    	}
+		console.log(one+'/#/'+two)
+		console.log("https://dev.wap.cwhisky.com/#/html/proDetails.html?goodsID=2018052567&auctionID=2018052414&for=IOS")
 	}
 }
 </script>
