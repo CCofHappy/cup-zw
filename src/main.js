@@ -41,12 +41,12 @@ Vue.prototype.ajaxData = function(params, cb, errorcb) {
 		url: params.apiUrl,
 		headers: {
 			'Content-type': 'application/json;charset=UTF-8',
-			'Authentication': this.util.getCookie('token') || "",
+			'Authentication': this.util.getCookie('customerInfo').keyCode || "",
 		},
 		data: params || {},
 	})
 	.then(function(res) {
-		cb(res)
+		cb&&cb(res)
 	})
 	.catch(function(err) {
 		if (errorcb) {

@@ -85,22 +85,52 @@
 	}
 }
 
-.myGoods{
-	.goods-btn-box{
-		.button{
+.myPurchase {
+	.goods-detail-box {
+		.goods-info {
+			p {
+				font-size: 16px;
+				color: #000;
+			}
+		}
+
+		.detail-list {
+			padding: 0 10px;
+			height: 60px;
+			line-height: 60px;
+			font-size: 16px;
+
+			label {
+				color: #979797;
+			}
+
+			span {
+				color: #000;
+			}
+
+			&:nth-child(2n+1) {
+				background: #F5F5F5;
+			}
+		}
+	}
+}
+
+.myGoods {
+	.goods-btn-box {
+		.button {
 			padding: 0 10px;
 			line-height: 24px;
 			height: 24px;
 			border: 1px solid #333;
 			margin: 0 10px;
-			&:hover{
+
+			&:hover {
 				background: #333;
 				color: #fff;
 			}
 		}
 	}
 }
-
 
 .addGoods {
 	.search-box {
@@ -188,7 +218,7 @@
 			text-align: center;
 			cursor: pointer;
 
-			&:hover{
+			&:hover {
 				border-color: #000;
 			}
 		}
@@ -259,10 +289,29 @@
 				right: -5px;
 			}
 		}
+
+		.inventory-goods {
+			border-bottom: 1px solid #d8d8d8;
+			padding: 30px 0;
+
+			&:last-child {
+				border-bottom: none;
+			}
+
+			.count-box {
+				position: relative;
+			}
+
+			.overdose {
+				position: absolute;
+				top: 40px;
+				left: 10px;
+				color: #A82225;
+			}
+		}
 	}
 
 	.inventory-list {
-		padding: 30px 0;
 		border-top: 1px solid #d8d8d8;
 		border-bottom: 1px solid #d8d8d8;
 

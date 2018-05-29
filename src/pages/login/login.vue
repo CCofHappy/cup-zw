@@ -75,7 +75,6 @@
 								</div>
 							</el-col>
 						</el-row>
-
 					</div>
 					<!-- </el-tab-pane> -->
 					<!-- <el-tab-pane label="扫二维码登录" name="code">
@@ -168,11 +167,7 @@ export default {
 						if (res.data.code == "0000") {
 							that.$refs['loginForm'].resetFields();
 							let data = res.data.data,day = params.isNoLogin ? 10 : 1;
-							that.util.setCookie('customerLogin', data.customerLogin, day);
-							that.util.setCookie('customerName', data.customerName, day);
-							that.util.setCookie('customerSeq', data.customerSeq, day);
-							that.util.setCookie('customerMobile', data.customerMobile, day);
-							that.util.setCookie('token', data.keyCode, day)
+							that.util.setCookie('customerInfo', data, day);
 							if (that.$route.query.goodsId) {
 								that.$router.push('/Z29vZHNEZXRhaWw?id=' + that.$route.query.goodsId);
 							} else {

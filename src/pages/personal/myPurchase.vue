@@ -16,15 +16,13 @@
 				<div class="purchase-container">
 					<el-row class="search-box box box-align-center">
 						<el-col :span="11" class="box-flex">
-							商品种类：&nbsp;&nbsp;<input></input>
+							商品名称：&nbsp;&nbsp;<input v-model="name"></input>
 						</el-col>
 						<el-col :span="11" class="box-flex">
-							品牌：&nbsp;&nbsp;<input></input>
+							品牌：&nbsp;&nbsp;<input v-model="brandName"></input>
 						</el-col>
 						<el-col :span="2">
-							<div class="search-btn">
-								搜索
-							</div>
+							<div class="search-btn button" @click="initData">搜索</div>
 						</el-col>
 					</el-row>
 					<LoadError v-if="loadError"></LoadError>
@@ -41,44 +39,122 @@
 						</el-row>
 						<el-row class="text-center goods-box box box-align-center" v-for="(item,index) in goodsList">
 							<el-col :span="3" class="box-center box">
-								<div class="img-box">
-									<img v-lazy="" class="goodsImg1">
+								<div class="img-box button" @click="goodsDetail=item;openGoodsDetail=true;">
+									<img v-lazy="item.image" class="goodsImg1">
 								</div>
 							</el-col>
 							<el-col :span="3">
-								<p class="">麦卡伦18年麦卡伦18年麦卡伦18年麦卡伦18年</p>
+								<p class="button" @click="goodsDetail=item;openGoodsDetail=true;">{{item.fullName}}</p>
 							</el-col>
 							<el-col :span="3">
-								<p class="">45%</p>
+								<p>{{item.alcoholStrength}}</p>
 							</el-col>
 							<el-col :span="3">
-								<p class="">700</p>
+								<p>{{item.volumn}}</p>
 							</el-col>
 							<el-col :span="3">
-								<p class="">319</p>
+								<p>{{parseInt(item.tradePrice)==0?'暂缺':item.tradePriceStr}}</p>
 							</el-col>
 							<el-col :span="5">
 								<div class="box box-center">
-									<button class="chose-btn box box-center button">
+									<button class="chose-btn box box-center button" @click="donwCount(index)">
 					                	<icon name="minus" scale="1.5" class="icon"></icon>
 					                </button>
-									<input class="chose-count" type="number" :disabled="false" v-model="count">
-									<button class="chose-btn box box-center button">
+									<input class="chose-count" type="number" :disabled="false" v-model="buyCount[index]">
+									<button class="chose-btn box box-center button" @click="upCount(index)">
 			                			<icon name="add" scale="1.5" class="icon"></icon>
 			              			</button>
 								</div>
 							</el-col>
 							<el-col :span="4" class="box box-center">
-								<div class="button">
+								<div class="button" @click="addList(item.detailId,index)">
 									加入清单
 								</div>
 							</el-col>
 						</el-row>
 					</div>
+					<div class="text-right" v-if="goodsTotal>count">
+						<el-pagination layout="prev, pager, next" :total="goodsTotal" :page-size="count" :current-page="page" @current-change="changePage"></el-pagination>
+					</div>
 				</div>
 			</el-col>
 		</el-row>
 	</div>
+	<el-dialog :visible.sync="openGoodsDetail" width="650px" center>
+		<div class="goods-detail-box">
+			<el-row class="box box-align-center goods-info" :gutter="15">
+				<el-col :span="5">
+					<div class="img-box">
+						<img v-lazy="goodsDetail.image" class="goodsImg1">
+					</div>
+				</el-col>
+				<el-col :span="19">
+					<p>{{goodsDetail.fullName}}</p>
+					<p>{{goodsDetail.enName}}</p>
+				</el-col>
+			</el-row>
+			<el-row class="detail-list">
+				<el-col :span="12">
+					<label>品 牌：</label>
+					<span>麦卡伦</span>
+				</el-col>
+				<el-col :span="12">
+					<label>产 地：</label>
+					<span>苏格兰-高地区</span>
+				</el-col>
+			</el-row>
+			<el-row class="detail-list">
+				<el-col :span="12">
+					<label>净含量：</label>
+					<span>700ml</span>
+				</el-col>
+				<el-col :span="12">
+					<label>酒精度：</label>
+					<span>{{goodsDetail.volumn}}</span>
+				</el-col>
+			</el-row>
+			<el-row class="detail-list">
+				<el-col :span="12">
+					<label>木桶类型：</label>
+					<span>雪莉桶</span>
+				</el-col>
+				<el-col :span="12">
+					<label>类 别：</label>
+					<span>单一麦芽威士忌</span>
+				</el-col>
+			</el-row>
+			<el-row class="detail-list">
+				<el-col :span="12">
+					<label>木桶编号：</label>
+					<span>1981012</span>
+				</el-col>
+				<el-col :span="12">
+					<label>系 列：</label>
+					<span>璀璨系列</span>
+				</el-col>
+			</el-row>
+			<el-row class="detail-list">
+				<el-col :span="12">
+					<label>装 瓶 厂：</label>
+					<span>独立装瓶厂</span>
+				</el-col>
+				<el-col :span="12">
+					<label>装瓶数量：</label>
+					<span>500</span>
+				</el-col>
+			</el-row>
+			<el-row class="detail-list">
+				<el-col :span="12">
+					<label>蒸馏时间：</label>
+					<span>1981-09-20</span>
+				</el-col>
+				<el-col :span="12">
+					<label>装瓶时间：</label>
+					<span>1991-09-20</span>
+				</el-col>
+			</el-row>
+		</div>
+	</el-dialog>
 	<perFooter></perFooter>
 </div>
 </template>
@@ -92,10 +168,15 @@ export default {
 		return {
 			loadError: false,
 			tabIndex: '1',
+			name: '',
+			brandName: '',
 			goodsList: [],
+			buyCount: [],
 			goodsTotal: 1,
+			count: 10,
 			page: 1,
-			count: 1,
+			openGoodsDetail: false,
+			goodsDetail: "",
 		}
 	},
 	components: {
@@ -109,21 +190,53 @@ export default {
 		},
 	},
 	methods: {
-		initData: function() {
+		initData() {
 			let params = {
 				apiUrl: this.config.mallApi + "buyer/goods/search",
 				apiMethod: "post",
-				name: "",
-				brandName: "",
-				current: 1,
-				size: 10,
+				name: this.name,
+				brandName: this.brandName,
+				current: this.page,
+				size: this.count,
 			};
-			this.ajaxData(params, (res) =>{
-				if (res.data.code=="0000") {
+			this.ajaxData(params, (res) => {
+				if (res.data.code == "0000") {
 					this.goodsList = res.data.data.records;
 					this.goodsTotal = res.data.data.total;
-				}else {
+					let buyCount = [];
+					for (var i in this.goodsList) {
+						buyCount.push(1);
+					}
+					this.buyCount = buyCount;
+				} else {
 					this.loadError = true;
+				}
+			})
+		},
+		donwCount(index) {
+			this.buyCount[index] > 1 ? this.buyCount[index]-- : '';
+			this.$set(this.buyCount, index, this.buyCount[index]);
+
+		},
+		upCount(index) {
+			this.buyCount[index] = this.buyCount[index] + 1;
+			this.$set(this.buyCount, index, this.buyCount[index]);
+		},
+		changePage: function(e) {
+			this.page = e;
+			this.initData();
+		},
+		addList(id, index) {
+			let params = {
+				apiUrl: this.config.mallApi + "buyer/procurementItem/add",
+				productDetailId: id,
+				number: this.buyCount[index]
+			}
+			this.ajaxData(params, (res) => {
+				if (res.data.code == "0000") {
+					this.$notify.success("加入清单成功！");
+				} else {
+					this.$notify.error(res.data.message);
 				}
 			})
 		}
@@ -131,13 +244,6 @@ export default {
 	mounted() {
 		this.tabIndex = this.$route.query.tabIndex || 1;
 		this.initData();
-		var str = "https://dev.wap.cwhisky.com/?from=groupmessage#/html/proDetails.html?goodsID=2018052567&auctionID=2018052414&for=IOS";
-		var one ='',two='';
-    	if (str.split("/#")[0].indexOf("?from")!='-1') {
-			one = str.split("/?")[0],two= str.split("/?")[1].split("#/")[1];
-    	}
-		console.log(one+'/#/'+two)
-		console.log("https://dev.wap.cwhisky.com/#/html/proDetails.html?goodsID=2018052567&auctionID=2018052414&for=IOS")
 	}
 }
 </script>
@@ -147,4 +253,29 @@ export default {
 @import url('../../css/less-const.less'); //引入less变量
 @import url('css/order.less');
 @import url('css/purchase.less');
+</style>
+
+<style lang="less">
+.myPurchase {
+    .el-dialog__header {
+        border-bottom: none;
+        position: relative;
+        padding: 0;
+        .el-dialog__headerbtn {
+            background: #000;
+            width: 30px;
+            height: 30px;
+            top: -15px;
+            right: -15px;
+            border-radius: 50%;
+            .el-icon-close {
+                color: #fff;
+                line-height: 30px;
+            }
+        }
+    }
+    .el-dialog__body {
+        padding: 30px;
+    }
+}
 </style>

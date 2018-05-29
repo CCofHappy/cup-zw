@@ -209,18 +209,18 @@
 						<button class="chose-btn box box-center button" @click="choangeCount(0)" :disabled="goodsCount<2">
 		                	<icon name="minus" scale="1.5" class="icon"></icon>
 		                </button>
-						<input name="goodsCount" type="number" @change="inputCount" v-model.number="goodsCount" :disabled="nowVolumesInfo.total<=0">
-						<button class="chose-btn box box-center button" @click="choangeCount(1)" :disabled="goodsCount==nowVolumesInfo.total">
+						<input name="goodsCount" type="number" @change="inputCount" v-model.number="goodsCount" :disabled="nowTotal<=0">
+						<button class="chose-btn box box-center button" @click="choangeCount(1)" :disabled="goodsCount==nowTotal">
                 			<icon name="add" scale="1.5" class="icon"></icon>
               			</button>
 					</div>
 					<div class="text-color-help">库存：{{nowTotal>0?nowTotal:0}} 件</div>
 				</div>
-				<div class="btns-box box" v-if="nowVolumesInfo.total>0">
+				<div class="btns-box box" v-if="nowTotal>0">
 					<div class="sold-btn box box-center button" @click="sellNow">立即购买</div>
 					<div class="shop-card-btn box box-center button" @click="addToCart">放入购物车</div>
 				</div>
-				<div class="btns-box box box-between" v-if="nowVolumesInfo.total<=0">
+				<div class="btns-box box box-between" v-if="nowTotal<=0">
 					<!-- <div class="sold-btn box box-center button">已售罄</div> -->
 					<el-button type="info" plain disabled size="medium">已售罄</el-button>
 				</div>
@@ -299,8 +299,8 @@ export default {
 			_this.goodsCount = parseInt(curVal);
 			if (parseInt(curVal) != curVal && parseInt(curVal) == 0) {
 				_this.goodsCount = oldVal;
-			} else if (parseInt(curVal) > _this.nowVolumesInfo.total) {
-				_this.goodsCount = _this.nowVolumesInfo.total > 0 ? _this.nowVolumesInfo.total : 1; //库存大于0时取最大库存 否则就是默认1
+			} else if (parseInt(curVal) > _this.nowTotal) {
+				_this.goodsCount = _this.nowTotal > 0 ? _this.nowTotal : 1; //库存大于0时取最大库存 否则就是默认1
 			}
 		},
 	},
@@ -346,19 +346,20 @@ export default {
 						that.materialrOption.slidesPerView = data.flavors.length > 4 ? 5 : data.flavors.length;
 						if (data.volumes.length > 0) {
 							let arr = data.volumes;
-							for (let i = 0; i < data.volumes.length; i++) {
-								if (data.volumes[i].isShared == 1) {
+							for (let i = 0; i < arr.length; i++) {
+								if (arr[i].isShared == 1) {
 									that.shareInfo = arr.splice(i, 1);
 								}
-								if (data.volumes[i].activity) {
-									that.activeEnd = data.volumes[i].activity.endDate;
+								if (arr[i].activity) {
+									that.activeEnd = arr[i].activity.endDate;
+									that.nowVolumesInfo = arr[i];
 								}
 							}
 							that.volumesInfo = arr;
 							that.nowVolumesInfo = that.nowVolumesInfo||that.volumesInfo[0];
 							that.nowPriceStr =  that.nowPriceStr||that.nowVolumesInfo.priceStr;
-							that.nowTotal = that.nowTotal||that.nowVolumesInfo.total;
-							that.goodsCount = that.nowVolumesInfo.total > 0 ? 1 : 0;
+							that.nowTotal = that.nowTotal||that.nowVolumesInfo.total;//当前规格商品库存
+							that.goodsCount = that.nowTotal > 0 ? 1 : 0;//商品数量
 
 							let nowTime = Date.parse(new Date());
 							if (that.activeEnd>nowTime) {
@@ -403,7 +404,7 @@ export default {
 				this.nowPriceStr = this.shareInfo[0].priceStr;
 				this.nowTotal = this.shareInfo[0].total;
 			}
-			this.goodsCount = this.nowVolumesInfo.total > 0 ? 1 : 0;
+			this.goodsCount = this.nowTotal > 0 ? 1 : 0;
 		},
 		//放入购物车
 		addToCart: function() {
@@ -461,7 +462,7 @@ export default {
 				});
 				return;
 			}
-			if (that.util.getCookie('token')) {
+			if (that.util.getCookie('customerInfo')) {
 				let data = [{
 					alcoholStrength: that.goodsInfo.alcoholStrength,
 					count: that.goodsCount,

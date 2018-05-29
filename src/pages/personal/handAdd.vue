@@ -141,8 +141,8 @@
 							</el-form-item>
 
 							<div class="box box-center">
-								<el-button type="primary" class="register-btn button" @click="saveGoods">保存</el-button>
-								<el-button type="primary" class="register-btn button">提交审核</el-button>
+								<el-button type="primary" class="register-btn button" @click="submitGoods(0)">保存</el-button>
+								<el-button type="primary" class="register-btn button" @click="submitGoods(1)">提交审核</el-button>
 							</div>
 						</el-form>
 					</div>
@@ -349,12 +349,12 @@ export default {
 				if (this.volumnList[i].id == e) this.goodsForm.specificationValue = this.volumnList[i].name;
 			}
 		},
-		saveGoods() {
+		submitGoods(e) {
 			this.$refs['goodsForm'].validate((valid) => {
 				if (valid) {
 					var params = this.goodsForm;
 					params.apiUrl = this.config.mallApi + "supplier/goods/save";
-					params.type = 0;
+					params.type = e;
 					params.details = {
 						total: params.total,
 						price: params.price,
@@ -365,7 +365,9 @@ export default {
 					}
 					this.ajaxData(params, (res) => {
 						if (res.data.code == "0000") {
-							this.$message.success("录入成功！");
+							let message = "保存成功！";
+							e==1?message="录入成功":'';
+							this.$message.success(message);
 						} else {
 							this.$message.error(res.data.message);
 						}
@@ -374,7 +376,7 @@ export default {
 					return false;
 				}
 			});
-		}
+		},
 	},
 	mounted() {
 		this.tabIndex = this.$route.query.tabIndex || 1;

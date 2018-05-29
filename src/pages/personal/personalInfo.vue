@@ -75,14 +75,9 @@ export default {
 	data() {
 		return {
 			customerInfo: {},
-			customerNameEdit: true,
 			customerBirthday: "",
 			imageUrl: '',
 			uploadUrl: this.config.commonApi + "common/core/uploadObject2OSS", //上传地址
-			// imgHeaders: {
-			// 	 'Accept': "application/json, text/plain, */*",
-			// 	 'Authentication': this.util.getCookie('token') //上传地址添加头部token
-			// },
 			brandList: [],
 		}
 	},
@@ -93,81 +88,65 @@ export default {
 	},
 	methods: {
 		initData() {
-			let that = this;
-			that.util.returnLogin(that);
-			that.$ajax({ //请求个人基础信息
-					method: "get",
-					url: that.config.mallApi + "center/profile/detail",
-					headers: {
-						'Content-type': 'application/json;charset=UTF-8',
-						'Authentication': that.util.getCookie('token')
-					},
-					data: {},
-				}).then(function(res) {
-					if (res.data.code == "0000") {
-						let data = res.data.data;
-						data.sex = data.sex == null ? 2 : data.sex;
-						// if (data.customerBirthday) {
-						// 	data.customerBirthday = that.util.forDate(data.customerBirthday, 'yyyy-MM-dd');
-						// }
-						that.customerInfo = data;
-						let interests = data.interests,
-							num = data.interests.length;
-						fetch(that.config.dataApi + "getBrand") //请求品牌
-							.then(res => res.json())
-							.then(data => {
-								if (num > 0) {
-									let extraArr = that.util.getRandom(data, 20 - num)
-									for (var i in interests){
-										for (var k in extraArr){
-											if (extraArr[k].id == interests[i].id) {
-												extraArr.splice(k,1)
-											}
+			this.util.returnLogin(this);
+			let params = {
+				apiUrl:this.config.mallApi + "center/profile/detail",
+				apiMethod : 'get'
+			}
+
+			this.ajaxData(params,(res)=>{
+				if (res.data.code == "0000") {
+					let data = res.data.data;
+					data.sex = data.sex == null ? 2 : data.sex;
+					this.customerInfo = data;
+					let interests = data.interests,
+						num = data.interests.length;
+					fetch(this.config.dataApi + "getBrand") //请求品牌
+						.then(res => res.json())
+						.then(data => {
+							if (num > 0) {
+								let extraArr = this.util.getRandom(data, 20 - num)
+								for (var i in interests){
+									for (var k in extraArr){
+										if (extraArr[k].id == interests[i].id) {
+											extraArr.splice(k,1)
 										}
 									}
-									that.brandList = interests.concat(extraArr);
-									for (var i = 0;i<num;i++){
-										that.brandList[i].chose=1;
-									}
-								} else {
-									that.brandList = that.util.getRandom(data, 20);
 								}
-							})
-							.catch(function(err) {
-								console.log('oops! error:', err.message)
-							})
-					}
-				})
-				.catch(err => console.log(err));
+								this.brandList = interests.concat(extraArr);
+								for (var i = 0;i<num;i++){
+									this.brandList[i].chose=1;
+								}
+							} else {
+								this.brandList = this.util.getRandom(data, 20);
+							}
+						})
+						.catch(function(err) {
+							console.log('oops! error:', err.message)
+						})
+				}
+			})
 		},
 		//上传图片
 		handleAvatarSuccess(res, file) {
-			let that = this;
 			if (res.code == "0000") {
-				let data = {
-					imgUrl: res.data
+				let params = {
+					imgUrl: res.data,
+					apiUrl: this.config.mallApi + "center/profile/imgedit?imgUrl=" + res.data,
+					apiMethod: 'get'
 				}
-				that.$ajax({
-						method: "get",
-						url: that.config.mallApi + "center/profile/imgedit?imgUrl=" + res.data,
-						headers: {
-							'Content-type': 'application/json;charset=UTF-8',
-							'Authentication': that.util.getCookie('token')
-						},
-						data: data,
-					}).then(function(res) {
-						if (res.data.code == "0000") {
-							that.$notify.success({
-								message: '头像修改成功！'
-							});
-							that.customerInfo.imgUrl = data.imgUrl;
-						} else {
-							that.$notify.error({
-								message: res.data.message
-							});
-						}
-					})
-					.catch(err => console.log(err));
+				this.ajaxData(params,(res)=>{
+					if (res.data.code == "0000") {
+						this.$notify.success({
+							message: '头像修改成功！'
+						});
+						this.customerInfo.imgUrl = data.imgUrl;
+					} else {
+						this.$notify.error({
+							message: res.data.message
+						});
+					}
+				})
 			}
 		},
 		beforeAvatarUpload(file) {
@@ -205,46 +184,27 @@ export default {
 			}
 		},
 		savePersonlInfo() { //保存修改个人信息
-			let that = this;
 			let info = this.customerInfo;
-			let data = {
-				"customerName": info.customerName,
-				"sex": info.sex == null ? 2 : info.sex,
-				"customerBirthday": Date.parse(info.customerBirthday),
-				"interests": info.interests
+			let params = {
+				apiUrl: this.config.mallApi + "center/profile/edit",
+				customerName: info.customerName,
+				sex: info.sex == null ? 2 : info.sex,
+				customerBirthday: Date.parse(info.customerBirthday),
+				interests: info.interests
 			};
-			if (data.customerName) {
-				this.$ajax({
-					method: "post",
-					url: that.config.mallApi + "center/profile/edit",
-					headers: {
-						'Authentication': that.util.getCookie('token')
-					},
-					data: data,
-				}).then(function(res) {
-					if (res.data.code == "0000") {
-						that.$notify.success({
-							message: '保存成功！'
-						});
-						that.util.setCookie('customerName', data.customerName);
-						that.$refs.perHeader.customerInfo.customerName = data.customerName;
-						that.customerNameEdit = true;
-						that.initData();
-					} else {
-						that.$notify.error({
-							message: res.data.message
-						});
-					}
-				}).catch(err => {
-					console.log(err);
-					that.$notify.error({
+			this.ajaxData(params,(res)=>{
+				if (res.data.code == "0000") {
+					this.$notify.success({
+						message: '保存成功！'
+					});
+					this.initData();
+				} else {
+					this.$notify.error({
 						message: res.data.message
 					});
-				})
-			}
-		},
-		openEdit() {
-			this.customerNameEdit = false;
+				}
+			})
+
 		}
 	},
 	mounted() {

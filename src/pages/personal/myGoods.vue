@@ -101,7 +101,7 @@ export default {
 	data() {
 		return {
 			loadError: false,
-			tabIndex: '1',
+			tabIndex: '',
 			name:'',
 			state: [{
 				value: '-1',
@@ -177,9 +177,9 @@ export default {
 			this.initData();
 		},
 		forDate: function(e){
-			return this.util.forDate(e,"yyyy-MM-dd hh:mm")
+			return this.util.forDate(e,"yyyy-MM-dd hh:mm");
 		},
-		upLine:function (e) {
+		upLine:function (e) { //上架商品
 			let params = {
 				apiUrl: this.config.mallApi + "supplier/goods/upLine/"+e,
 			};
@@ -196,7 +196,7 @@ export default {
 				}
 			})
 		},
-		offLine:function (e) {
+		offLine:function (e) { //下架商品
 			let params = {
 				apiUrl: this.config.mallApi + "supplier/goods/offLine/"+e,
 			};
@@ -213,7 +213,7 @@ export default {
 				}
 			})
 		},
-		delGoods:function (e) {
+		delGoods:function (e) { //删除商品
 			let params = {
 				apiUrl: this.config.mallApi + "supplier/goods/delete/"+e,
 			};
@@ -234,6 +234,8 @@ export default {
 	mounted() {
 		this.tabIndex = this.$route.query.tabIndex || 1;
 		this.initData();
+
+		this.util.deleteCookie('test')
 	}
 }
 </script>

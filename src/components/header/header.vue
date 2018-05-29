@@ -92,38 +92,23 @@ export default {
 	},
 	methods: {
 		shopCart(){
-			let that=this;
-			that.$ajax({
-				method:"get",
-				url:that.config.mallApi+"shopping/cart/detail",
-				headers: {
-					'Content-type': 'application/json;charset=UTF-8',
-					'Authentication': this.util.getCookie('token')
-				},
-				data: {},
-			}).then(res=>{
+			let params ={
+				apiUrl: this.config.mallApi+"shopping/cart/detail",
+			}
+			this.ajaxData(params , (res)=>{
 				if (res.data.code=="0000") {
-					that.cartCount=res.data.data.records.length;
-				}else {
-					console.log(res.data.message);
+					that.cartCount = res.data.data.records.length;
 				}
-			}).catch(err=>{
-				that.loadError = true;
-				console.log(err);
 			})
 		},
 		exitLogin: function() {
-			this.util.deleteCookie("customerLogin");
-			this.util.deleteCookie("customerMobile");
-			this.util.deleteCookie("customerName");
-			this.util.deleteCookie("customerSeq");
-			this.util.deleteCookie("token");
+			this.util.deleteCookie("customerInfo");
 			this.customerInfo = {};
 			this.cartCount = 0;
 			this.$router.push('/bG9naW4');
 		},
 		enter: function(e){
-			if (this.util.getCookie("customerSeq")) {
+			if (this.util.getCookie("customerInfo")) {
 				let url = ""
 				if (e==0) {
 					url="/cGVyc29uYWwvbXlPcmRlcg";//我的订单
@@ -151,13 +136,9 @@ export default {
 		}
 	},
 	mounted() {
-		if (this.util.getCookie("customerLogin")) {
-			this.customerInfo = {
-				customerLogin: this.util.getCookie("customerLogin"),
-				customerMobile: this.util.getCookie("customerMobile"),
-				customerName: this.util.getCookie("customerName"),
-				customerSeq: this.util.getCookie("customerSeq"),
-			}
+		let customerInfo = this.util.getCookie("customerInfo");
+		if (customerInfo) {
+			this.customerInfo = customerInfo;
 			this.shopCart();
 		}else {
 			this.cartCount = 0;

@@ -126,7 +126,7 @@
 								<span class="settlement-price"><small>￥</small>{{parseFloat(allPrice).toFixed(2)}}</span>
 							</div>
 							<div class="text-color-help">
-								<!-- 活动优惠：-￥0&nbsp;&nbsp;&nbsp;&nbsp;  -->商品应付：￥{{parseFloat(allPrice).toFixed(2)}}&nbsp;&nbsp;&nbsp;&nbsp; 商品实际支付：￥{{parseFloat(allPrice).toFixed(2)}}
+								商品应付：￥{{parseFloat(allPrice).toFixed(2)}}&nbsp;&nbsp;&nbsp;&nbsp; 商品实际支付：￥{{parseFloat(allPrice).toFixed(2)}}
 							</div>
 						</el-col>
 						<el-col :span="4" class="text-center settlement-btn box-center box">

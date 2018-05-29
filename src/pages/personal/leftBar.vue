@@ -140,23 +140,17 @@ export default {
 	},
 	methods: {
 		initData() {
-			let that = this;
-			that.util.returnLogin(that);
-			that.$ajax({ //请求个人基础信息
-					method: "get",
-					url: that.config.mallApi + "center/profile/detail",
-					headers: {
-						'Content-type': 'application/json;charset=UTF-8',
-						'Authentication': that.util.getCookie('token')
-					},
-					data: {},
-				}).then(function(res) {
-					if (res.data.code == "0000") {
-						let data = res.data.data;
-						that.customerInfo = data;
-					}
-				})
-				.catch(err => console.log(err));
+			this.util.returnLogin(this);
+			let params = {
+				apiUrl: this.config.mallApi + "center/profile/detail",
+				apiMethod: 'get',
+			}
+			this.ajaxData(params,(res)=>{//请求个人基础信息
+				if (res.data.code == "0000") {
+					let data = res.data.data;
+					this.customerInfo = data;
+				}
+			})
 		},
 	},
 	mounted() {
