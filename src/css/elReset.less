@@ -181,18 +181,16 @@
 //注册
 
 .register-content {
-	.el-button{
+	.el-button {
 		background: #fff;
 		border-color: #000;
 		color: #000;
 
-		&:hover{
+		&:hover {
 			background: #000;
 			color: #fff;
 		}
 	}
-
-
 
 	.el-input__inner {
 		line-height: 56px;
@@ -406,6 +404,7 @@
 	}
 }
 //发票列表
+
 .newInvoice {
 	.invoice-name-item {
 		&.active {
@@ -459,6 +458,7 @@
 	}
 }
 //申请售后
+
 .applyAfterSale {
 	.el-form-item__label {
 		font-size: 16px;
@@ -500,15 +500,21 @@
 			color: #fff;
 			border-radius: 50%;
 			padding: 5px;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			margin: -19px 0 0 -19px;
 		}
 	}
 }
 //手动录入商品
-.handAdd{
+
+.handAdd {
 	.el-input__inner {
 		line-height: 44px;
 		height: 44px;
 	}
+
 	.el-input-group__prepend {
 		line-height: 44px;
 		height: 44px;
@@ -520,20 +526,19 @@
 		background: none;
 		border: none;
 	}
-	.el-form-item__label{
+
+	.el-form-item__label {
 		height: 44px;
 		line-height: 44px;
 		font-size: 16px;
 		color: #333;
 	}
-	.el-textarea__inner{
+
+	.el-textarea__inner {
 		border: 1px solid #eaeaea;
 	}
-
 }
-
 //我的清单
-
 .myInventory {
 	.el-checkbox.is-checked {
 		.el-checkbox__label {
@@ -575,6 +580,7 @@
 /*
 分页器样式
  */
+
 .el-pagination {
 	.el-pager {
 		margin: 0 30px;
@@ -635,6 +641,7 @@
 /*
   checkbox样式
  */
+
 .el-checkbox.is-checked {
 	.el-checkbox__label {
 		color: @gold;
@@ -674,7 +681,6 @@
 /*
   表单输入框样式
  */
-
 .el-form-item {
 	&.is-error {
 		.el-input {
@@ -707,7 +713,6 @@
  * chenggf  覆盖el样式
  */
 /*下拉框 */
-
 .el-select-dropdown {
 	&.el-popper {
 		margin: 0;
@@ -756,6 +761,7 @@
 /**
  *  按钮默认样式修改
  */
+
 .el-button:hover {
 	color: #000;
 	border-color: #000;
@@ -794,6 +800,7 @@
 /**
  * 单选按钮样式覆盖
  */
+
 .el-radio {
 	font-weight: 400;
 }
@@ -817,6 +824,7 @@
 /**
  * tab页 激活状态样式覆盖
  */
+
 .el-tabs__item:hover {
 	color: #000;
 }
@@ -831,6 +839,7 @@
 /**
  * dailog footer
  */
+
 .el-dialog__header {
 	border-bottom: 1px solid #f3f3f3;
 }

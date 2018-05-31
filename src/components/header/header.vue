@@ -94,10 +94,11 @@ export default {
 		shopCart(){
 			let params ={
 				apiUrl: this.config.mallApi+"shopping/cart/detail",
+				apiMethod: "get"
 			}
 			this.ajaxData(params , (res)=>{
 				if (res.data.code=="0000") {
-					that.cartCount = res.data.data.records.length;
+					this.cartCount = res.data.data.records.length;
 				}
 			})
 		},

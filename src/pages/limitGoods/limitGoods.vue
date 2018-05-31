@@ -43,7 +43,7 @@ export default {
 	methods:{
 		initData(){
 			var params = { //首页数据查询接口参数
-				apiUrl: this.config.mallApi + "goods/list/buying",
+				apiUrl: this.config.mallApi + "goods/list/buying/all",
 				size: 10,
 				current: this.page,
 			}

@@ -75,9 +75,9 @@
 								<p class="">{{forDate(item.createTime)}}</p>
 							</el-col>
 							<el-col :span="5" class="box box-center goods-btn-box">
-								<div class="button" v-if="item.state==2" @click="upLine(item.productId)">上架</div>
+								<div class="button" v-if="item.state==2||item.state==5" @click="upLine(item.productId)">上架</div>
 								<div class="button" v-if="item.state==4" @click="offLine(item.productId)">下架</div>
-								<router-link class="button" :to="{ name: 'handAdd', query: {id:item.productId} }" v-if="item.state!=4">修改</router-link>
+								<router-link class="button" :to="{ name: 'handAdd', query: {id:item.productId,tabIndex:18} }" v-if="item.state!=4">修改</router-link>
 								<div class="button" v-if="item.state!=4" @click="delGoods(item.productId)">删除</div>
 							</el-col>
 						</el-row>
@@ -138,7 +138,7 @@ export default {
 			stateIndex: '',
 			timeIndex: '',
 			page: 1,
-			count: 1,
+			count: 10,
 			goodsList:[],
 			goodsTotal: 1,
 		}
@@ -158,7 +158,7 @@ export default {
 			let params = {
 				apiUrl: this.config.mallApi + "supplier/goods",
 				current: this.page,
-				size: 10,
+				size: this.count,
 				state: this.stateIndex,
 				dateType: this.timeIndex,
 				name:this.name,
@@ -234,7 +234,6 @@ export default {
 	mounted() {
 		this.tabIndex = this.$route.query.tabIndex || 1;
 		this.initData();
-
 		this.util.deleteCookie('test')
 	}
 }

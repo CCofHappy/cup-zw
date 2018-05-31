@@ -72,7 +72,7 @@
 		<b>我的销售单</b>
 	</div>
 	<router-link :to="{ name: 'salesSlip', query:{page:1, tabIndex: 20}  }">
-		<div class="line-box" v-bind:class="{ active: navNum==20}">代发货
+		<div class="line-box" v-bind:class="{ active: navNum==20}">待发货
 		</div>
 	</router-link>
 	<router-link :to="{ name: 'salesSlip', query:{page:1, tabIndex: 21}  }">
@@ -115,7 +115,7 @@
 		</div>
 	</router-link>
 
-	<div class="title-box" v-bind:class="{ active: navNum>12}">
+	<!-- <div class="title-box" v-bind:class="{ active: navNum>12}">
 		<b>业务中心</b>
 	</div>
 	<router-link :to="{ name: 'incomeDetail', query:{page:1, tabIndex: 13} }">
@@ -125,7 +125,7 @@
 	<router-link :to="{ name: 'myCustomer', query:{page:1, tabIndex: 14} }">
 		<div class="line-box" v-bind:class="{ active: navNum==14}">我的客户
 		</div>
-	</router-link>
+	</router-link> -->
 </div>
 </template>
 

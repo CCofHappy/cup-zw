@@ -33,7 +33,7 @@ module.exports = {
 			 	// target: 'http://192.168.0.202:8088/core/',
 			 	// target: 'http://192.168.0.149:8087/core/',
 				// target: 'http://dev.core.cwhisky.com/core/', //测试环境通用api
-				target: 'http://share.core.cwhisky.com:81/core/', //开发环境通用api
+				target: 'http://share.wmall.cwhisky.com:81/core/', //开发环境通用api
 				changeOrigin: true,
 				pathRewrite: { //需要rewrite重写的, 如果在服务器端做了处理则可以不要这段
 					'^/core/': ''
@@ -43,7 +43,7 @@ module.exports = {
 				// target: 'http://192.168.0.202:8088/dbcenter/',
 				// target: 'http://192.168.0.149:8088/dbcenter/',
 				// target: 'http://dev.dbcenter.cwhisky.com/dbcenter/', //数据中心api
-				target: 'http://share.dbcenter.cwhisky.com:81/dbcenter/', //开发环境 数据中心api
+				target: 'http://share.wmall.cwhisky.com:81/dbcenter/', //开发环境 数据中心api
 				changeOrigin: true,
 				pathRewrite: { //需要rewrite重写的, 如果在服务器端做了处理则可以不要这段
 					'^/dbcenter/': ''

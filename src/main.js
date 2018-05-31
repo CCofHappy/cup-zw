@@ -36,19 +36,20 @@ Vue.use(VueLazyload, {})
 //ajax请求数据
 Vue.prototype.axios=axios;
 Vue.prototype.ajaxData = function(params, cb, errorcb) {
+	let customerInfo = this.util.getCookie('customerInfo');
 	axios({
 		method: params.apiMethod || "POST",
 		url: params.apiUrl,
 		headers: {
 			'Content-type': 'application/json;charset=UTF-8',
-			'Authentication': this.util.getCookie('customerInfo').keyCode || "",
+			'Authentication': customerInfo?customerInfo.keyCode : "",
 		},
 		data: params || {},
 	})
-	.then(function(res) {
-		cb&&cb(res)
+	.then((res)=> {
+		cb&&cb(res);
 	})
-	.catch(function(err) {
+	.catch((err)=> {
 		if (errorcb) {
 			errorcb(err)
 		}else {

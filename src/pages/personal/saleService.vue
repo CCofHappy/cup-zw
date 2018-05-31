@@ -42,9 +42,9 @@
 							<div class="font-dark-red" v-if="order.orderStatus == 5">已取消</div>
 						</div>
 						<div class="order-content">
-							<el-row class="text-center box box-center order-row">
+							<el-row class="text-center box box-center order-row" v-for="goods in order.items">
 								<el-col :span='21'>
-									<el-row class="text-center box box-center order-item" v-for="goods in order.items">
+									<el-row class="text-center box box-center order-item">
 										<el-col :span="14" class="text-left">
 											<div class="box box-align-center">
 												<div class="img-box box-center box">
@@ -66,7 +66,7 @@
 									</el-row>
 								</el-col>
 								<el-col :span="3" class="box box-center">
-									<router-link :to="{ name: 'applyAfterSale' }" class="text-color-help">
+									<router-link :to="{ name: 'applyAfterSale',  query: {id:goods.id } }" class="text-color-help">
 										申请售后
 									</router-link>
 								</el-col>
@@ -129,15 +129,16 @@ export default {
 		}
 	},
 	methods: {
-		initData: function() {
+		initData() {
 			let that = this;
 			that.util.returnLogin(that);
 			that.page = parseInt(that.$route.query.page ? that.$route.query.page : 1);
 			let orderApi = "";
 			let type = that.$route.query.tabIndex ? that.$route.query.tabIndex : 1;
 			let params = {
-				apiUrl: that.config.mallApi + "order/list/all?size=10&current=" + that.page + "&term=" + that.selectedIndex,
-				apiMethod: "get",
+				apiUrl: that.config.mallApi + "sales/serviceList",
+				current: 1,
+				size: 10,
 			}
 			that.ajaxData(params, function(res) {
 				if (res.data.code == "0000") {
@@ -147,10 +148,10 @@ export default {
 				}
 			})
 		},
-		choseSaleType: function (e) {
+		choseSaleType(e) {
 			this.saleType = e;
 		},
-		changePage: function(e) {
+		changePage(e) {
 			let data = {
 				page: e,
 				term: this.$route.query.term ? this.$route.query.term : 1,
@@ -161,7 +162,7 @@ export default {
 				query: data
 			})
 		},
-		forDate: function(e) {
+		forDate(e) {
 			return this.util.forDate(e, "yyyy-MM-dd")
 		}
 	},

@@ -46,7 +46,7 @@
 								</el-col>
 								<el-col :span="8">
 									<el-form-item prop="price" label="商品单价：">
-										<el-input v-model="goodsForm.price">
+										<el-input v-model="goodsForm.price" maxlength="10">
 										</el-input>
 									</el-form-item>
 								</el-col>
@@ -68,7 +68,7 @@
 								</el-col>
 								<el-col :span="8">
 									<el-form-item prop="alcoholStrength" label="酒 精 度：">
-										<el-input v-model="goodsForm.alcoholStrength">
+										<el-input v-model="goodsForm.alcoholStrength" maxlength="5">
 										</el-input>
 									</el-form-item>
 								</el-col>
@@ -114,19 +114,19 @@
 								</el-col>
 								<el-col :span="8">
 									<el-form-item prop="distillTime" label="蒸馏时间：">
-										<el-date-picker v-model="goodsForm.distillTime"  type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
-    									</el-date-picker>
+										<el-date-picker v-model="goodsForm.distillTime" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+										</el-date-picker>
 									</el-form-item>
 								</el-col>
 								<el-col :span="8">
 									<el-form-item prop="bottlingTime" label="装瓶时间：">
-										<el-date-picker v-model="goodsForm.bottlingTime"  type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
-    									</el-date-picker>
+										<el-date-picker v-model="goodsForm.bottlingTime" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+										</el-date-picker>
 									</el-form-item>
 								</el-col>
 								<el-col :span="8">
 									<el-form-item prop="total" label="库存数量：">
-										<el-input v-model="goodsForm.total">
+										<el-input v-model="goodsForm.total" maxlength="10">
 										</el-input>
 									</el-form-item>
 								</el-col>
@@ -139,7 +139,6 @@
 								<el-input type="textarea" :rows="5" placeholder="" v-model="goodsForm.memo">
 								</el-input>
 							</el-form-item>
-
 							<div class="box box-center">
 								<el-button type="primary" class="register-btn button" @click="submitGoods(0)">保存</el-button>
 								<el-button type="primary" class="register-btn button" @click="submitGoods(1)">提交审核</el-button>
@@ -192,6 +191,11 @@ export default {
 				memo: '',
 			},
 			rules: {
+				image: [{
+					required: true,
+					message: '请上传商品图片',
+					trigger: 'blur'
+				}],
 				fullName: [{
 					required: true,
 					message: '商品名不能为空',
@@ -212,7 +216,7 @@ export default {
 					message: '请选择商品品牌',
 					trigger: 'blur'
 				}],
-				specificationValue: [{
+				specificationValueId: [{
 					required: true,
 					message: '净含量不能为空',
 					trigger: 'blur'
@@ -300,19 +304,16 @@ export default {
 					this.productTypeList = res.data.data.productType;
 				}
 			})
-			for (let i in this.goodsForm) {
-				console.log(this.goodsForm[i])
-			}
 			if (this.saveId) {
 				let params = {
-					apiUrl: this.config.mallApi + "supplier/goods/detail/"+this.saveId,
+					apiUrl: this.config.mallApi + "supplier/goods/detail/" + this.saveId,
 					apiMethod: 'get',
 				}
 				this.ajaxData(params, (res) => {
 					if (res.data.code == "0000") {
 						for (let i in this.goodsForm) {
 							for (let k in res.data.data) {
-								if (i==k) {
+								if (i == k) {
 									this.goodsForm[i] = res.data.data[k]
 								}
 							}
@@ -365,9 +366,14 @@ export default {
 					}
 					this.ajaxData(params, (res) => {
 						if (res.data.code == "0000") {
-							let message = "保存成功！";
-							e==1?message="录入成功":'';
-							this.$message.success(message);
+							let message = "保存成功，已保存的数据，可在我的商品中查看。";
+							e == 1 ? message = "提交审核成功，中威网将在2个工作日内审核完毕。" : '';
+							this.$confirm(message,{
+								confirmButtonText: '确定',
+								showCancelButton: false,
+								center: true
+							}).then(() => {
+							}).catch(() => {});
 						} else {
 							this.$message.error(res.data.message);
 						}
@@ -401,8 +407,11 @@ export default {
             line-height: 140px;
             height: 140px;
         }
-		.el-date-editor.el-input{
-			width: auto;
+        .el-date-editor.el-input {
+            width: auto;
+        }
+		.el-textarea__inner{
+			border-color: #eaeaea;
 		}
     }
 }

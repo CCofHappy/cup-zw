@@ -27,31 +27,34 @@
 			</div>
 
 			<div class="step-box" v-if="step==1">
-				<el-form :model="saleForm" :rules="rules" ref="saleForm" label-width="120px">
-					<el-form-item label="服务类型：" prop="saleType">
+				<LoadError v-if="loadError"></LoadError>
+				<el-form :model="saleForm" :rules="rules" ref="saleForm" label-width="120px" v-else>
+					<el-form-item label="服务类型：" prop="serviceType">
 						<div class="label-box box">
-							<div class="label-btn button" @click="saleForm.saleType=1" :class="{active: saleForm.saleType==1}">退货退款</div>
-							<div class="label-btn button" @click="saleForm.saleType=2" :class="{active: saleForm.saleType==2}">仅退款</div>
+							<div class="label-btn button" @click="saleForm.serviceType=1" :class="{active: saleForm.serviceType==1}">退货退款</div>
+							<div class="label-btn button" @click="saleForm.serviceType=2" :class="{active: saleForm.serviceType==2}">仅退款</div>
 						</div>
 					</el-form-item>
 					<el-form-item label="退款原因：" prop="reason">
 						<el-select v-model="saleForm.reason" placeholder="请选择退款原因">
-							<el-option label="不喜欢" value="1"></el-option>
-							<el-option label="买错了" value="2"></el-option>
+							<el-option label="不喜欢" value="不喜欢"></el-option>
+							<el-option label="买错了" value="买错了"></el-option>
 						</el-select>
 					</el-form-item>
 					<el-form-item label="退款金额：" prop="price">
-						<el-input v-model="saleForm.price"></el-input>
+						<el-input v-model="saleForm.price" class="w140" readonly="true"></el-input>
 					</el-form-item>
 					<el-form-item label="退款数量：" prop="count">
-						<el-input v-model="saleForm.count"></el-input>
+						<el-input v-model="saleForm.count" @change="countChange" class="w140"></el-input>
 					</el-form-item>
-					<el-form-item label="退款说明：" prop="explain">
+					<el-form-item label="退款说明：" prop="issureDesc">
 						<el-input type="textarea" :rows="4" v-model="saleForm.explain"></el-input>
 					</el-form-item>
 					<el-form-item label="上传凭证：" prop="saleImg">
-						<el-upload action="" list-type="picture-card" class="update-pic">
-							<i class="el-icon-plus"></i>
+						<el-upload :limit="5" class="update-pic" list-type="picture-card" :action="uploadUrl" :before-upload="beforeAvatarUpload"
+						:on-success="handleAvatarSuccess" :on-remove="removeImage" :on-exceed="toMaxTips">
+							<img v-for="(item,index) in saleForm.images" :src="item.src">
+							<i class="el-icon-plus goods-uploader-icon"></i>
 							<small class="update-tips">最多可上传5张凭证</small>
 						</el-upload>
 						<small>请提供实物图片（包含条形码），以便您的退款或退货申请顺利通过审核。</small>
@@ -135,14 +138,17 @@ export default {
 	name: 'applyAfterSale',
 	data() {
 		return {
+			loadError: false,
+			orderDetail: "",
 			step: 1,
+			uploadUrl: this.config.commonApi + "common/core/uploadObject2OSS", //上传地址
 			saleForm: {
-				saleType: 1,
-				required: 1,
+				serviceType: 1,
+				reason: "",
+				count: 1,
 				price: '',
-				count: '',
-				explain: '',
-				saleImg: [],
+				issureDesc: '',
+				images: [],
 			},
 			returnForm: {
 				name: '',
@@ -151,12 +157,22 @@ export default {
 				remarks: '',
 			},
 			rules: {
-				saleType: [{
+				serviceType: [{
 					required: true,
 				}],
 				reason: [{
 					required: true,
-				}]
+					message: '请选择退款原因',
+					trigger: 'blur'
+				}],
+				price: [{
+					required: true,
+				}],
+				count: [{
+					required: true,
+					message: '数量不能为空',
+					trigger: 'blur'
+				}],
 			},
 			returnRules: {
 				name: [{
@@ -180,14 +196,80 @@ export default {
 
 	},
 	methods: {
-		submitForm: function(e) {
+		initData(){
+			let params = {
+				apiUrl: this.config.mallApi + "sales/applyPre/" + this.$route.query.id,
+				apiMethod: "get",
+			}
+			this.ajaxData(params, (res) => {
+				if (res.data.code == "0000") {
+					this.orderDetail = res.data.data;
+					this.saleForm.price = res.data.data.priceStr;
+				} else {
+					this.loadError = true;
+				}
+			})
+		},
+		submitForm(e){
+			this.$refs['saleForm'].validate((valid) => {
+				if (valid) {
+					var params = this.saleForm;
+					if(params.images.length<1){
+						this.$notify.error('请上传凭证图片');
+					}
+					params.apiUrl.orderItemId = this.$route.query.id;
+					params.apiUrl = this.config.mallApi + "sales/apply";
+					this.ajaxData(params, (res) => {
+						if (res.data.code == "0000") {
+
+						} else {
+						}
+					})
+				} else {
+					return false;
+				}
+			});
+		},
+		submitReturn(e){
 			this.step += 1;
 		},
-		submitReturn:function (e) {
-			this.step += 1;
+		countChange(e){
+			let reg = /^[0-9]*[1-9][0-9]*$/;
+			if (!reg.test(e)) {
+				this.saleForm.count=Math.trunc(e);
+			}
+			this.saleForm.price = (this.saleForm.count*this.orderDetail.price).toFixed(2);
+		},
+		//上传成功回调
+		handleAvatarSuccess(res, file) {
+			if (res.code == "0000") {
+				this.saleForm.images.push(res.data);
+			}
+		},
+		//上传图片
+		beforeAvatarUpload(file) {
+			const isLt3M = file.size / 1024 / 1024 < 3;
+			if (!isLt3M) {
+				this.$notify.error('上传的图片大小不能超过3MB!');
+				return false;
+			}
+			return isLt3M;
+		},
+		//删除上传图片
+		removeImage(file, fileList) {
+			let removeData = file.response.data;
+			let imgList = this.saleForm.images;
+			for (let i = 0; i < imgList.length; i++) {
+				if (imgList[i] == removeData) imgList.splice(i, 1);
+			}
+		},
+		toMaxTips(e){
+			this.$notify.error('最多可上传5张凭证!');
 		}
 	},
-	mounted() {}
+	mounted() {
+		this.initData()
+	}
 }
 </script>
 
@@ -195,4 +277,18 @@ export default {
 <style lang="less" scoped>
 @import url('css/order.less');
 @import url('css/saleService.less');
+</style>
+
+<style lang="less">
+.applyAfterSale {
+    .el-form-item__content {
+        .w140.el-input {
+            width: 140px;
+        }
+		.el-upload-list__item-status-label{
+			background: #000;
+			box-shadow: none;
+		}
+    }
+}
 </style>
