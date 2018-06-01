@@ -74,6 +74,7 @@
 							<h5>{{item.fullName}}</h5>
 							<p>{{item.volumn?item.volumn:'暂无'}} / {{item.alcoholStrength?item.alcoholStrength:'暂无'}}</p>
 							<p class="price">{{item.price!=0?'￥'+item.price:'暂无'}}</p>
+							<p class="trade-price" v-if="customerRoleId==2">采购价:{{item.tradePrice!=0?'￥'+item.tradePrice:'暂无'}}</p>
 						</div>
 						<div class="good-detail">
 							<h4 class="text-overflow-more text-overflow-two" v-html="item.introduction?item.introduction:'暂无'">Cask Strength Scotch Whisky Trophy</h4>
@@ -101,8 +102,8 @@ const nowYear = new Date().getFullYear();
 var yearArr = [];
 for (var i = 0; i < 5; i++) {
 	yearArr[i] = {
-		value: nowYear-i,
-		label: nowYear-i,
+		value: nowYear - i,
+		label: nowYear - i,
 	}
 }
 export default {
@@ -110,16 +111,17 @@ export default {
 	data() {
 		return {
 			loadError: false,
-			banner:"",
+			banner: "",
 			prizeData: "",
 			prizeInfos: "",
 			options: yearArr,
-			bannerImg:'',
+			bannerImg: '',
 			timeForm: nowYear,
 			nav: "",
 			sort: 5,
 			page: 1,
-			prizeList:"",
+			prizeList: "",
+			customerRoleId: 1,
 		}
 	},
 	components: {
@@ -136,22 +138,23 @@ export default {
 	},
 	mounted() {
 		this.initData();
+		this.customerRoleId = this.util.getCookie("customerInfo").customerRoleId;
 	},
 	methods: {
 		changeNav: function(e) {
 			let nowYear = new Date().getFullYear();
 			this.nav = e;
 			this.sort = 5,
-			this.page = 1,
-			this.timeForm =  nowYear;
+				this.page = 1,
+				this.timeForm = nowYear;
 		},
 		initData: function() {
 			let that = this;
-			let params={
-				apiUrl:this.config.mallApi + "goods/list/awards",
-				apiMethod:"get"
+			let params = {
+				apiUrl: this.config.mallApi + "goods/list/awards",
+				apiMethod: "get"
 			}
-			that.ajaxData(params,function (res) {
+			that.ajaxData(params, function(res) {
 				if (res.data.code == "0000") {
 					that.prizeData = res.data.data.awardsModels;
 					that.banner = res.data.data.module;
@@ -162,12 +165,12 @@ export default {
 				}
 			})
 		},
-		loadData:function(str){
+		loadData: function(str) {
 			var that = this;
-			let params={
-				apiUrl:this.config.mallApi + "goods/awards/" + that.nav +"?current=" + that.page +"&size=10&searchType=" + that.sort +"&years="+ that.timeForm,
+			let params = {
+				apiUrl: this.config.mallApi + "goods/awards/" + that.nav + "?current=" + that.page + "&size=10&searchType=" + that.sort + "&years=" + that.timeForm,
 			}
-			that.ajaxData(params,function (res) {
+			that.ajaxData(params, function(res) {
 				if (res.data.code == "0000") {
 					that.prizeList = res.data.data;
 				} else {
@@ -176,12 +179,12 @@ export default {
 				}
 			})
 		},
-		changrSort: function(e){
+		changrSort: function(e) {
 			this.sort = e;
 			this.loadData();
 		},
-		changePage:function (e) {
-			this.page=e;
+		changePage: function(e) {
+			this.page = e;
 			this.loadData();
 		}
 	},

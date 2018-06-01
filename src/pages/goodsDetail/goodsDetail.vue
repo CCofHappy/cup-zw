@@ -175,18 +175,21 @@
 								已抢1000件
 							</el-col>
 						</el-row>
-
 					</div>
 				</div>
 				<div v-else>
-					<div class="price-box" v-if="nowVolumesInfo && nowPriceStr > 0">
-						中威价：<span class="price"><small>￥</small>{{nowPriceStr}}</span>
-					</div>
-					<div class="price-box" v-else>
-						中威价：<span class="price">暂无报价</span>
+					<div class="price-box">
+						<div v-if="nowVolumesInfo && nowPriceStr > 0" >
+							中威价：<span class="price"><small>￥</small>{{nowPriceStr}}</span>
+						</div>
+						<div v-else>
+							中威价：<span class="price">暂无报价</span>
+						</div>
+						<div class="trade-price-box" v-if="customerRoleId==2">
+							采购价：{{nowTrade==0 ? '暂无' : '￥'+nowTrade}}
+						</div>
 					</div>
 				</div>
-
 				<div class="quality-box">
 					<div class="title">可选规格</div>
 					<div class="quality-chose">
@@ -276,6 +279,7 @@ export default {
 			},
 			nowPriceStr: "",
 			nowTotal: "",
+			nowTrade: "",
 			goodsData: "",
 			goodsCount: 1,
 			goodsInfo: "",
@@ -288,9 +292,10 @@ export default {
 			shareInfo: "", //分享瓶数据
 			pageType: "", //判断上级是哪里
 			activeEnd: "", //抢购活动结束时间
-			countDown: "",//活动倒计时
-			countDownId: "",//倒计时id
+			countDown: "", //活动倒计时
+			countDownId: "", //倒计时id
 			onLoad: true,
+			customerRoleId: 1,
 		}
 	},
 	watch: {　　
@@ -318,11 +323,12 @@ export default {
 	mounted() {
 		this.initData();
 		this.pageType = this.$route.query.type;
+		this.customerRoleId = this.util.getCookie("customerInfo").customerRoleId;
 	},
 	methods: {
 		initData: function() {
 			let that = this;
-			let cusSeq = that.util.getCookie("customerSeq") ? that.util.getCookie("customerSeq") : 0;
+			let cusSeq = that.util.getCookie("customerInfo") ? that.util.getCookie("customerInfo").customerSeq : 0;
 			let params = {
 				apiUrl: this.config.mallApi + "goods/detail/" + cusSeq + "/" + that.$route.query.id,
 				apiMethod: 'get',
@@ -356,18 +362,19 @@ export default {
 								}
 							}
 							that.volumesInfo = arr;
-							that.nowVolumesInfo = that.nowVolumesInfo||that.volumesInfo[0];
-							that.nowPriceStr =  that.nowPriceStr||that.nowVolumesInfo.priceStr;
-							that.nowTotal = that.nowTotal||that.nowVolumesInfo.total;//当前规格商品库存
-							that.goodsCount = that.nowTotal > 0 ? 1 : 0;//商品数量
+							that.nowVolumesInfo = that.nowVolumesInfo || that.volumesInfo[0];
+							that.nowPriceStr = that.nowVolumesInfo.priceStr;
+							that.nowTrade = that.nowVolumesInfo.tradePrice;
+							that.nowTotal = that.nowVolumesInfo.total; //当前规格商品库存
+							that.goodsCount = that.nowTotal > 0 ? 1 : 0; //商品数量
 
 							let nowTime = Date.parse(new Date());
-							if (that.activeEnd>nowTime) {
+							if (that.activeEnd > nowTime) {
 								clearInterval(that.countDownId);
-								that.countDown = that.activeEnd-nowTime;
-								that.countDownId=setInterval(()=>{
-									that.countDown = that.countDown-1000;
-								},1000)
+								that.countDown = that.activeEnd - nowTime;
+								that.countDownId = setInterval(() => {
+									that.countDown = that.countDown - 1000;
+								}, 1000)
 							}
 						}
 					}
@@ -398,10 +405,12 @@ export default {
 				this.volumesNum = e;
 				this.nowVolumesInfo = this.volumesInfo[e];
 				this.nowPriceStr = this.volumesInfo[e].priceStr;
+				this.nowTrade = this.volumesInfo[e].tradePrice;
 				this.nowTotal = this.volumesInfo[e].total;
 			} else {
 				this.volumesNum = 'share';
 				this.nowPriceStr = this.shareInfo[0].priceStr;
+				this.nowTrade = this.shareInfo[0].tradePrice;
 				this.nowTotal = this.shareInfo[0].total;
 			}
 			this.goodsCount = this.nowTotal > 0 ? 1 : 0;
@@ -423,7 +432,7 @@ export default {
 				});
 				return;
 			}
-			if (that.util.getCookie('token')) {
+			if (that.util.getCookie('customerInfo')) {
 				let params = {
 					apiUrl: that.config.mallApi + "shopping/cart/add",
 					productId: that.goodsInfo.id,
@@ -463,19 +472,20 @@ export default {
 				return;
 			}
 			if (that.util.getCookie('customerInfo')) {
-				let data = [{
-					alcoholStrength: that.goodsInfo.alcoholStrength,
-					count: that.goodsCount,
-					detailId: that.nowVolumesInfo.id,
-					enName: that.goodsInfo.enName,
-					fullName: that.goodsInfo.fullName,
-					id: that.goodsInfo.id,
-					image: that.nowVolumesInfo.imgs.length > 0 ? that.nowVolumesInfo.imgs[0].url : that.goodsInfo.image,
-					price: that.nowVolumesInfo.price,
-					totalPrice: that.nowVolumesInfo.price * that.goodsCount,
-					volumn: that.nowVolumesInfo.specificationValue,
-					isShared: that.nowVolumesInfo.isShared,
-				}];
+				let data = []
+				if (that.volumesNum == "share") {
+					data = that.shareInfo;
+				} else{
+					data[0]=that.nowVolumesInfo;
+				}
+				data[0].count = that.goodsCount;
+				data[0].detailId = that.nowVolumesInfo.id;
+				data[0].alcoholStrength = that.goodsInfo.alcoholStrength;
+				data[0].image = data[0].image || that.goodsInfo.image;
+				data[0].enName = that.goodsInfo.enName;
+				data[0].fullName = that.goodsInfo.fullName;
+				data[0].id = that.goodsInfo.id;
+				data[0].volumn= that.nowVolumesInfo.specificationValue;
 				sessionStorage.orderSubmitInfo = JSON.stringify(data);
 				this.$router.push('/Z2V0T3JkZXJJbmZv?type=1');
 			} else {

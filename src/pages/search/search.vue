@@ -35,42 +35,41 @@
 					<div class="button" :class="{active:!brandId}" @click="choseBrandId()">全部</div>
 					<div class="button" v-for="(item,index) in brandList" v-if="index<max" @click="choseBrandId(item)" :class="{active:brandId==item.id}">{{item.name}}</div>
 					<div class="button more" v-if="brandList && brandList.length>30 && max==30" @click="checkMore(1)">查看更多></div>
-					<div class="button more" v-if="brandList && brandList.length>30 && max!=30" @click="checkMore(0)">收起更多
-						<</div>
-					</div>
-				</div>
-				<div class="ml-chose box box-align-center">
-					<div class="title">净含量：</div>
-					<div class="chose-button">
-						<div class="button" :class="{active:!volumeValueId}" @click="choseVolumeId()">全部</div>
-						<div class="button" v-for="(item,index) in volumeList" @click="choseVolumeId(item)" :class="{active:volumeValueId==item.id}">{{item.name}}</div>
-					</div>
+					<div class="button more" v-if="brandList && brandList.length>30 && max!=30" @click="checkMore(0)">收起更多</div>
 				</div>
 			</div>
-			<div class="search-bar box">
-				<div class="chose-btn button" @click="changeType(0)" :class="{active:searchType==0}">
-					默认排序
-				</div>
-				<div class="chose-btn button price-sort" @click="changeType(5)" :class="{active:searchType==5}">
-					价格从高到低
-					<i class="el-icon-arrow-down el-icon--right"></i>
-				</div>
-				<div class="chose-btn button price-sort" @click="changeType(6)" :class="{active:searchType==6}">
-					价格从低到高
-					<i class="el-icon-arrow-up el-icon--right"></i>
-				</div>
-			</div>
-			<div class="search-goods-box">
-				<LoadError v-if="loadError"></LoadError>
-				<NoData :message="'没有符合条件的商品'" v-else-if="searchData && searchData.records.length==0"></NoData>
-				<proList v-else :goodsList="searchData && searchData.records"></proList>
-				<div class="text-right" v-if="searchData.total>16">
-					<el-pagination layout="prev, pager, next" :total="searchData.total?searchData.total:1" :page-size="16" @current-change="changePage" :current-page="page"></el-pagination>
+			<div class="ml-chose box box-align-center">
+				<div class="title">净&nbsp;含&nbsp;量：</div>
+				<div class="chose-button">
+					<div class="button" :class="{active:!volumeValueId}" @click="choseVolumeId()">全部</div>
+					<div class="button" v-for="(item,index) in volumeList" @click="choseVolumeId(item)" :class="{active:volumeValueId==item.id}">{{item.name}}</div>
 				</div>
 			</div>
 		</div>
-		<cwFooter></cwFooter>
+		<div class="search-bar box">
+			<div class="chose-btn button" @click="changeType(0)" :class="{active:searchType==0}">
+				默认排序
+			</div>
+			<div class="chose-btn button price-sort" @click="changeType(5)" :class="{active:searchType==5}">
+				价格从高到低
+				<i class="el-icon-arrow-down el-icon--right"></i>
+			</div>
+			<div class="chose-btn button price-sort" @click="changeType(6)" :class="{active:searchType==6}">
+				价格从低到高
+				<i class="el-icon-arrow-up el-icon--right"></i>
+			</div>
+		</div>
+		<div class="search-goods-box">
+			<LoadError v-if="loadError"></LoadError>
+			<NoData :message="'没有符合条件的商品'" v-else-if="searchData && searchData.records.length==0"></NoData>
+			<proList v-else :goodsList="searchData && searchData.records"></proList>
+			<div class="text-right" v-if="searchData.total>16">
+				<el-pagination layout="prev, pager, next" :total="searchData.total?searchData.total:1" :page-size="16" @current-change="changePage" :current-page="page"></el-pagination>
+			</div>
+		</div>
 	</div>
+	<cwFooter></cwFooter>
+</div>
 </template>
 
 <script>

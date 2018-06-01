@@ -240,6 +240,7 @@ export default {
 			if (that.addressList.length != 0) {
 				let addressId = that.addressList[that.selectedAddr].deliveryAddrSeq;
 				let data = {
+					apiUrl: that.config.mallApi + "order/submit",
 					addressId: addressId,
 					goods: [],
 					invoiceSeq: "",
@@ -256,15 +257,7 @@ export default {
 				if (that.isNeedInvoice == 2) {
 					data.invoiceSeq = that.invoiceInfo.invoiceSeq
 				}
-				that.$ajax({
-					method: "post",
-					url: that.config.mallApi + "order/submit",
-					headers: {
-						'Content-type': 'application/json;charset=UTF-8',
-						'Authentication': that.util.getCookie('token')
-					},
-					data: data,
-				}).then(res => {
+				that.ajaxData(data,(res)=>{
 					if (res.data.code == "0000") {
 						that.$notify.success({
 							message: "提交成功！"
@@ -279,8 +272,6 @@ export default {
 							message: res.data.message
 						})
 					}
-				}).catch(err => {
-					console.log(err)
 				})
 			} else {
 				that.$notify.error({

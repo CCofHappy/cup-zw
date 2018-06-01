@@ -39,7 +39,7 @@
 					</div>
 			</div>
 			<div class="ml-chose box">
-				<div class="title">净含量：</div>
+				<div class="title">净&nbsp;含&nbsp;量：</div>
 				<div class="chose-button">
 					<div class="button" :class="{active:!volumeValueId}" @click="choseVolumeId()">全部</div>
 					<div class="button" v-for="(item,index) in volumeList" @click="choseVolumeId(item)" :class="{active:volumeValueId==item.id}">{{item.name}}</div>

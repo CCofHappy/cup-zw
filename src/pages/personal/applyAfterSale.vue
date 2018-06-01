@@ -217,12 +217,14 @@ export default {
 					if(params.images.length<1){
 						this.$notify.error('请上传凭证图片');
 					}
-					params.apiUrl.orderItemId = this.$route.query.id;
+					params.apiUrl.orderItemId = this.orderDetail.id;
+    				params.apiUrl.orderId = this.orderDetail.id,
 					params.apiUrl = this.config.mallApi + "sales/apply";
 					this.ajaxData(params, (res) => {
 						if (res.data.code == "0000") {
 
 						} else {
+
 						}
 					})
 				} else {
@@ -268,7 +270,7 @@ export default {
 		}
 	},
 	mounted() {
-		this.initData()
+		this.initData();
 	}
 }
 </script>

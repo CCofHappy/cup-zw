@@ -73,8 +73,8 @@
 						</div>
 						<div class="detail-box">
 							<div class="title-box">
-								<div class="title text-overflow-more text-overflow-two">{{item.enName}}</div>
-								<div class="title cn text-overflow-more text-overflow-two">{{item.fullName}}</div>
+								<div class="title text-overflow-more text-overflow-one">{{item.enName}}</div>
+								<div class="title cn text-overflow-more text-overflow-one">{{item.fullName}}</div>
 							</div>
 							<div class="small-box box">
 								<div>
@@ -86,6 +86,9 @@
 								</div>
 							</div>
 							<div class="price-box">{{ item.priceStr==0 ? '暂无' : '￥'+item.priceStr}}</div>
+							<div class="trade-price-box" v-if="customerRoleId==2">
+								采购价：{{item.tradePrice==0 ? '暂无' : '￥'+item.tradePrice}}
+							</div>
 							<router-link :to="'/Z29vZHNEZXRhaWw?type=2&id='+item.id" class="box" target="_blank">
 								<div class="stock-box box box-center" v-if="item.stock==0">暂时缺货</div>
 								<div class="stock-box buy box box-center" v-else>立即购买</div>
@@ -125,6 +128,7 @@ export default {
 			dateType: 0,
 			page:1,
 			max: 30,
+			customerRoleId:1,
 		}
 	},
 	components: {
@@ -285,6 +289,7 @@ export default {
 		this.dateType = this.$route.query.dateType;
 		this.page = parseInt(this.$route.query.page || 1);
 		this.initData();
+		this.customerRoleId = this.util.getCookie("customerInfo").customerRoleId;
 	},
 }
 </script>
