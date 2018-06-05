@@ -22,16 +22,18 @@ import VueQArt from 'vue-qart'
 Vue.prototype.util = util;
 Vue.prototype.config = config;
 Vue.config.productionTip = false;
-Vue.prototype.$ajax = axios;
-Vue.prototype.md5 = md5;
+Vue.prototype.$ajax = axios;//promise 的 HTTP 库，主要用于ajax请求
+Vue.prototype.md5 = md5;//md5加密
 Vue.component('icon', Icon); //svg icon
 Vue.component('NoData', NoData); //没有数据的模版组件
 Vue.component('LoadError', LoadError); //载入错误的模版组件
-Vue.component('scrollTop', scrollTop); //回到顶部
-Vue.component('vue-q-art', VueQArt); //生成二维码
-Vue.use(ElementUI);
-Vue.use(VueAwesomeSwiper);
-Vue.use(VueLazyload, {})
+Vue.component('scrollTop', scrollTop); //回到顶部模版组件
+Vue.component('vue-q-art', VueQArt); //生成二维码模版组件
+Vue.use(ElementUI);//配置使用el UI框架的样式
+Vue.use(VueAwesomeSwiper);//配置使用swiper滑块插件
+Vue.use(VueLazyload, {
+	//配置参数，根据实际需要配置
+})//图片懒加载配置
 
 //ajax请求数据
 Vue.prototype.axios=axios;

@@ -106,11 +106,11 @@ export default {
 			loadError: false,
 			tabIndex: '1',
 			productInfo: "",
-			volumnList:[],
+			volumnList: [],
 			volumnIndex: '',
 			volumnValue: '',
-			total:'',
-			price:'',
+			total: '',
+			price: '',
 		}
 	},
 	components: {
@@ -124,59 +124,67 @@ export default {
 		},
 	},
 	methods: {
-		initData:function () {
-			let id = this.$route.query.id;
-			let params={
-				apiUrl: this.config.mallApi + "supplier/goods/" + id,
+		initData: function() {
+			let id = this.$route.query.id,
+				type = this.$route.query.type,
+				url = type == "edit" ? "supplier/goods/detail/" : "supplier/goods/";
+			let params = {
+				apiUrl: this.config.mallApi + url + id,
 				apiMethod: "get"
 			};
-			this.ajaxData(params, (res)=> {
-				if (res.data.code=="0000") {
-					this.productInfo = res.data.data.productInfo;
-					this.volumnList = res.data.data.volumn
-				}else {
+			this.ajaxData(params, (res) => {
+				if (res.data.code == "0000") {
+					if (type == "edit") {
+						this.productInfo = res.data.data;
+
+
+					}else {
+						this.productInfo = res.data.data.productInfo;
+						this.volumnList = res.data.data.volumn;
+					}
+				} else {
 					this.loadError = true;
 				}
 			})
 		},
-		changeVolumn:function(e){
+		changeVolumn: function(e) {
 			for (var i = 0; i < this.volumnList.length; i++) {
-				if (this.volumnList[i].id==e)this.volumnValue = this.volumnList[i].name;
+				if (this.volumnList[i].id == e) this.volumnValue = this.volumnList[i].name;
 			}
 		},
-		submit:function () {
-			if (this.total&&this.price&&this.volumnIndex) {
-				if (isNaN(this.total)||isNaN(this.price)) {
+		submit: function() {
+			if (this.total && this.price && this.volumnIndex) {
+				if (isNaN(this.total) || isNaN(this.price)) {
 					this.$notify.error({
 						message: "输入的商品数据不正确"
 					});
 					return;
 				}
-				let params={
+				let params = {
 					apiUrl: this.config.mallApi + "supplier/goods/submit",
-					type:1,
+					type: 1,
 					code: this.productInfo.code,
-					details:[{
+					details: [{
 						total: this.total,
-		                price: this.price,
-		                specificationId:31,
-		                specificationName:"净含量",
-		                specificationValueId:this.volumnIndex,
-		                specificationValue:this.volumnValue,
+						price: this.price,
+						specificationId: 31,
+						specificationName: "净含量",
+						specificationValueId: this.volumnIndex,
+						specificationValue: this.volumnValue,
 					}]
 				};
-				this.ajaxData(params, (res)=> {
-					if (res.data.code=="0000") {
+				this.ajaxData(params, (res) => {
+					if (res.data.code == "0000") {
 						this.$notify.success({
 							message: "录入成功！"
 						});
-					}else {
+					} else {
 						this.$notify.error({
 							message: res.data.message
 						});
 					}
 				})
-			}else {
+			} else {
 				this.$notify.error({
 					message: "请完善商品数据"
 				});
@@ -200,17 +208,17 @@ export default {
 
 <!-- 调整elementUI样式 -->
 <style lang="less">
-.choseAdd{
-	.add-container{
-		.el-select{
-			width: 200px;
-			input{
-				line-height:45px;
-				height: 45px;
-				border-radius: 0;
-				border: 1px solid #bebebe;
-			}
-		}
-	}
+.choseAdd {
+    .add-container {
+        .el-select {
+            width: 200px;
+            input {
+                line-height: 45px;
+                height: 45px;
+                border-radius: 0;
+                border: 1px solid #bebebe;
+            }
+        }
+    }
 }
 </style>

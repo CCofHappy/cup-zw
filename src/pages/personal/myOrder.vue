@@ -4,8 +4,8 @@
 	<div class="container">
 		<div class="nav-title">
 			<el-breadcrumb separator-class="el-icon-arrow-right">
-			  <el-breadcrumb-item :to="{ path: '/aG9tZQ' }">首页</el-breadcrumb-item>
-			  <el-breadcrumb-item>我的订单</el-breadcrumb-item>
+				<el-breadcrumb-item :to="{ path: '/aG9tZQ' }">首页</el-breadcrumb-item>
+				<el-breadcrumb-item>我的订单</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
 		<el-row :gutter="20">
@@ -37,7 +37,7 @@
 							<div class="font-dark-red" v-if="order.orderStatus == 5">已取消</div>
 						</div>
 						<div class="order-content">
-							<el-row class="text-center box box-center order-row" >
+							<el-row class="text-center box box-center order-row">
 								<el-col :span='21'>
 									<el-row class="text-center box box-center order-item" v-for="goods in order.items">
 										<el-col :span="14" class="text-left">
@@ -129,7 +129,7 @@ export default {
 			}],
 			selectedIndex: '1',
 			tabIndex: '1',
-			page:1,
+			page: 1,
 		}
 	},
 	components: {
@@ -143,18 +143,17 @@ export default {
 			this.initData();
 		},
 		selectedIndex(curVal, oldVal) {
-			if(curVal!=oldVal){
+			if (curVal != oldVal) {
 				this.$router.push("/cGVyc29uYWwvbXlPcmRlcg?page=1&term=" + curVal + "&tabIndex=" + this.tabIndex)
 			}
 		}
 	},
 	methods: {
 		initData: function() {
-			let that = this;
-			that.util.returnLogin(that);
-			that.page = parseInt(that.$route.query.page ? that.$route.query.page : 1);
+			this.util.returnLogin(this);
+			this.page = parseInt(this.$route.query.page ? this.$route.query.page : 1);
 			let orderApi = "";
-			let type = that.$route.query.tabIndex?that.$route.query.tabIndex:1
+			let type = this.$route.query.tabIndex ? this.$route.query.tabIndex : 1
 			switch (parseInt(type)) {
 				case 1:
 					orderApi = "all"
@@ -172,47 +171,45 @@ export default {
 					orderApi = "close"
 			}
 			let params = {
-				apiUrl: that.config.mallApi + "order/list/" + orderApi + "?size=10&current=" + that.page +"&term=" +that.selectedIndex ,
+				apiUrl: this.config.mallApi + "order/list/" + orderApi + "?size=10&current=" + this.page + "&term=" + this.selectedIndex,
 				apiMethod: "get",
 			}
-			that.ajaxData(params,function (res) {
+			this.ajaxData(params, (res) => {
 				if (res.data.code == "0000") {
-					that.orderData = res.data.data;
+					this.orderData = res.data.data;
 				} else {
-					that.loadError = true;
+					this.loadError = true;
 				}
 			})
 		},
 		//取消订单
-		cancelOrder: function (id) {
+		cancelOrder: function(id) {
 			this.$confirm('确定要取消该订单吗?', '温馨提示', {
 				confirmButtonText: '确定',
 				cancelButtonText: '取消',
 				type: 'warning'
 			}).then(() => {
-				let that = this;
 				let params = {
-					apiUrl: that.config.mallApi+"order/cancel/"+id,
+					apiUrl: this.config.mallApi + "order/cancel/" + id,
 				}
-				that.ajaxData(params,function (res) {
-					if (res.data.code=="0000") {
-						that.$notify.success({
+				this.ajaxData(params, (res) => {
+					if (res.data.code == "0000") {
+						this.$notify.success({
 							message: '取消成功！'
 						});
-						if (that.$route.query.page!=1) {
-							that.$router.push("/cGVyc29uYWwvbXlPcmRlcg?page=1")
-						}else {
-							that.initData()
+						if (this.$route.query.page != 1) {
+							this.$router.push("/cGVyc29uYWwvbXlPcmRlcg?page=1")
+						} else {
+							this.initData()
 						}
-					}else {
+					} else {
 						this.$notify({
 							type: 'error',
 							title: res.data.message,
 						});
 					}
 				})
-			}).catch(() => {
-			});
+			}).catch(() => {});
 		},
 		//删除订单
 		delOrder: function(id) {
@@ -221,21 +218,20 @@ export default {
 				cancelButtonText: '取消',
 				type: 'warning'
 			}).then(() => {
-				let that = this;
 				let params = {
-					apiUrl: that.config.mallApi+"order/delete/"+id,
+					apiUrl: this.config.mallApi + "order/delete/" + id,
 				}
-				that.ajaxData(params,function (res) {
-					if (res.data.code=="0000") {
-						that.$notify.success({
+				this.ajaxData(params, (res) => {
+					if (res.data.code == "0000") {
+						this.$notify.success({
 							message: '删除成功！'
 						});
-						if (that.$route.query.page!=1) {
-							that.$router.push("/cGVyc29uYWwvbXlPcmRlcg?page=1")
-						}else {
-							that.initData()
+						if (this.$route.query.page != 1) {
+							this.$router.push("/cGVyc29uYWwvbXlPcmRlcg?page=1")
+						} else {
+							this.initData()
 						}
-					}else {
+					} else {
 						this.$notify.error({
 							message: res.data.message,
 						});
@@ -244,29 +240,28 @@ export default {
 			}).catch(() => {});
 		},
 		//确认收货
-		receipt(id){
+		receipt(id) {
 			this.$confirm('确定已收到货吗?', '温馨提示', {
 				confirmButtonText: '确定',
 				cancelButtonText: '取消',
 				type: 'warning'
 			}).then(() => {
-				let that = this;
 				let params = {
-					apiUrl: that.config.mallApi+"order/receipt/"+id,
-					apiMethod:"get",
+					apiUrl: this.config.mallApi + "order/receipt/" + id,
+					apiMethod: "get",
 				}
-				that.ajaxData(params,function (res) {
-					if (res.data.code=="0000") {
+				this.ajaxData(params, (res) => {
+					if (res.data.code == "0000") {
 						this.$notify({
 							type: 'success',
 							message: '操作成功',
 						});
-						if (that.$route.query.page!=1) {
-							that.$router.push("/cGVyc29uYWwvbXlPcmRlcg?page=1")
-						}else {
-							that.initData()
+						if (this.$route.query.page != 1) {
+							this.$router.push("/cGVyc29uYWwvbXlPcmRlcg?page=1")
+						} else {
+							this.initData()
 						}
-					}else {
+					} else {
 						this.$notify({
 							type: 'error',
 							message: res.data.message,
@@ -276,29 +271,28 @@ export default {
 			}).catch(() => {});
 		},
 		//再次购买
-		buyAgain: function(goods){
-			let that = this;
+		buyAgain: function(goods) {
 			let data = goods;
-			sessionStorage.orderSubmitInfo=JSON.stringify(data);
+			sessionStorage.orderSubmitInfo = JSON.stringify(data);
 			this.$router.push('/Z2V0T3JkZXJJbmZv?type=1');
 		},
 		//加入购物车
-		addShopCart: function(e){
+		addShopCart: function(e) {
 			let params = {
-				apiUrl:that.config.mallApi + "shopping/cart/add",
+				apiUrl: this.config.mallApi + "shopping/cart/add",
 				productId: e.id,
 				productDetailId: e.id,
 				count: e.goodsCount,
 			}
-			// that.ajaxData(params,function(res){
+			// this.ajaxData(params,(res)=>{
 			// 	if (res.data.code == "0000") {
-			// 		that.$notify({
+			// 		this.$notify({
 			// 			type: 'success',
 			// 			message: '成功加入购物车'
 			// 		});
-			// 		that.$refs.cwHeader.shopCart();
+			// 		this.$refs.cwHeader.shopCart();
 			// 	} else {
-			// 		that.$notify({
+			// 		this.$notify({
 			// 			type: 'error',
 			// 			message: '操作失败'
 			// 		});
@@ -308,16 +302,16 @@ export default {
 		changePage: function(e) {
 			let data = {
 				page: e,
-				term: this.$route.query.term?this.$route.query.term:1,
-				tabIndex: this.$route.query.tabIndex?this.$route.query.tabIndex:1,
+				term: this.$route.query.term ? this.$route.query.term : 1,
+				tabIndex: this.$route.query.tabIndex ? this.$route.query.tabIndex : 1,
 			}
 			this.$router.push({
 				path: "/cGVyc29uYWwvbXlPcmRlcg",
 				query: data
 			})
 		},
-		forDate: function(e){
-			return this.util.forDate(e,"yyyy-MM-dd")
+		forDate: function(e) {
+			return this.util.forDate(e, "yyyy-MM-dd")
 		}
 	},
 	mounted() {

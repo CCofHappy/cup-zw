@@ -106,19 +106,18 @@ export default {
 	},
 	methods: {
 		initData: function() {
-			let that = this;
-			that.loadGoods();
+			this.loadGoods();
 			let categoryParams = {
-				apiUrl: that.config.mallApi + "dbcenter/findAllCategory",
+				apiUrl: this.config.mallApi + "dbcenter/findAllCategory",
 			}
-			that.ajaxData(categoryParams, function(res) {
+			this.ajaxData(categoryParams, (res)=> { //请求地区
 				if (res.data.code == "0000") {
 					let data = res.data.data
-					that.categoryList = data;
-					if (that.categoryId) {
+					this.categoryList = data;
+					if (this.categoryId) {
 						for (var i = 0; i < data.length; i++) {
-							if (data[i].id == that.categoryId){
-								that.regionList = data[i].children;
+							if (data[i].id == this.categoryId){
+								this.regionList = data[i].children;
 							}
 						}
 					}
@@ -126,31 +125,29 @@ export default {
 					console.log(res.data.message);
 				}
 			})
-
-			if (that.categoryId) { //请求品牌
+			if (this.categoryId) { //请求品牌
 				let brandParams = {
-					apiUrl: that.config.mallApi + "dbcenter/getCategoryFindaBrand?category=" + that.categoryId,
+					apiUrl: this.config.mallApi + "dbcenter/getCategoryFindaBrand?category=" + that.categoryId,
 					apiMethod: 'get',
 				}
-				that.ajaxData(brandParams, function(res) {
-					that.brandList = res.data;
+				this.ajaxData(brandParams, (res)=> {
+					this.brandList = res.data;
 				})
 			} else {
 				let brandParams = {
-					apiUrl: that.config.mallApi + "dbcenter/getBrand",
+					apiUrl: this.config.mallApi + "dbcenter/getBrand",
 					apiMethod: 'get',
 				}
-				that.ajaxData(brandParams, function(res) {
-					that.brandList = res.data;
+				this.ajaxData(brandParams, (res)=> {
+					this.brandList = res.data;
 				})
 			}
-
-			let volumeParams = {
-				apiUrl: that.config.mallApi + "dbcenter/productGoodsVolumeList",
+			let volumeParams = { //请求规格
+				apiUrl: this.config.mallApi + "dbcenter/productGoodsVolumeList",
 				apiMethod: 'get',
 			}
-			that.ajaxData(volumeParams, function(res) {
-				that.volumeList = res.data;
+			this.ajaxData(volumeParams, (res)=> {
+				this.volumeList = res.data;
 			})
 		},
 		loadGoods: function() {
@@ -175,7 +172,7 @@ export default {
 		},
 		choseCategory: function(item) {
 			let data = {
-				brandId: this.brandId,
+				brandId: '',
 				categoryId: item?item.id:'',
 				regionId: '',
 				volumeValueId: this.volumeValueId,

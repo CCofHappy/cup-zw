@@ -53,8 +53,8 @@ const util = {
 		} else {
 			that.codeTime = that.codeTime - 1;
 		}
-		setTimeout(function() {
-			sendCountDown(that);
+		setTimeout(() =>{
+			this.sendCountDown(that);
 		}, 1000)
 	},
 

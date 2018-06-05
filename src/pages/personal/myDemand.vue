@@ -23,13 +23,13 @@
 					<div class="order-list">
 						<div class="order-title box box-between box-align-center">
 							<div>需求单号：8178273817283718&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-color-help">需求单生成时间：2017-12-30  14:20:50</span></div>
-							<div class="text-color-help del-btn button">
+							<div class="text-color-help del-btn button" @click="delOreder">
 								删除需求
 							</div>
 						</div>
 						<div class="order-content">
 							<el-row class="text-center box box-center order-row">
-								<el-col :span='21'>
+								<el-col :span='20'>
 									<el-row class="text-center box box-center order-item">
 										<el-col :span="14" class="text-left">
 											<div class="box box-align-center">
@@ -47,7 +47,7 @@
 										<el-col :span="5">x11</el-col>
 									</el-row>
 								</el-col>
-								<el-col :span="3" class="box box-center">
+								<el-col :span="4" class="box box-center">
 									<div class="button">
 										加入清单
 									</div>
@@ -58,13 +58,13 @@
 					<div class="order-list">
 						<div class="order-title box box-between box-align-center">
 							<div>需求单号：8178273817283718&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-color-help">需求单生成时间：2017-12-30  14:20:50</span></div>
-							<div class="text-color-help del-btn button">
+							<div class="text-color-help del-btn button" @click="delOreder">
 								删除需求
 							</div>
 						</div>
 						<div class="order-content">
 							<el-row class="text-center box box-center order-row">
-								<el-col :span='21'>
+								<el-col :span='20'>
 									<el-row class="text-center box box-center order-item">
 										<el-col :span="14" class="text-left">
 											<div class="box box-align-center">
@@ -82,8 +82,8 @@
 										<el-col :span="5">x11</el-col>
 									</el-row>
 								</el-col>
-								<el-col :span="3" class="box box-center">
-									<div class="button wait">
+								<el-col :span="4" class="box box-center">
+									<div class="button wait" @click="waitMessae">
 										到货通知
 									</div>
 								</el-col>
@@ -138,9 +138,29 @@ export default {
 		}
 	},
 	methods: {
-		initData: function() {
+		initData() {},
+		delOreder(){
+			this.$confirm("删除后，需求单将无法恢复哦",{
+				confirmButtonText: '确定',
+				showCancelButton: false,
+				center: true
+			}).then(() => {
 
+			}).catch(() => {
+
+			});
 		},
+		waitMessae(){
+			this.$confirm("当该商品库存充足时，将第一时间以短信的形式通知您。",{
+				confirmButtonText: '确定',
+				showCancelButton: false,
+				center: true
+			}).then(() => {
+
+			}).catch(() => {
+
+			});
+		}
 	},
 	mounted() {
 		this.tabIndex = this.$route.query.tabIndex ? this.$route.query.tabIndex : 1;

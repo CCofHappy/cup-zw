@@ -74,7 +74,7 @@
 					</el-col>
 					<el-col :span="3" class="box box-center">{{item.count?item.count:item.quantity}}</el-col>
 					<el-col :span="4" class="box box-center">
-						<small>￥</small> {{parseFloat((item.count?item.count:item.quantity) * item.price).toFixed(2)}}
+						<small>￥</small> {{parseFloat((item.count||item.quantity||item.number) * item.price).toFixed(2)}}
 					</el-col>
 				</el-row>
 			</div>
@@ -136,6 +136,7 @@ export default {
 			invoiceSeq: "",
 			orderMax: 0,
 			memo:"",
+			customerRoleId:0,
 		}
 	},
 	components: {
@@ -152,11 +153,13 @@ export default {
 				let info = JSON.parse(sessionStorage.orderSubmitInfo),
 					maxPrice = 0;
 				for (var i in info) {
-					maxPrice += ((info[i].count ? info[i].count : info[i].quantity) * info[i].price);
+					if (this.customerRoleId==4) {
+						info[i].price = info[i].tradePrice
+					}
+					maxPrice += ((info[i].count || info[i].quantity || info[i].number) * info[i].price);
 				}
 				that.orderItems = info;
 				that.orderMax = maxPrice;
-
 				let params = {
 					apiUrl: that.config.mallApi + "center/address/list?size=20&current=1",
 					apiMethod: "get",
@@ -247,11 +250,22 @@ export default {
 					memo: that.memo?that.memo:'无',
 					type: that.$route.query.type,
 				}
-				for (var i in that.orderItems) {
-					data.goods[i] = {
-						productDetailId: that.orderItems[i].detailId ? that.orderItems[i].detailId : that.orderItems[i].productDetailId,
-						productId: that.orderItems[i].id ? that.orderItems[i].id : that.orderItems[i].productId,
-						quantity: that.orderItems[i].count ? that.orderItems[i].count : that.orderItems[i].quantity,
+				if (that.$route.query.from == "inventory") {
+					data.apiUrl = that.config.mallApi +"buyer/submitOrder";
+					for (var i in that.orderItems) {
+						data.goods[i] = {
+							productDetailId: that.orderItems[i].productDetailId,
+							quantity: that.orderItems[i].number>that.orderItems[i].stock?that.orderItems[i].stock:that.orderItems[i].number,
+      						intendQuantity: that.orderItems[i].number>that.orderItems[i].stock?that.orderItems[i].number-that.orderItems[i].stock:0
+						}
+					}
+				}else {
+					for (var i in that.orderItems) {
+						data.goods[i] = {
+							productDetailId: that.orderItems[i].detailId ? that.orderItems[i].detailId : that.orderItems[i].productDetailId,
+							productId: that.orderItems[i].id ? that.orderItems[i].id : that.orderItems[i].productId,
+							quantity: that.orderItems[i].count || that.orderItems[i].quantity ,
+						}
 					}
 				}
 				if (that.isNeedInvoice == 2) {
@@ -281,6 +295,8 @@ export default {
 		}
 	},
 	mounted() {
+		this.customerRoleId =4;
+		//this.customerRoleId = this.util.getCookie("customerInfo").customerRoleId;
 		this.initData();
 	}
 }

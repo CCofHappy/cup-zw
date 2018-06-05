@@ -152,9 +152,9 @@
 				</div>
 			</div>
 			<div class="right-box">
-				<div v-if="nowVolumesInfo && nowVolumesInfo.activity">
+				<div v-if="nowVolumesInfo &&  JSON.stringify(nowVolumesInfo.activity) != '{}'">
 					<div class="price-box">
-						抢购价：<span class="price"><small>￥</small>{{nowVolumesInfo.activity.activityPrice}}</span>
+						抢购价：<span class="price"><small>￥</small>{{nowVolumesInfo.activity?nowVolumesInfo.activity.productDetail[0].activityPrice:''}}</span>
 						<span class="normalPrice">{{nowPriceStr}}</span>
 						<div class="box count-down-box">
 							<span>限时抢购</span>
@@ -185,7 +185,7 @@
 						<div v-else>
 							中威价：<span class="price">暂无报价</span>
 						</div>
-						<div class="trade-price-box" v-if="customerRoleId==2">
+						<div class="trade-price-box" v-if="customerRoleId==4">
 							采购价：{{nowTrade==0 ? '暂无' : '￥'+nowTrade}}
 						</div>
 					</div>
@@ -323,7 +323,7 @@ export default {
 	mounted() {
 		this.initData();
 		this.pageType = this.$route.query.type;
-		this.customerRoleId = this.util.getCookie("customerInfo").customerRoleId;
+		this.customerRoleId = this.util.getCookie("customerInfo")?this.util.getCookie("customerInfo").customerRoleId:0;
 	},
 	methods: {
 		initData: function() {
@@ -356,9 +356,10 @@ export default {
 								if (arr[i].isShared == 1) {
 									that.shareInfo = arr.splice(i, 1);
 								}
-								if (arr[i].activity) {
+								if (arr[i].activity && JSON.stringify(arr[i].activity) != "{}") {
 									that.activeEnd = arr[i].activity.endDate;
-									that.nowVolumesInfo = arr[i];
+									that.nowVolumesInfo = that.nowVolumesInfo||arr[i];
+									that.volumesNum = i;
 								}
 							}
 							that.volumesInfo = arr;
@@ -373,7 +374,12 @@ export default {
 								clearInterval(that.countDownId);
 								that.countDown = that.activeEnd - nowTime;
 								that.countDownId = setInterval(() => {
-									that.countDown = that.countDown - 1000;
+									if (that.countDown>0) {
+										that.countDown = that.countDown - 1000;
+									}else {
+										clearInterval(that.countDownId);
+										that.activeEnd="";
+									}
 								}, 1000)
 							}
 						}

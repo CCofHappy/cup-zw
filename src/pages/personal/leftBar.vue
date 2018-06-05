@@ -40,46 +40,46 @@
 		<router-link :to="{ name: 'saleService', query:{page:1, tabIndex: 6}  }">售后服务</router-link>
 	</div>
 
-	<div class="title-box" v-bind:class="{ active:  navNum>14}">
+	<div class="title-box" v-bind:class="{ active:  navNum>14}" v-if="customerRoleId == 4">
 		<b>采购管理</b>
 	</div>
-	<router-link :to="{ name: 'myPurchase', query:{page:1, tabIndex: 15}  }">
+	<router-link :to="{ name: 'myPurchase', query:{page:1, tabIndex: 15}}" v-if="customerRoleId == 4">
 		<div class="line-box" v-bind:class="{ active: navNum==15}">我要采购
 		</div>
 	</router-link>
-	<router-link :to="{ name: 'myDemand', query:{page:1, tabIndex: 16}  }">
+	<router-link :to="{ name: 'myDemand', query:{page:1, tabIndex: 16}}" v-if="customerRoleId == 4">
 		<div class="line-box" v-bind:class="{ active: navNum==16}">我的需求单
 		</div>
 	</router-link>
-	<router-link :to="{ name: 'myInventory', query:{page:1, tabIndex: 17} }">
+	<router-link :to="{ name: 'myInventory', query:{page:1, tabIndex: 17}}" v-if="customerRoleId == 4">
 		<div class="line-box" v-bind:class="{ active: navNum==17}">我的清单
 		</div>
 	</router-link>
 
-	<div class="title-box" v-bind:class="{ active:  navNum>17}">
+	<div class="title-box" v-bind:class="{ active:  navNum>17}" v-if="customerRoleId == 2">
 		<b>商品管理</b>
 	</div>
-	<router-link :to="{ name: 'myGoods', query:{page:1, tabIndex: 18}  }">
+	<router-link :to="{ name: 'myGoods', query:{page:1, tabIndex: 18}}" v-if="customerRoleId == 2">
 		<div class="line-box" v-bind:class="{ active: navNum==18}">我的商品
 		</div>
 	</router-link>
-	<router-link :to="{ name: 'addGoods', query:{page:1, tabIndex: 19}  }">
+	<router-link :to="{ name: 'addGoods', query:{page:1, tabIndex: 19}}" v-if="customerRoleId == 2">
 		<div class="line-box" v-bind:class="{ active: navNum==19}">新增商品
 		</div>
 	</router-link>
 
-	<div class="title-box" v-bind:class="{ active:  navNum>19}">
+	<div class="title-box" v-bind:class="{ active:  navNum>19}" v-if="customerRoleId == 2">
 		<b>我的销售单</b>
 	</div>
-	<router-link :to="{ name: 'salesSlip', query:{page:1, tabIndex: 20}  }">
+	<router-link :to="{ name: 'salesSlip', query:{page:1, tabIndex: 20}}" v-if="customerRoleId == 2">
 		<div class="line-box" v-bind:class="{ active: navNum==20}">待发货
 		</div>
 	</router-link>
-	<router-link :to="{ name: 'salesSlip', query:{page:1, tabIndex: 21}  }">
+	<router-link :to="{ name: 'salesSlip', query:{page:1, tabIndex: 21}}" v-if="customerRoleId == 2">
 		<div class="line-box" v-bind:class="{ active: navNum==21}">待结算
 		</div>
 	</router-link>
-	<router-link :to="{ name: 'salesSlip', query:{page:1, tabIndex: 22} }">
+	<router-link :to="{ name: 'salesSlip', query:{page:1, tabIndex: 22}}" v-if="customerRoleId == 2">
 		<div class="line-box" v-bind:class="{ active: navNum==22}">已完成
 		</div>
 	</router-link>
@@ -136,6 +136,7 @@ export default {
 	data() {
 		return {
 			customerInfo: {},
+			customerRoleId: 1,
 		}
 	},
 	methods: {
@@ -154,6 +155,8 @@ export default {
 		},
 	},
 	mounted() {
+		this.customerRoleId = this.util.getCookie("customerInfo").customerRoleId;
+		this.customerRoleId = 2;
 		this.initData();
 	}
 }

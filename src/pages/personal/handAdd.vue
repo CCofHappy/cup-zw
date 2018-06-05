@@ -101,7 +101,7 @@
 								<el-col :span="8">
 									<el-form-item prop="bottler" label="装 瓶 厂：">
 										<el-select v-model="goodsForm.bottler" placeholder="请选择">
-											<el-option v-for="item in bottlerList" :key="item.id" :label="item.name" :value="item.id">
+											<el-option v-for="item in bottlerList" :key="item.name" :label="item.name" :value="item.id">
 											</el-option>
 										</el-select>
 									</el-form-item>
@@ -302,25 +302,32 @@ export default {
 					this.brandsList = res.data.data.brands;
 					this.volumnList = res.data.data.volumn;
 					this.productTypeList = res.data.data.productType;
-				}
-			})
-			if (this.saveId) {
-				let params = {
-					apiUrl: this.config.mallApi + "supplier/goods/detail/" + this.saveId,
-					apiMethod: 'get',
-				}
-				this.ajaxData(params, (res) => {
-					if (res.data.code == "0000") {
-						for (let i in this.goodsForm) {
-							for (let k in res.data.data) {
-								if (i == k) {
-									this.goodsForm[i] = res.data.data[k]
+					if (this.saveId) {
+						let params = {
+							apiUrl: this.config.mallApi + "supplier/goods/detail/" + this.saveId,
+							apiMethod: 'get',
+						}
+						this.ajaxData(params, (res) => {
+							if (res.data.code == "0000") {
+								for (let i in this.goodsForm) {
+									for (let k in res.data.data) {
+										if (i == k) {
+											this.goodsForm[i] = res.data.data[k]
+										}
+									}
+								}
+								for (var i = 0; i < this.bottlerList.length; i++) {
+									if(this.bottlerList[i].id == res.data.data.bottler)this.goodsForm.bottler=this.bottlerList[i].name;
+								}
+								for (var i = 0; i < this.productTypeList.length; i++) {
+									if(this.productTypeList[i].id == res.data.data.productType)this.goodsForm.productType=this.productTypeList[i].name;
 								}
 							}
-						}
+						})
 					}
-				})
-			}
+				}
+			})
+
 		},
 		//上传成功回调
 		handleAvatarSuccess(res, file) {
@@ -354,8 +361,15 @@ export default {
 			this.$refs['goodsForm'].validate((valid) => {
 				if (valid) {
 					var params = this.goodsForm;
+					if (isNaN(this.total) ) {
+						this.$notify.error('库存数量不正确!');
+						return;
+					}
 					params.apiUrl = this.config.mallApi + "supplier/goods/save";
 					params.type = e;
+					if (this.saveId) {
+						params.id = this.saveId;
+					}
 					params.details = {
 						total: params.total,
 						price: params.price,

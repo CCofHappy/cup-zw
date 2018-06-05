@@ -81,7 +81,7 @@
 								<div class="box box-align-center">
 									已选商品&nbsp;&nbsp;<b>{{choseList.length}}</b>&nbsp;&nbsp;件&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 总计：
 									<span class="settlement-price font-dark-red">￥{{parseFloat(allPrice).toFixed(2)}}</span>
-									<div class="button settlement-btn">去结算</div>
+									<div class="button settlement-btn" @click="orderSubmit">去结算</div>
 								</div>
 							</el-col>
 						</el-row>
@@ -129,7 +129,7 @@ export default {
 		choseList(curVal, oldVal) {
 			let goods = this.goodsList;
 			let all = 0;
-			for (var i in curVal){
+			for (var i in curVal) {
 				all += goods[curVal[i]].number * goods[curVal[i]].tradePrice;
 			}
 			this.allPrice = all;
@@ -168,85 +168,97 @@ export default {
 				}
 			}
 		},
-		donwCount(item,index){
-			item.number>1?item.number--:'';
+		donwCount(item, index) {
+			item.number > 1 ? item.number-- : '';
 			this.$set(this.goodsList, index, item);
 			this.saveGoodsCount(item);
 		},
-		upCount(item,index){
-			item.number = item.number+1;
+		upCount(item, index) {
+			item.number = item.number + 1;
 			this.$set(this.goodsList, index, item);
 			this.saveGoodsCount(item);
 		},
-		inputCount(item){
-			item.number = item.number>0?goods.number:1;
+		inputCount(item) {
+			item.number = item.number > 0 ? item.number : 1;
 			this.saveGoodsCount(item);
 		},
 		//修改商品数量
-		saveGoodsCount(item){
-			let that = this;
+		saveGoodsCount(item) {
 			let goods = item;
-			if (goods.count==0) return;
+			if (goods.count == 0) return;
 			let params = {
 				apiUrl: this.config.mallApi + "buyer/procurementItem/update",
 				productDetailId: goods.productDetailId,
 				number: goods.number,
 			}
-			that.ajaxData(params);
+			this.ajaxData(params, (res) => {});
 		},
 		//结算
-		orderSubmit(){
-			let that= this;
-			if (that.choseList.length>0) {
-				if(that.allPrice<=0){
-					that.$notify.error({
-						message:'结算商品数量不正确'
-					});
-					return;
+		orderSubmit() {
+			if (this.choseList.length > 0) {
+				let params = {
+					apiUrl: this.config.mallApi + "buyer/goods/stock",
+					productDetailIds: [],
 				}
-				let data = [];
-				let lock = true;
-				for(var i in that.choseList){
-					if (that.goodsList[that.choseList[i]].count>that.goodsList[that.choseList[i]].stock) {
-						lock=false;
+				for (var i = 0; i < this.choseList.length; i++) {
+					params.productDetailIds.push(this.goodsList[this.choseList[i]].productDetailId);
+				}
+				this.ajaxData(params, (res) => {
+					if (res.data.code == "0000") {
+						let over = false,info = [];
+						for (let i = 0; i < this.choseList.length; i++) {
+							let goods = this.goodsList[this.choseList[i]]
+							let id = goods.productDetailId;
+							goods.stock = res.data.data[id];
+							info.push(goods)
+							if (goods.number > res.data.data[id]) {
+								over = true;
+							}
+						}
+						if (over) {
+							this.$confirm("您需要采购的商品库存数不足，系统将自动为您余下的需求生成预需求单，以便到货及时通知您。", {
+								confirmButtonText: '继续',
+								center: true
+							}).then(() => {
+								sessionStorage.orderSubmitInfo = JSON.stringify(info);
+								this.$router.push({name:"getOrderInfo",query:{type:2,from:"inventory"}});
+							}).catch(() => {
+
+							});
+						} else {
+							sessionStorage.orderSubmitInfo = JSON.stringify(info);
+							this.$router.push({name:"getOrderInfo",query:{type:2,from:"inventory"}});
+						}
+					} else {
+						this.$notify.error(res.data.message)
 					}
-					data.push(that.goodsList[that.choseList[i]])
-				}
-				if (lock) {
-					sessionStorage.orderSubmitInfo=JSON.stringify(data);
-					this.$router.push('/Z2V0T3JkZXJJbmZv?type=2');
-				}else {
-					that.$notify.error({
-						message:'商品购买数量大于库存'
-					})
-				}
-			}else{
-				that.$notify.error({
-					message:'请至少选择一个商品结算'
 				})
+			} else {
+				this.$notify.error("请选择采购商品")
 			}
+
 		},
 		//删除选择项
-		delChoseGoods(){
+		delChoseGoods() {
 			let arr = [];
 			for (var i = 0; i < this.choseList.length; i++) {
-				arr.push (this.goodsList[this.choseList[i]].productDetailId)
+				arr.push(this.goodsList[this.choseList[i]].productDetailId)
 			}
 			this.delGoods(arr);
 		},
 		//删除清掉商品
-		delGoods(arr){
+		delGoods(arr) {
 			let params = {
-				apiUrl : this.config.mallApi + "buyer/procurementItem/remove",
+				apiUrl: this.config.mallApi + "buyer/procurementItem/remove",
 				productDetailIds: arr,
 			}
-			this.ajaxData(params,(res)=> {
-				if (res.data.code=="0000") {
+			this.ajaxData(params, (res) => {
+				if (res.data.code == "0000") {
 					this.$notify.success({
-						message:'删除成功！'
+						message: '删除成功！'
 					})
 					this.initData();
-				}else{
+				} else {
 					this.$notify.error({
 						message: res.data.message,
 					})
@@ -268,9 +280,9 @@ export default {
 </style>
 
 <style  lang="less">
-	.myInventory{
-		.label-none .el-checkbox__label{
-			display: none;
-		}
-	}
+.myInventory {
+    .label-none .el-checkbox__label {
+        display: none;
+    }
+}
 </style>

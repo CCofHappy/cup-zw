@@ -74,7 +74,7 @@
 							<h5>{{item.fullName}}</h5>
 							<p>{{item.volumn?item.volumn:'暂无'}} / {{item.alcoholStrength?item.alcoholStrength:'暂无'}}</p>
 							<p class="price">{{item.price!=0?'￥'+item.price:'暂无'}}</p>
-							<p class="trade-price" v-if="customerRoleId==2">采购价:{{item.tradePrice!=0?'￥'+item.tradePrice:'暂无'}}</p>
+							<p class="trade-price" v-if="customerRoleId==4">采购价:{{item.tradePrice!=0?'￥'+item.tradePrice:'暂无'}}</p>
 						</div>
 						<div class="good-detail">
 							<h4 class="text-overflow-more text-overflow-two" v-html="item.introduction?item.introduction:'暂无'">Cask Strength Scotch Whisky Trophy</h4>
@@ -138,7 +138,7 @@ export default {
 	},
 	mounted() {
 		this.initData();
-		this.customerRoleId = this.util.getCookie("customerInfo").customerRoleId;
+		this.customerRoleId = this.util.getCookie("customerInfo")?this.util.getCookie("customerInfo").customerRoleId:0;
 	},
 	methods: {
 		changeNav: function(e) {

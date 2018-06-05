@@ -1,3 +1,4 @@
+<!-- 加载失败显示模块 -->
 <template>
 <div class="loadError box box-just box-center">
     <img src="../../img/load-error.png"/>

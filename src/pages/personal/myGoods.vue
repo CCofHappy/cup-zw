@@ -77,7 +77,7 @@
 							<el-col :span="5" class="box box-center goods-btn-box">
 								<div class="button" v-if="item.state==2||item.state==5" @click="upLine(item.productId)">上架</div>
 								<div class="button" v-if="item.state==4" @click="offLine(item.productId)">下架</div>
-								<router-link class="button" :to="{ name: 'handAdd', query: {id:item.productId,tabIndex:18} }" v-if="item.state!=4">修改</router-link>
+								<div class="button" @click="gotoEdit(item)" v-if="item.state!=4&&item.state!=1">修改</div>
 								<div class="button" v-if="item.state!=4" @click="delGoods(item.productId)">删除</div>
 							</el-col>
 						</el-row>
@@ -154,7 +154,7 @@ export default {
 		},
 	},
 	methods: {
-		initData: function() {
+		initData() {
 			let params = {
 				apiUrl: this.config.mallApi + "supplier/goods",
 				current: this.page,
@@ -172,14 +172,14 @@ export default {
 				}
 			})
 		},
-		changePage: function (e) {
+		changePage(e) {
 			this.page = e;
 			this.initData();
 		},
 		forDate: function(e){
 			return this.util.forDate(e,"yyyy-MM-dd hh:mm");
 		},
-		upLine:function (e) { //上架商品
+		upLine(e) { //上架商品
 			let params = {
 				apiUrl: this.config.mallApi + "supplier/goods/upLine/"+e,
 			};
@@ -196,7 +196,7 @@ export default {
 				}
 			})
 		},
-		offLine:function (e) { //下架商品
+		offLine(e) { //下架商品
 			let params = {
 				apiUrl: this.config.mallApi + "supplier/goods/offLine/"+e,
 			};
@@ -213,7 +213,7 @@ export default {
 				}
 			})
 		},
-		delGoods:function (e) { //删除商品
+		delGoods(e) { //删除商品
 			let params = {
 				apiUrl: this.config.mallApi + "supplier/goods/delete/"+e,
 			};
@@ -229,6 +229,13 @@ export default {
 					});
 				}
 			})
+		},
+		gotoEdit(item) {
+			if (item.source==1) {
+				this.$router.push({name: 'choseAdd', query: {id:item.productId,tabIndex:18,type:"edit"}});
+			}else {
+				this.$router.push({name: 'handAdd', query: {id:item.productId,tabIndex:18}});
+			}
 		}
 	},
 	mounted() {

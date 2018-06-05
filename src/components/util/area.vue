@@ -1,3 +1,4 @@
+<!-- 地区列表信息 -->
 <script type="text/javascript">
 var areaList = [{
     "areacode": "0",

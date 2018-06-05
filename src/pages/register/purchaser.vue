@@ -331,7 +331,7 @@ export default {
 						"phone": this.purchaserForm.customerMobile,
 						"type": 1,
 					}
-					this.util.sendCode(that, params)
+					this.util.sendCode(this, params)
 				}
 			})
 		},

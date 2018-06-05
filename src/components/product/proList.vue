@@ -17,7 +17,7 @@
 						</div>
 						<div class="price-box text-center">
 							<div class="price">{{ item.priceStr > 0 ?'￥'+item.priceStr : '暂无报价' }}</div>
-							<div class="trade-price" v-if="customerRoleId==2">采购价:{{item.tradePrice > 0 ?'￥'+item.tradePrice : '暂无报价'}}</div>
+							<div class="trade-price" v-if="customerRoleId==4">采购价:{{item.tradePrice > 0 ?'￥'+item.tradePrice : '暂无报价'}}</div>
 							<div class="detail">({{item.volumn}} / {{item.alcoholStrength}})</div>
 							<div class="tag">
 								<div v-if="item.tagIcons">
@@ -129,7 +129,7 @@ export default {
 	},
 	mounted() {
 		this.navType = this.$route.query.type;
-		this.customerRoleId = this.util.getCookie("customerInfo").customerRoleId;
+		this.customerRoleId = this.util.getCookie("customerInfo")?this.util.getCookie("customerInfo").customerRoleId:0;
 	},
 }
 </script>

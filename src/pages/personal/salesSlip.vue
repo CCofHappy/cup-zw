@@ -4,8 +4,8 @@
 	<div class="container">
 		<div class="nav-title">
 			<el-breadcrumb separator-class="el-icon-arrow-right">
-			  <el-breadcrumb-item :to="{ path: '/aG9tZQ' }">首页</el-breadcrumb-item>
-			  <el-breadcrumb-item>我的订单</el-breadcrumb-item>
+				<el-breadcrumb-item :to="{ path: '/aG9tZQ' }">首页</el-breadcrumb-item>
+				<el-breadcrumb-item>我的销售单</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
 		<el-row :gutter="20">
@@ -37,7 +37,7 @@
 							<div class="font-dark-red" v-if="order.orderStatus == 5">已取消</div>
 						</div>
 						<div class="order-content">
-							<el-row class="text-center box box-center order-row" >
+							<el-row class="text-center box box-center order-row">
 								<el-col :span='21'>
 									<el-row class="text-center box box-center order-item" v-for="goods in order.items">
 										<el-col :span="14" class="text-left">
@@ -49,7 +49,7 @@
 												</div>
 												<div>
 													<router-link :to="{ path: '/Z29vZHNEZXRhaWw', query: {id:goods.productId}}">
-														<h4><small class="text-color-help" v-if="goods.isShared == 1">【分享瓶】</small>{{goods.enName}}</h4>
+														<h4>{{goods.enName}}</h4>
 													</router-link>
 													<p class="titke-cn">{{goods.fullName}}</p>
 													<p class="text-color-help">酒精度：{{goods.alcoholStrength}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;净含量：{{goods.volumn}}</p>
@@ -73,7 +73,7 @@
 							</div>
 							<div>
 								<div class="box">
-									<div class="text-color-help button" @click="cancelOrder(order.id)">立即发货</div>
+									<div class="text-color-help button" @click="">立即发货</div>
 									<router-link to="/bG9naXN0aWNzRGV0YWls" class="text-color-help">查看物流</router-link>
 								</div>
 							</div>
@@ -114,7 +114,8 @@ export default {
 			}],
 			selectedIndex: '1',
 			tabIndex: '1',
-			page:1,
+			page: 1,
+			count: 10,
 		}
 	},
 	components: {
@@ -125,11 +126,12 @@ export default {
 	watch: {
 		'$route' (to, from) {
 			this.tabIndex = this.$route.query.tabIndex ? this.$route.query.tabIndex : 1;
+			this.selectedIndex = this.$route.query.term ? this.$route.query.term : 1;
 			this.initData();
 		},
 		selectedIndex(curVal, oldVal) {
-			if(curVal!=oldVal){
-				this.$router.push("/cGVyc29uYWwvbXlPcmRlcg?page=1&term=" + curVal + "&tabIndex=" + this.tabIndex)
+			if (curVal != oldVal) {
+				this.$router.push({name: 'salesSlip', query: {page:1,term: curVal,tabIndex:this.tabIndex}});
 			}
 		}
 	},
@@ -138,13 +140,19 @@ export default {
 			let that = this;
 			that.util.returnLogin(that);
 			that.page = parseInt(that.$route.query.page ? that.$route.query.page : 1);
-			let orderApi = "";
-			let type = that.$route.query.tabIndex?that.$route.query.tabIndex:1;
+			let orderApi = "",
+				type = that.$route.query.tabIndex ? that.$route.query.tabIndex : 1,
+				url = "supplier/order/shipment";
+			if (this.tabIndex == 21) {
+				url = "supplier/order/settlement";
+			} else if (this.tabIndex == 22) {
+				url = "supplier/order/complete";
+			}
 			let params = {
-				apiUrl: that.config.mallApi + "supplier/order/plan?size=10&current=" + that.page +"&term=" +that.selectedIndex ,
+				apiUrl: that.config.mallApi + url + "?size=" + this.count + "&current=" + that.page + "&term=" + that.selectedIndex,
 				apiMethod: "get",
 			}
-			that.ajaxData(params,function (res) {
+			that.ajaxData(params, function(res) {
 				if (res.data.code == "0000") {
 					that.orderData = res.data.data;
 				} else {
@@ -155,16 +163,16 @@ export default {
 		changePage: function(e) {
 			let data = {
 				page: e,
-				term: this.$route.query.term?this.$route.query.term:1,
-				tabIndex: this.$route.query.tabIndex?this.$route.query.tabIndex:1,
+				term: this.$route.query.term ? this.$route.query.term : 1,
+				tabIndex: this.$route.query.tabIndex ? this.$route.query.tabIndex : 1,
 			}
 			this.$router.push({
 				path: "/cGVyc29uYWwvbXlPcmRlcg",
 				query: data
 			})
 		},
-		forDate: function(e){
-			return this.util.forDate(e,"yyyy-MM-dd")
+		forDate: function(e) {
+			return this.util.forDate(e, "yyyy-MM-dd")
 		}
 	},
 	mounted() {

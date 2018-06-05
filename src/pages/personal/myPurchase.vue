@@ -216,7 +216,6 @@ export default {
 		donwCount(index) {
 			this.buyCount[index] > 1 ? this.buyCount[index]-- : '';
 			this.$set(this.buyCount, index, this.buyCount[index]);
-
 		},
 		upCount(index) {
 			this.buyCount[index] = this.buyCount[index] + 1;
