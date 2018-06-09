@@ -36,7 +36,7 @@
 	<div class="line-box" v-bind:class="{ active: navNum==5}">
 		<router-link :to="{ name: 'myOrder', query:{page:1, tabIndex: 5}  }">已取消</router-link>
 	</div>
-	<div class="line-box" v-bind:class="{ active: navNum==6}">
+	<div class="line-box" v-bind:class="{ active: navNum==6}" v-if="customerRoleId != 4">
 		<router-link :to="{ name: 'saleService', query:{page:1, tabIndex: 6}  }">售后服务</router-link>
 	</div>
 
@@ -76,11 +76,15 @@
 		</div>
 	</router-link>
 	<router-link :to="{ name: 'salesSlip', query:{page:1, tabIndex: 21}}" v-if="customerRoleId == 2">
-		<div class="line-box" v-bind:class="{ active: navNum==21}">待结算
+		<div class="line-box" v-bind:class="{ active: navNum==21}">待收货
 		</div>
 	</router-link>
 	<router-link :to="{ name: 'salesSlip', query:{page:1, tabIndex: 22}}" v-if="customerRoleId == 2">
-		<div class="line-box" v-bind:class="{ active: navNum==22}">已完成
+		<div class="line-box" v-bind:class="{ active: navNum==22}">待结算
+		</div>
+	</router-link>
+	<router-link :to="{ name: 'salesSlip', query:{page:1, tabIndex: 23}}" v-if="customerRoleId == 2">
+		<div class="line-box" v-bind:class="{ active: navNum==23}">已完成
 		</div>
 	</router-link>
 
@@ -156,7 +160,6 @@ export default {
 	},
 	mounted() {
 		this.customerRoleId = this.util.getCookie("customerInfo").customerRoleId;
-		this.customerRoleId = 2;
 		this.initData();
 	}
 }

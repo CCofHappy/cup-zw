@@ -154,7 +154,7 @@
 			<div class="right-box">
 				<div v-if="nowVolumesInfo &&  JSON.stringify(nowVolumesInfo.activity) != '{}'">
 					<div class="price-box">
-						抢购价：<span class="price"><small>￥</small>{{nowVolumesInfo.activity?nowVolumesInfo.activity.productDetail[0].activityPrice:''}}</span>
+						抢购价：<span class="price"><small>￥</small>{{nowVolumesInfo.activity?nowVolumesInfo.activity.activityPrice:''}}</span>
 						<span class="normalPrice">{{nowPriceStr}}</span>
 						<div class="box count-down-box">
 							<span>限时抢购</span>
@@ -493,6 +493,7 @@ export default {
 				data[0].id = that.goodsInfo.id;
 				data[0].volumn= that.nowVolumesInfo.specificationValue;
 				sessionStorage.orderSubmitInfo = JSON.stringify(data);
+				console.log(data)
 				this.$router.push('/Z2V0T3JkZXJJbmZv?type=1');
 			} else {
 				that.$notify({

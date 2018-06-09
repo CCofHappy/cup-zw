@@ -263,8 +263,17 @@
 
 .myDemand {
 	.order-content {
+		.order-row{
+			border-bottom: 1px solid #ddd;
+			&:last-child{
+				border-bottom: none;
+			}
+			.order-item{
+				border-right: none;
+			}
+		}
 		.button {
-			border: 1px solid #000000;
+			border: 1px solid #000;
 			height: 36px;
 			line-height: 36px;
 			width: 96px;
@@ -273,6 +282,10 @@
 			&.wait {
 				border-color: #979797;
 				color: #979797;
+			}
+			&:hover{
+				background: #000;
+				color: #fff;
 			}
 		}
 	}

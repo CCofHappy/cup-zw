@@ -103,6 +103,7 @@ export default {
 				consigneeMobile: '',
 				phone: '',
 				email: '',
+				flag: 0
 			},
 			formLabelWidth: '100px',
 			rules:{
@@ -195,7 +196,7 @@ export default {
 						method: "post",
 						url: that.config.mallApi + url,
 						headers: {
-							"Authentication": that.util.getCookie("token"),
+							"Authentication": that.util.getCookie("customerInfo").keyCode,
 						},
 						data: data,
 					}).then(function(res) {

@@ -136,8 +136,15 @@ export default {
 				if (res.data.code == "0000") {
 					if (type == "edit") {
 						this.productInfo = res.data.data;
-
-
+						let params = {
+							apiUrl: this.config.mallApi + "supplier/goods/save/pre",
+							apiMethod: 'get',
+						}
+						this.ajaxData(params, (res) => {
+							if (res.data.code == "0000") {
+								this.volumnList = res.data.data.volumn;
+							}
+						})
 					}else {
 						this.productInfo = res.data.data.productInfo;
 						this.volumnList = res.data.data.volumn;
@@ -178,6 +185,7 @@ export default {
 						this.$notify.success({
 							message: "录入成功！"
 						});
+						this.$router.back(-1)
 					} else {
 						this.$notify.error({
 							message: res.data.message

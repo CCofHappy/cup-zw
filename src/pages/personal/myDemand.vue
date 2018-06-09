@@ -20,14 +20,14 @@
 							</el-option>
 						</el-select>
 					</div>
-					<div class="order-list">
+					<div class="order-list" v-for="order in orderData">
 						<div class="order-title box box-between box-align-center">
-							<div>需求单号：8178273817283718&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-color-help">需求单生成时间：2017-12-30  14:20:50</span></div>
-							<div class="text-color-help del-btn button" @click="delOreder">
+							<div>需求单号：{{order.intendNo}}&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-color-help">需求单生成时间：{{order.createTime}}</span></div>
+							<div class="text-color-help del-btn button" @click="delOreder(order.intendId)">
 								删除需求
 							</div>
 						</div>
-						<div class="order-content">
+						<div class="order-content" v-for="item in order.items">
 							<el-row class="text-center box box-center order-row">
 								<el-col :span='20'>
 									<el-row class="text-center box box-center order-item">
@@ -37,61 +37,36 @@
 													<img v-lazy="" class="goodsImg1">
 												</div>
 												<div>
-													<h4>Ben Nevis 63 Years Old 1926 Single Malt Scotch Whisky</h4>
-													<p class="titke-cn">班尼富63年 1926 单一麦芽苏格兰威士忌</p>
-													<p class="text-color-help">酒精度：12%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;净含量：820ml</p>
+													<h4>{{item.enName}}</h4>
+													<p class="titke-cn">{{item.fullName}}</p>
+													<p class="text-color-help">酒精度：{{item.alcoholStrength}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;净含量：{{item.volumn}}</p>
 												</div>
 											</div>
 										</el-col>
-										<el-col :span="5"><small>￥</small>14000</el-col>
-										<el-col :span="5">x11</el-col>
+										<el-col :span="5"><small>￥</small>{{item.tradePrice}}</el-col>
+										<el-col :span="5">x{{item.number}}</el-col>
 									</el-row>
 								</el-col>
 								<el-col :span="4" class="box box-center">
-									<div class="button">
+									<div class="button" v-if="item.stock>item.number" @click="addList(item)">
 										加入清单
 									</div>
-								</el-col>
-							</el-row>
-						</div>
-					</div>
-					<div class="order-list">
-						<div class="order-title box box-between box-align-center">
-							<div>需求单号：8178273817283718&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-color-help">需求单生成时间：2017-12-30  14:20:50</span></div>
-							<div class="text-color-help del-btn button" @click="delOreder">
-								删除需求
-							</div>
-						</div>
-						<div class="order-content">
-							<el-row class="text-center box box-center order-row">
-								<el-col :span='20'>
-									<el-row class="text-center box box-center order-item">
-										<el-col :span="14" class="text-left">
-											<div class="box box-align-center">
-												<div class="img-box box-center box">
-													<img v-lazy="" class="goodsImg1">
-												</div>
-												<div>
-													<h4>Ben Nevis 63 Years Old 1926 Single Malt Scotch Whisky</h4>
-													<p class="titke-cn">班尼富63年 1926 单一麦芽苏格兰威士忌</p>
-													<p class="text-color-help">酒精度：12%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;净含量：820ml</p>
-												</div>
-											</div>
-										</el-col>
-										<el-col :span="5"><small>￥</small>14000</el-col>
-										<el-col :span="5">x11</el-col>
-									</el-row>
-								</el-col>
-								<el-col :span="4" class="box box-center">
-									<div class="button wait" @click="waitMessae">
-										到货通知
+									<div v-else>
+										<div class="button">
+											到货通知
+										</div>
 									</div>
 								</el-col>
 							</el-row>
 						</div>
 					</div>
-				</div>
 
+					<!--分页器-->
+					<div class="text-right" v-if="(orderData.total)/10>1">
+						<el-pagination layout="prev, pager, next" :total="orderData.total?orderData.total:1" :page-size="10" @current-change="changePage" :current-page="page">
+						</el-pagination>
+					</div>
+				</div>
 			</el-col>
 		</el-row>
 	</div>
@@ -107,17 +82,21 @@ export default {
 	data() {
 		return {
 			loadError: false,
-			options: [{
-				value: '1',
-				label: '近三个月订单'
-			}, {
-				value: '2',
-				label: '今年内订单'
-			}, {
+			orderData: {},
+			options: [ {
 				value: '0',
 				label: '全部'
+			}, {
+				value: '1',
+				label: '近一个月订单'
+			}, {
+				value: '2',
+				label: '近三个月订单'
+			}, {
+				value: '3',
+				label: '近半年'
 			}],
-			selectedIndex: '1',
+			selectedIndex: '0',
 			tabIndex: '1',
 			page: 1,
 		}
@@ -129,18 +108,61 @@ export default {
 	},
 	watch: {
 		'$route' (to, from) {
-			this.tabIndex = this.$route.query.tabIndex ? this.$route.query.tabIndex : 1;
 			this.initData();
 		},
 		selectedIndex(curVal, oldVal) {
 			if (curVal != oldVal) {
+				this.$router.push({
+					name: "myDemand",
+					query: {
+						page: 1,
+						term: curVal,
+						tabIndex: this.tabIndex
+					}
+				})
 			}
 		}
 	},
 	methods: {
-		initData() {},
-		delOreder(){
-			this.$confirm("删除后，需求单将无法恢复哦",{
+		initData() {
+			let params = {
+				apiUrl: this.config.mallApi + "buyer/intend/list",
+				current: this.page,
+				size: 10,
+				dateType: this.selectedIndex
+			}
+			this.ajaxData(params, (res) => {
+				if (res.data.code == "0000") {
+					this.orderData = res.data.data.records;
+				} else {
+					console.log(res.data.message);
+				}
+			})
+		},
+		delOreder(id) {//删除需求
+			this.$confirm("删除后，需求单将无法恢复哦", {
+				confirmButtonText: '确定',
+				showCancelButton: false,
+				center: true
+			}).then(() => {
+				let params={
+					apiUrl: this.config.mallApi + "buyer/intend/remove",
+					intendId: id
+				}
+				this.ajaxData(params,(res)=>{
+					if (res.data.code == "0000") {
+						this.$notify.success("删除成功");
+						this.initData();
+					}else {
+						this.$notify.error(res.data.message);
+					}
+				})
+			}).catch(() => {
+
+			});
+		},
+		waitMessae() {
+			this.$confirm("当该商品库存充足时，将第一时间以短信的形式通知您。", {
 				confirmButtonText: '确定',
 				showCancelButton: false,
 				center: true
@@ -150,20 +172,35 @@ export default {
 
 			});
 		},
-		waitMessae(){
-			this.$confirm("当该商品库存充足时，将第一时间以短信的形式通知您。",{
-				confirmButtonText: '确定',
-				showCancelButton: false,
-				center: true
-			}).then(() => {
-
-			}).catch(() => {
-
-			});
-		}
+		changePage(e) {
+			let data = {
+				page: e,
+				term: this.$route.query.term ? this.$route.query.term : 1,
+			}
+			this.$router.push({
+				name: "myDemand",
+				query: data
+			})
+		},
+		addList(item){//加入清单
+			let params={
+				apiUrl:this.config.mallApi + "buyer/intendItem/addTo",
+				intendId:item.intendId,
+				productDetailId:item.productDetailId
+			}
+			this.ajaxData(params,(res)=>{
+				if (res.data.code == "0000") {
+					this.$notify.success("加入成功");
+					this.initData();
+				}else {
+					this.$notify.error(res.data.message);
+				}
+			})
+		},
 	},
 	mounted() {
 		this.tabIndex = this.$route.query.tabIndex ? this.$route.query.tabIndex : 1;
+		this.selectedIndex = this.$route.query.term ? this.$route.query.term : '0';
 		this.initData();
 	}
 }

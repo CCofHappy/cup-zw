@@ -159,6 +159,15 @@ import leftBar from './leftBar'
 export default {
 	name: 'handAdd',
 	data() {
+		var checkNum = (rule, value, callback) => {
+				if (value) {
+					if (isNaN(value)) {
+						return callback(new Error('请输入数字'));
+					} else {
+						callback();
+					}
+				}
+			};
 		return {
 			loadError: false,
 			tabIndex: '1',
@@ -255,6 +264,10 @@ export default {
 					required: true,
 					message: '装瓶数量不能为空',
 					trigger: 'blur'
+				},
+				{
+					validator: checkNum,
+					trigger: 'blur'
 				}],
 				distillTime: [{
 					required: true,
@@ -269,6 +282,10 @@ export default {
 				total: [{
 					required: true,
 					message: '库存数量不能为空',
+					trigger: 'blur'
+				},
+				{
+					validator: checkNum,
 					trigger: 'blur'
 				}],
 				tastRecord: [{
@@ -361,10 +378,6 @@ export default {
 			this.$refs['goodsForm'].validate((valid) => {
 				if (valid) {
 					var params = this.goodsForm;
-					if (isNaN(this.total) ) {
-						this.$notify.error('库存数量不正确!');
-						return;
-					}
 					params.apiUrl = this.config.mallApi + "supplier/goods/save";
 					params.type = e;
 					if (this.saveId) {
@@ -387,6 +400,7 @@ export default {
 								showCancelButton: false,
 								center: true
 							}).then(() => {
+								this.$router.push({name: "myDemand"})
 							}).catch(() => {});
 						} else {
 							this.$message.error(res.data.message);

@@ -1,5 +1,6 @@
 <template>
 <div class="website">
+	<scrollTop></scrollTop>
 	<div class="top-nav">
 		<div class="container box box-between box-align-center">
 			<div class="logo-box">
@@ -328,6 +329,7 @@ export default {
 		},
 	},
 	mounted() {
+		console.log(this.$route.params.gan,this.$route.params.nimeiid);
 		this.initData();
 		this.clientHeight = `${document.documentElement.clientHeight}px`;
 		// 然后监听window的resize事件．在浏览器窗口变化时再设置下背景图高度．

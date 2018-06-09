@@ -84,11 +84,11 @@
 									<router-link :to="{ path: '/bG9naXN0aWNzRGV0YWls', query: {id:order.id}}" target="_blank" class="text-color-help">查看物流</router-link>
 								</div>
 								<div class="box" v-if="order.orderStatus  == 4">
-									<div class="text-color-help button" @click="buyAgain(order.items)">再次购买</div>
+									<div v-if="customerRoleId != 4" class="text-color-help button" @click="buyAgain(order.items)">再次购买</div>
 									<router-link :to="{ path: '/bG9naXN0aWNzRGV0YWls', query: {id:order.id}}" target="_blank" class="text-color-help">查看物流</router-link>
 								</div>
 								<div class="box" v-if="order.orderStatus  == 5">
-									<div class="add-shop-cart button">加入购物车</div>
+									<div v-if="customerRoleId != 4" class="add-shop-cart button">加入购物车</div>
 									<div class="text-color-help button" @click="delOrder(order.id)">删除订单</div>
 								</div>
 							</div>
@@ -117,6 +117,7 @@ export default {
 		return {
 			loadError: false,
 			orderData: {},
+			customerRoleId: 1,
 			options: [{
 				value: '1',
 				label: '近三个月订单'
@@ -139,12 +140,19 @@ export default {
 	},
 	watch: {
 		'$route' (to, from) {
-			this.tabIndex = this.$route.query.tabIndex ? this.$route.query.tabIndex : 1;
+			this.tabIndex = this.$route.query.tabIndex ? this.$route.query.tabIndex : '1';
 			this.initData();
 		},
 		selectedIndex(curVal, oldVal) {
 			if (curVal != oldVal) {
-				this.$router.push("/cGVyc29uYWwvbXlPcmRlcg?page=1&term=" + curVal + "&tabIndex=" + this.tabIndex)
+				this.$router.push({
+					name: "myOrder",
+					query: {
+						page: 1,
+						term: curVal,
+						tabIndex: this.tabIndex
+					}
+				})
 			}
 		}
 	},
@@ -276,29 +284,6 @@ export default {
 			sessionStorage.orderSubmitInfo = JSON.stringify(data);
 			this.$router.push('/Z2V0T3JkZXJJbmZv?type=1');
 		},
-		//加入购物车
-		addShopCart: function(e) {
-			let params = {
-				apiUrl: this.config.mallApi + "shopping/cart/add",
-				productId: e.id,
-				productDetailId: e.id,
-				count: e.goodsCount,
-			}
-			// this.ajaxData(params,(res)=>{
-			// 	if (res.data.code == "0000") {
-			// 		this.$notify({
-			// 			type: 'success',
-			// 			message: '成功加入购物车'
-			// 		});
-			// 		this.$refs.cwHeader.shopCart();
-			// 	} else {
-			// 		this.$notify({
-			// 			type: 'error',
-			// 			message: '操作失败'
-			// 		});
-			// 	}
-			// })
-		},
 		changePage: function(e) {
 			let data = {
 				page: e,
@@ -316,7 +301,10 @@ export default {
 	},
 	mounted() {
 		this.tabIndex = this.$route.query.tabIndex ? this.$route.query.tabIndex : 1;
+		this.selectedIndex = this.$route.query.term ? this.$route.query.term : '1';
 		this.initData();
+		this.customerRoleId = this.util.getCookie("customerInfo").customerRoleId;
+
 	}
 }
 </script>

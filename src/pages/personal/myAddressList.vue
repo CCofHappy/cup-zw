@@ -6,7 +6,7 @@
 		<div class="nav-title">
 			<el-breadcrumb separator-class="el-icon-arrow-right">
 			  <el-breadcrumb-item :to="{ path: '/aG9tZQ' }">首页</el-breadcrumb-item>
-			  <el-breadcrumb-item>个人中心</el-breadcrumb-item>
+			  <el-breadcrumb-item>收货地址</el-breadcrumb-item>
 			</el-breadcrumb>
 		</div>
 		<el-row :gutter="20">

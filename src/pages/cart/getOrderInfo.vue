@@ -74,7 +74,7 @@
 					</el-col>
 					<el-col :span="3" class="box box-center">{{item.count?item.count:item.quantity}}</el-col>
 					<el-col :span="4" class="box box-center">
-						<small>￥</small> {{parseFloat((item.count||item.quantity||item.number) * item.price).toFixed(2)}}
+						<small>￥</small> {{parseFloat((item.count||item.quantity||(item.number>item.stock?item.stock:item.number)) * item.price).toFixed(2)}}
 					</el-col>
 				</el-row>
 			</div>
@@ -101,8 +101,6 @@
 				<span class="text-color-help" v-else>您还没有选择发票信息</span>
 				<a href="javascript:void(0);" @click="openNewInvoice"><u>点击编辑</u></a>
 			</div>
-
-
 			<div class="text-right toolbar">
 				合计金额：<span class="sum"><small>￥</small>{{parseFloat(orderMax).toFixed(2)}}</span>&nbsp;
 				<el-button type="primary" @click="orderSubmit">
@@ -135,8 +133,8 @@ export default {
 			maxAddr: 7,
 			invoiceSeq: "",
 			orderMax: 0,
-			memo:"",
-			customerRoleId:0,
+			memo: "",
+			customerRoleId: 0,
 		}
 	},
 	components: {
@@ -152,11 +150,12 @@ export default {
 			if (sessionStorage.orderSubmitInfo) {
 				let info = JSON.parse(sessionStorage.orderSubmitInfo),
 					maxPrice = 0;
+				console.log(info);
 				for (var i in info) {
-					if (this.customerRoleId==4) {
+					if (this.customerRoleId == 4) {
 						info[i].price = info[i].tradePrice
 					}
-					maxPrice += ((info[i].count || info[i].quantity || info[i].number) * info[i].price);
+					maxPrice += ((info[i].count || info[i].quantity || (info[i].number > info[i].stock ? info[i].stock : info[i].number)) * info[i].price);
 				}
 				that.orderItems = info;
 				that.orderMax = maxPrice;
@@ -228,9 +227,9 @@ export default {
 			this.$refs.newInvoice.dialogFormVisible = true;
 			this.$refs.newInvoice.openFirst = true;
 		},
-		refresh(){
+		refresh() {
 			this.initData();
-			this.selectedAddr=1;
+			this.selectedAddr = 1;
 		},
 		orderSubmit() {
 			let that = this;
@@ -247,31 +246,31 @@ export default {
 					addressId: addressId,
 					goods: [],
 					invoiceSeq: "",
-					memo: that.memo?that.memo:'无',
+					memo: that.memo ? that.memo : '无',
 					type: that.$route.query.type,
 				}
 				if (that.$route.query.from == "inventory") {
-					data.apiUrl = that.config.mallApi +"buyer/submitOrder";
+					data.apiUrl = that.config.mallApi + "buyer/submitOrder";
 					for (var i in that.orderItems) {
 						data.goods[i] = {
 							productDetailId: that.orderItems[i].productDetailId,
-							quantity: that.orderItems[i].number>that.orderItems[i].stock?that.orderItems[i].stock:that.orderItems[i].number,
-      						intendQuantity: that.orderItems[i].number>that.orderItems[i].stock?that.orderItems[i].number-that.orderItems[i].stock:0
+							quantity: that.orderItems[i].number > that.orderItems[i].stock ? that.orderItems[i].stock : that.orderItems[i].number,
+							intendQuantity: that.orderItems[i].number > that.orderItems[i].stock ? that.orderItems[i].number - that.orderItems[i].stock : 0
 						}
 					}
-				}else {
+				} else {
 					for (var i in that.orderItems) {
 						data.goods[i] = {
 							productDetailId: that.orderItems[i].detailId ? that.orderItems[i].detailId : that.orderItems[i].productDetailId,
 							productId: that.orderItems[i].id ? that.orderItems[i].id : that.orderItems[i].productId,
-							quantity: that.orderItems[i].count || that.orderItems[i].quantity ,
+							quantity: that.orderItems[i].count || that.orderItems[i].quantity,
 						}
 					}
 				}
 				if (that.isNeedInvoice == 2) {
 					data.invoiceSeq = that.invoiceInfo.invoiceSeq
 				}
-				that.ajaxData(data,(res)=>{
+				that.ajaxData(data, (res) => {
 					if (res.data.code == "0000") {
 						that.$notify.success({
 							message: "提交成功！"
@@ -295,8 +294,7 @@ export default {
 		}
 	},
 	mounted() {
-		this.customerRoleId =4;
-		//this.customerRoleId = this.util.getCookie("customerInfo").customerRoleId;
+		this.customerRoleId = this.util.getCookie("customerInfo").customerRoleId;
 		this.initData();
 	}
 }

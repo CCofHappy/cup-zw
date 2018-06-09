@@ -75,54 +75,52 @@
 				</el-form>
 			</div>
 			<div class="step-box two" v-if="step==2">
-				<h5>您的申请已提交，正在处理中。</h5>
-				<p>中威网将在三个工作日内处理您的申请，请耐心等待。</p>
-				<el-button type="primary" class="apply-btn button" @click="cancelService">撤销申请</el-button>
-				<div class="apply-goods-box">
-					<p>退款商品</p>
-					<el-row class="text-center title">
-						<el-col :span="11">商品</el-col>
-						<el-col :span="4">售价(元)</el-col>
-						<el-col :span="4">数量</el-col>
-						<el-col :span="5">总计</el-col>
-					</el-row>
-					<div class="apply-goods">
-						<el-row class="box box-center ">
-							<el-col :span="11">
-								<div class="box box-align-center">
-									<div class="img-box box-center box">
-										<img v-lazy="serviceDetail.orderModel.image" class="goodsImg1">
-									</div>
-									<div>
-										<h4>{{serviceDetail.orderModel.enName}}</h4>
-										<p class="titke-cn">{{serviceDetail.orderModel.chName}}</p>
-									</div>
-								</div>
-							</el-col>
-							<el-col :span="4" class="text-center">{{serviceDetail.orderModel.price}}</el-col>
-							<el-col :span="4" class="text-center">{{serviceDetail.orderModel.returnCount}}</el-col>
-							<el-col :span="5" class="text-center">{{serviceDetail.orderModel.price*serviceDetail.orderModel.returnCount}}</el-col>
+				<div v-if="serviceDetail.orderModel.status==0">
+					<h5>您的申请已提交，正在处理中。</h5>
+					<p>中威网将在三个工作日内处理您的申请，请耐心等待。</p>
+					<el-button type="primary" class="apply-btn button" @click="cancelService">撤销申请</el-button>
+					<div class="apply-goods-box">
+						<p>退款商品</p>
+						<el-row class="text-center title">
+							<el-col :span="11">商品</el-col>
+							<el-col :span="4">售价(元)</el-col>
+							<el-col :span="4">数量</el-col>
+							<el-col :span="5">总计</el-col>
 						</el-row>
+						<div class="apply-goods">
+							<el-row class="box box-center ">
+								<el-col :span="11">
+									<div class="box box-align-center">
+										<div class="img-box box-center box">
+											<img v-lazy="serviceDetail.orderModel.image" class="goodsImg1">
+										</div>
+										<div>
+											<h4>{{serviceDetail.orderModel.enName}}</h4>
+											<p class="titke-cn">{{serviceDetail.orderModel.chName}}</p>
+										</div>
+									</div>
+								</el-col>
+								<el-col :span="4" class="text-center">{{serviceDetail.orderModel.price}}</el-col>
+								<el-col :span="4" class="text-center">{{serviceDetail.orderModel.returnCount}}</el-col>
+								<el-col :span="5" class="text-center">{{serviceDetail.orderModel.price*serviceDetail.orderModel.returnCount}}</el-col>
+							</el-row>
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="step-box three" v-if="step==3">
-				<div v-if="serviceDetail.orderModel.status==4">
+				<div v-if="serviceDetail.orderModel.status==3">
 					<div class="box box-align-center">
 						<icon name="error" style="fill: #000;" scale="8" class="icon"></icon>
-						<div class="success-text" v-if="serviceDetail.orderModel.serviceType==1">
-							<h5>退款失败</h5>
-							<small>您退回的商品经验收发现存在以下问题：退回商品与本商城售出商品不一致。现将该商品退还您。</small>
-						</div>
-						<div class="success-text" v-else>
-							<h5>退款失败</h5>
+						<div class="success-text">
+							<h5>您的退货退款申请未通过，如有疑问，请重新申请。</h5>
 							<small>您的售后申请未通过审核，存在以下问题：{{serviceDetail.auditModel.auditDesc}}</small>
 						</div>
 					</div>
 				</div>
-				<div v-else>
+			</div>
+			<div class="step-box three" v-if="step==3">
+				<div v-if="serviceDetail.orderModel.status==1">
 					<h5>您的申请已提交，正在处理中。</h5>
-					<div v-if="serviceDetail.orderModel.serviceType==1&&serviceDetail.orderModel.status!=2">
+					<div v-if="serviceDetail.orderModel.serviceType==1">
 						<p>您的售后申请已通过审核，请在7天内将货品退回并填写物流单号，逾期将自动关闭该售后申请。</p>
 						<p class="address">退货地址：广东省惠州市惠城区江北文昌一路华贸金融街12号楼103 李小姐 400-830-5299</p>
 						<el-form :model="returnForm" :rules="returnRules" ref="returnForm" label-width="120px">
@@ -145,16 +143,32 @@
 						</el-form>
 					</div>
 				</div>
+				<div v-if="serviceDetail.orderModel.status==2">
+					<h5>您的申请已提交，正在处理中。</h5>
+				</div>
+				<div v-if="serviceDetail.orderModel.status==4">
+					<div class="box box-align-center">
+						<icon name="error" style="fill: #000;" scale="8" class="icon"></icon>
+						<div class="success-text" v-if="serviceDetail.orderModel.serviceType==1">
+							<h5>退款失败</h5>
+							<small>您退回的商品经验收发现存在以下问题：退回商品与本商城售出商品不一致。现将该商品退还您。</small>
+						</div>
+						<div class="success-text" v-else>
+							<h5>退款失败</h5>
+							<small>您的售后申请未通过审核，存在以下问题：{{serviceDetail.auditModel.auditDesc}}</small>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div class="step-box" v-if="step==4">
-				<div class="box" v-if="serviceDetail.orderModel.status!='-1'">
+				<div class="box" v-if="serviceDetail.orderModel.status==5">
 					<icon name="tick-black" scale="8" class="icon"></icon>
 					<div class="success-text">
 						<h5>退款成功</h5>
 						<small>款项已退至您中威钱包，请注意查收。</small>
 					</div>
 				</div>
-				<div class="box box-align-center" v-else>
+				<div class="box box-align-center" v-if="serviceDetail.orderModel.status=='-1'">
 					<icon name="warn-gray" scale="8" class="icon"></icon>
 					<div class="success-text">
 						<h5>该售后服务已取消</h5>
@@ -327,7 +341,7 @@ export default {
 				});
 			}
 		},
-		submitReturn(){//提交退货信息
+		submitReturn() { //提交退货信息
 			this.$refs['returnForm'].validate((valid) => {
 				if (valid) {
 					var params = this.returnForm;
@@ -348,11 +362,11 @@ export default {
 		},
 		cancelService() {
 			let params = {
-				apiUrl:this.config.mallApi + "sales/cancel/" +  this.$route.query.id,
-				apiMethod:"get"
+				apiUrl: this.config.mallApi + "sales/cancel/" + this.$route.query.id,
+				apiMethod: "get"
 			}
-			this.ajaxData(params,(res)=>{
-				if (res.data.code=="0000") {
+			this.ajaxData(params, (res) => {
+				if (res.data.code == "0000") {
 					this.$notify.success("服务撤销成功");
 					this.$router.push({
 						name: "saleService",
@@ -362,7 +376,7 @@ export default {
 							type: 1
 						}
 					});
-				}else{
+				} else {
 					this.$notify.error(res.data.message);
 				}
 			})
@@ -438,10 +452,10 @@ export default {
             }
         }
     }
-	svg{
-		path{
-			fill:#000;
-		}
-	}
+    svg {
+        path {
+            fill: #000;
+        }
+    }
 }
 </style>

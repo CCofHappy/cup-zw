@@ -365,7 +365,7 @@ export default {
 					params.customerType = 2;
 					params.customerPwd = this.md5(params.customerPwd.replace(/\s/g, ''));
 					params.confirmPassword = this.md5(params.confirmPassword.replace(/\s/g, ''));
-					params.apiUrl = this.config.mallApi + "auth/reg/supplier";
+					params.apiUrl = this.config.mallApi + "auth/reg/purchaser";
 					params.apiMethod = "post";
 					this.ajaxData(params, (res) =>{
 						if (res.data.code == "0000") {
