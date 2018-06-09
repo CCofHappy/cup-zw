@@ -3,8 +3,8 @@
 	<cwHeader></cwHeader>
 	<div class="container">
 		<div class="search-input">
-			<el-input placeholder="">
-				<el-button slot="append">搜索</el-button>
+			<el-input placeholder="" v-model="searchContent">
+				<el-button slot="append" @click="search">搜索</el-button>
 			</el-input>
 		</div>
 
@@ -81,6 +81,7 @@ export default {
 	data() {
 		return {
 			type: 1,
+			searchContent: "",
 			loadError: false,
 			searchData: "",
 			searchType: 0,
@@ -178,6 +179,9 @@ export default {
 					that.loadError = true;
 				}
 			})
+		},
+		search: function () {
+			this.$router.push({name: "search", query: {value: this.searchContent, page: 1}});
 		},
 		choseCategory: function(item) {
 			if (item) {

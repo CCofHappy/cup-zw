@@ -88,7 +88,7 @@
 									<router-link :to="{ path: '/bG9naXN0aWNzRGV0YWls', query: {id:order.id}}" target="_blank" class="text-color-help">查看物流</router-link>
 								</div>
 								<div class="box" v-if="order.orderStatus  == 5">
-									<div v-if="customerRoleId != 4" class="add-shop-cart button">加入购物车</div>
+									<div v-if="customerRoleId != 4" class="add-shop-cart button" @click="addShoppongCar(order.items)">加入购物车</div>
 									<div class="text-color-help button" @click="delOrder(order.id)">删除订单</div>
 								</div>
 							</div>
@@ -116,7 +116,7 @@ export default {
 	data() {
 		return {
 			loadError: false,
-			orderData: {},
+			orderData: {}, // 获取到的服务器数据
 			customerRoleId: 1,
 			options: [{
 				value: '1',
@@ -283,6 +283,39 @@ export default {
 			let data = goods;
 			sessionStorage.orderSubmitInfo = JSON.stringify(data);
 			this.$router.push('/Z2V0T3JkZXJJbmZv?type=1');
+		},
+		addShoppongCar: function (items) {
+			for (let i = 0; i < items.length; i++) {
+				let orderProductId = items[i].productId;
+				let orderProductDetailId = items[i].productDetailId;
+				let orderQuantity = items[i].quantity;
+				let params = {
+					apiUrl: this.config.mallApi + "shopping/cart/add",
+					apiMethod: "post",
+					productId: orderProductId, 
+					productDetailId: orderProductDetailId, 
+					count: orderQuantity
+				};
+				this.ajaxData(params, (res) => {
+					if (res.data.code == "0000") {
+						this.$notify({
+							type: 'success',
+							message: '操作成功',
+						});
+						if (this.$route.query.page != 1) {
+							this.$router.push("/cGVyc29uYWwvbXlPcmRlcg?page=1")
+						} else {
+							this.initData()
+						}
+					} else {
+						this.$notify({
+							type: 'error',
+							message: res.data.message,
+						});
+					}
+				})
+			}
+			
 		},
 		changePage: function(e) {
 			let data = {

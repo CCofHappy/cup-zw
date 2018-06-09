@@ -15,7 +15,7 @@ export default new Router({
 			name: 'website',
 			path: '/d2Vic2l0ZQ',
 			component: resolve => require(['../pages/website/website'], resolve),
-			children: [],
+			children: []
 		},
 		{
 			//品牌列表
