@@ -10,7 +10,7 @@
 		<LoadError v-if="loadError"></LoadError>
 		<div class="goods-box" v-else>
 			<el-row :gutter="10">
-				<el-col :span="8" v-for="(item, index) in limitGoods">
+				<el-col :span="8" v-for="(item, index) in limitGoods" :key="index">
 					<limitGood :itemData="item" :nowTime="nowTime"></limitGood>
 				</el-col>
 			</el-row>

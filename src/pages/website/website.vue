@@ -185,7 +185,7 @@
 			<h4>Get to know the story of the whisky distilleries and learn about each brand.</h4>
 			<div class="brands-box">
 				<el-row :gutter="20">
-					<el-col :span="6" v-for="(item,index) in brandList">
+					<el-col :span="6" v-for="(item,index) in brandList" :key="index">
 						<router-link :to="{ path: '/YnJhbmREZXRhaWw', query: {id:item.id}} "target="_blank">
 							<div class="brand-box">
 								<div class="img-box box box-center">

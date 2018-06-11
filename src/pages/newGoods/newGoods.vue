@@ -19,7 +19,7 @@
 				</div>
 				<div class="chose-button box">
 					<div class="button" @click="choseCategory()" :class="{active:!categoryId}">全部</div>
-					<div class="button" v-for="item in categoryList" @click="choseCategory(item)" :class="{active:categoryId==item.id}">{{item.name}}</div>
+					<div class="button" v-for="item,key in categoryList" :key="key" @click="choseCategory(item)" :class="{active:categoryId==item.id}">{{item.name}}</div>
 				</div>
 			</div>
 			<div class="brand-chose box" v-if="regionList.length>0">
@@ -28,7 +28,7 @@
 				</div>
 				<div class="chose-button">
 					<div class="button" @click="choseRegion()" :class="{active:!regionId}">全部</div>
-					<div class="button" v-for="item in regionList" @click="choseRegion(item)" :class="{active:regionId==item.id}">{{item.name}}</div>
+					<div class="button" v-for="item,index in regionList" :key="index" @click="choseRegion(item)" :class="{active:regionId==item.id}">{{item.name}}</div>
 				</div>
 			</div>
 			<div class="brand-chose box">
@@ -37,7 +37,7 @@
 				</div>
 				<div class="chose-button">
 					<div class="button" :class="{active:!brandId}" @click="choseBrandId()">全部</div>
-					<div class="button" v-for="(item,index) in brandList" v-if="index<max" @click="choseBrandId(item)" :class="{active:brandId==item.id}">{{item.name}}</div>
+					<div class="button" v-for="(item,index) in brandList" :key="index" v-if="index<max" @click="choseBrandId(item)" :class="{active:brandId==item.id}">{{item.name}}</div>
 					<div class="button more" v-if="brandList && brandList.length>30 && max==30" @click="checkMore(1)">查看更多></div>
 					<div class="button more" v-if="brandList && brandList.length>30 && max!=30" @click="checkMore(0)">收起更多
 						<</div>
@@ -67,7 +67,7 @@
 				<LoadError v-if="loadError"></LoadError>
 				<NoData :message="'没有符合条件的新酒'" v-else-if="newGoodsData.records&&newGoodsData.records.length==0"></NoData>
 				<el-row v-else>
-					<el-col :span="12" v-for="item in newGoodsData.records">
+					<el-col :span="12" v-for="item,index in newGoodsData.records" :key="index">
 						<div class="good-box box">
 							<div class="img-box box box-center">
 								<img :src="item.image">

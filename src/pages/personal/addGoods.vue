@@ -47,7 +47,7 @@
 							<el-col :span="3">装瓶时间</el-col>
 							<el-col :span="2">操作</el-col>
 						</el-row>
-						<el-row class="text-center goods-box box box-align-center" v-for="(item,index) in goodsList">
+						<el-row class="text-center goods-box box box-align-center" v-for="(item,index) in goodsList" :key="index">
 							<el-col :span="3">
 								<p class="">{{item.code}}</p>
 							</el-col>

@@ -69,7 +69,7 @@
 					</div>
 				</div>
 				<div class="logistics-step" v-if="orderDetail && logisticsInfo.data">
-					<div class="step-box box" v-for="(item,index) in logisticsInfo.data" :class="{active:index==0}" v-if="index<5">
+					<div class="step-box box" v-for="(item,index) in logisticsInfo.data" :key="index" :class="{active:index==0}" v-if="index<5">
 						<div class="time">{{item.time}}</div>
 						<div class="detail">{{item.context}}</div>
 					</div>
@@ -136,7 +136,7 @@
 					<el-col :span="3">单价（元）</el-col>
 					<el-col :span="3">数量（瓶）</el-col>
 				</el-row> -->
-				<el-row class="goods" v-for="item in orderDetail.items">
+				<el-row class="goods" v-for="item,index in orderDetail.items" :key="index">
 					<el-col :span="10">
 						<div class="box box-align-center">
 							<div class="img-box">

@@ -48,7 +48,7 @@
 			<div class="classify-btn button" :class="{ active:classifyType==-1}" @click="classifyType=-1">
 				全部
 			</div>
-			<div class="classify-btn button" :class="{ active:classifyType==item.id}" @click="classifyType=item.id" v-for="(item,index) in categoryList">
+			<div class="classify-btn button" :class="{ active:classifyType==item.id}" @click="classifyType=item.id" v-for="(item,index) in categoryList" :key="index">
 				{{item.name}}
 			</div>
 		</div>
@@ -56,7 +56,7 @@
 			<LoadError v-if="loadError"></LoadError>
 			<NoData :message="'没有符合条件的品牌'" v-else-if="brandList.records&&brandList.records.length==0"></NoData>
 			<el-row :gutter="30" v-else>
-				<el-col :span="6" v-for="(item,index) in brandList.records">
+				<el-col :span="6" v-for="(item,index) in brandList.records" :key="index">
 					<router-link :to="{ path: '/YnJhbmREZXRhaWw', query: {id:item.id}} " target="_blank">
 						<div class="brand-box">
 							<div class="logo-box box box-center">

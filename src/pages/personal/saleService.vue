@@ -33,7 +33,7 @@
 						<LoadError v-if="loadError"></LoadError>
 						<NoData :message="'没有查询到相关订单'" v-else-if="orderData.records&&orderData.records.length==0"></NoData>
 						<!--表内容-->
-						<div class="order-list" v-else v-for="order in orderData.records">
+						<div class="order-list" v-else v-for="order,index in orderData.records" :key="index">
 							<div class="order-title box box-between box-align-center">
 								<div class="box-flex">订单号：{{order.orderNo}}&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-color-help">下单时间：{{forDate(order.createDate)}}</span></div>
 								<div class="font-dark-red" v-if="order.orderStatus == 1">待付款</div>
@@ -43,7 +43,7 @@
 								<div class="font-dark-red" v-if="order.orderStatus == 5">已取消</div>
 							</div>
 							<div class="order-content">
-								<el-row class="text-center box box-center order-row" v-for="goods in order.items">
+								<el-row class="text-center box box-center order-row" v-for="goods,index in order.items" :key="index">
 									<el-col :span='21'>
 										<el-row class="text-center box box-center order-item">
 											<el-col :span="14" class="text-left">
@@ -84,7 +84,7 @@
 						<LoadError v-if="loadError"></LoadError>
 						<NoData :message="'没有查询到相关订单'" v-else-if="saleData.records&&saleData.records.length==0"></NoData>
 						<!--表内容-->
-						<div class="order-list" v-else v-for="item in saleData.records">
+						<div class="order-list" v-else v-for="item,index in saleData.records" :key="index">
 							<div class="order-title box box-between box-align-center">
 								<div class="box-flex">服务单号：{{item.serviceNo}}&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-color-help">申请时间：{{forDate(item.applyTime)}}</span></div>
 								<div class="font-dark-red" v-if="item.serviceType == 1">退款退货</div>

@@ -101,7 +101,7 @@
 						</div>
 					</div>
 					<div class="prize-content content-box" v-bind:class="{active: detailNav==3}">
-						<div class="prize-box" v-for="item in prizesInfo">
+						<div class="prize-box" v-for="item,index in prizesInfo" :key="index">
 							<div class="prize-title box box-align-center">
 								<div class="prize-icon box box-align-center">
 									<img v-lazy="item.icon">
@@ -116,7 +116,7 @@
 			<div class="mid-box">
 				<div class="material-box">
 					<swiper :options="materialrOption" class="material-swiper">
-						<swiper-slide class="box box-center" v-for="item in flavorsInfo">
+						<swiper-slide class="box box-center" v-for="item,index in flavorsInfo" :key="index">
 							<div>
 								{{item.flavorName}}
 								<div class="img-box">
@@ -130,7 +130,7 @@
 					<div>
 						<swiper :options="goodsOption" ref="goodsSwiper" class="goods-swiper">
 							<!-- slides -->
-							<swiper-slide class="box box-center" v-for="item in nowVolumesInfo.imgs">
+							<swiper-slide class="box box-center" v-for="item,index in nowVolumesInfo.imgs" :key="index">
 								<img v-lazy="item.url" width="100%">
 							</swiper-slide>
 						</swiper>
@@ -139,7 +139,7 @@
 				<div class="goods-img-nav">
 					<swiper :options="navOption" class="nav-swiper">
 						<!-- slides -->
-						<swiper-slide class="box box-center" v-for="(item, index) in nowVolumesInfo.imgs">
+						<swiper-slide class="box box-center" v-for="(item, index) in nowVolumesInfo.imgs" :key="index">
 							<img v-bind:src="item.url" width="100%" @click="changeImage(index)">
 						</swiper-slide>
 					</swiper>
@@ -193,7 +193,7 @@
 				<div class="quality-box">
 					<div class="title">可选规格</div>
 					<div class="quality-chose">
-						<div class="chose-box button" v-for="(item, index) in volumesInfo" :class="{active:index==volumesNum}" @click="choangeVolumes(index)" v-if="item.isShared==0">
+						<div class="chose-box button" v-for="(item, index) in volumesInfo" :key="index" :class="{active:index==volumesNum}" @click="choangeVolumes(index)" v-if="item.isShared==0">
 							{{item.specificationValue}}
 						</div>
 					</div>

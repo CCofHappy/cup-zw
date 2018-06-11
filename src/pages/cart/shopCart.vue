@@ -39,7 +39,7 @@
 			<LoadError v-if="loadError"></LoadError>
 			<NoData :message="'您的购物车空空如也'" v-else-if="shopCartdata.records&&shopCartdata.records.length==0"></NoData>
 			<el-checkbox-group v-model="cartList" v-else>
-				<el-row class="shop-cart-goods box box-align-center"  v-for="(item,index) in shopCartdata.records">
+				<el-row class="shop-cart-goods box box-align-center"  v-for="(item,index) in shopCartdata.records" :key="index">
 					<el-col :span="2" class="shop-card-checkbox">
 						<el-checkbox :label="index" text-color="#fff" @change="choseBox" :disabled="item.state==5||item.stock==0"></el-checkbox>
 					</el-col>

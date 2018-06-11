@@ -16,7 +16,7 @@
 				<LoadError v-if="loadError"></LoadError>
 				<NoData :message="'您还没有浏览历史'" v-else-if="historyData && historyData.records.length==0"></NoData>
 				<div class="history-item" v-else>
-					<div v-for="(item,index) in historyData.records" v-if="item.goodLists.length>0">
+					<div v-for="(item,index) in historyData.records" :key="index" v-if="item.goodLists.length>0">
 						<div class="nav-his-subtitle">
 							<span class="date">{{item.date}}</span>
 							<a href="javascipt:,;"><span @click="removeHistoryDay(item.date)" class="text-color-help" >删除</span></a>
@@ -24,7 +24,7 @@
 						<!--商品列表-->
 						<div class="goods-box">
 							<el-row :gutter="26">
-								<el-col :span="6" v-for="(item,index) in historyData.records[index].goodLists">
+								<el-col :span="6" v-for="(item,index) in historyData.records[index].goodLists" :key="index">
 									<div class="good-box">
 										<router-link :to="{ path: '/Z29vZHNEZXRhaWw', query: {id:item.id}}" target="_blank">
 											<div class="img-box">

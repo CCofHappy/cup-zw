@@ -1,7 +1,7 @@
 <template>
 <div class="cwheader">
 	<div class="fixed-tool-box">
-		<div class="fixed-box box box-center button" @click="enter(2)" v-show="shopScrolled">
+		<div class="fixed-box box box-center button" v-if="this.customerInfo.customerRoleId != 4" @click="enter(2)" v-show="shopScrolled">
 			<span class="shop-cart-count" v-if="customerInfo.customerLogin"><small>{{cartCount}}</small></span>
 			<icon name="shop-cart" scale="2" v-if="cartCount>0"></icon>
 			<icon name="shop-cart2" scale="2" v-else></icon>
@@ -58,8 +58,8 @@
 							<li class="box box-align-center" v-if="customerInfo.customerLogin">
 								<router-link to="/cGVyc29uYWxJbmZv" >个人中心</router-link>
 							</li>
-							<li class="box box-align-center">/</li>
-							<li class="box box-align-center button" @click="enter(2)">
+							<li class="box box-align-center" v-if="this.customerInfo.customerRoleId != 4">/</li>
+							<li class="box box-align-center button" v-if="this.customerInfo.customerRoleId != 4" @click="enter(2)">
 								购物车<small class="shop-cart-count" v-show="cartCount!=0">{{cartCount}}</small>
 							</li>
 							<li class="box box-align-center">/</li>

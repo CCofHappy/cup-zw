@@ -48,7 +48,7 @@
 							<el-col :span="4">录入时间</el-col>
 							<el-col :span="5">操作</el-col>
 						</el-row>
-						<el-row class="text-center goods-box box box-align-center" v-for="(item,index) in goodsList">
+						<el-row class="text-center goods-box box box-align-center" v-for="(item,index) in goodsList" :key="index">
 							<el-col :span="3" class="box-center box">
 								<div class="img-box">
 									<img v-lazy="item.image" class="goodsImg1">

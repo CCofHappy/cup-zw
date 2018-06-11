@@ -3,7 +3,7 @@
 <div class="proList">
 	<div class="goods-box">
 		<el-row :gutter="26">
-			<el-col :span="6" v-for="item in goodsList">
+			<el-col :span="6" v-for="item,index in goodsList" :key="index">
 				<div class="good-box">
 					<div class="img-box box box-center" ref="imgBox" :style="{ height: imgHeight }">
 						<img class="goodsImg1" v-lazy="item.image" width="100%">

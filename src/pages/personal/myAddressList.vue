@@ -22,7 +22,7 @@
 				<LoadError v-if="loadError"></LoadError>
 				<NoData :message="'没有相关收货地址'" v-else-if="addressData.records&&addressData.records.length==0"></NoData>
 				<el-row v-else>
-					<el-col :span="8" v-for="addr in addressData.records">
+					<el-col :span="8" v-for="addr,index in addressData.records" :key="index">
 						<el-card class="box-card">
 							<div class="item name"><b>{{addr.consignee}}</b></div>
 							<div class="item"><span class="text-color-help">{{addr.province + addr.addr}}</span></div>

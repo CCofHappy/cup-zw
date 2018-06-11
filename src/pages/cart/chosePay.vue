@@ -11,7 +11,7 @@
 				请您在提交订单后 <span class="font-dark-red">{{countTime}}</span> 内完成支付，否则订单会自动取消！
 			</div>
 			<div class="goods-box">
-				<el-row class="goods-detail box box-center" v-for="item in orderInfo.items">
+				<el-row class="goods-detail box box-center" v-for="item,index in orderInfo.items" :key="index">
 					<el-col :span="4">
 						<div class="img-box">
 							<img v-bind:src="item.imageUrl">

@@ -23,7 +23,7 @@
 			</div>
 			<div class="container-address">
 				<el-row>
-					<el-col :span="6" v-for="(item,index) in addressList">
+					<el-col :span="6" v-for="(item,index) in addressList" :key="index">
 						<div class="addr-item button" :class="{active:selectedAddr == index}" @click="chooseAddr(index)" v-show="index<=maxAddr">
 							<div class="addr-item-tit">收货人：{{item.consignee}}</div>
 							<div class="addr-item-text box">
@@ -54,7 +54,7 @@
 					<el-col :span="3">数量(瓶)</el-col>
 					<el-col :span="4">小计(元)</el-col>
 				</el-row> -->
-				<el-row class="order-item box box-center" v-for="item in orderItems">
+				<el-row class="order-item box box-center" v-for="item,index in orderItems" :key="index">
 					<el-col :span="13" class="text-left">
 						<el-row>
 							<el-col :span="6" class="box box-center img-box">

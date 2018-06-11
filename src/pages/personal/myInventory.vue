@@ -174,7 +174,7 @@ export default {
 			this.saveGoodsCount(item);
 		},
 		upCount(item, index) {
-			item.number = item.number + 1;
+			item.number = ++item.number;
 			this.$set(this.goodsList, index, item);
 			this.saveGoodsCount(item);
 		},

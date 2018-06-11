@@ -9,7 +9,7 @@
 	<div class="banner">
 		<swiper :options="swiperOption" ref="mySwiper" class="banner-swiper">
 			<!-- slides -->
-			<swiper-slide v-for="item in banner" class="box box-center">
+			<swiper-slide v-for="item,key in banner" :key="key" class="box box-center">
 				<router-link :to="'/Z29vZHNEZXRhaWw?id='+item.productId" v-if="item.redirectMethod==2">
 					<img v-bind:src="item.image">
 				</router-link>
@@ -88,7 +88,7 @@
 				<h4>得奖产品<span>THE WINNING</span></h4>
 			</div>
 			<el-row :gutter="26" class="goods-box" v-if="prizeGoods">
-				<el-col :span="8" v-for="(item, index) in prizeGoods.goods" v-if="index<3">
+				<el-col :span="8" v-for="(item, index) in prizeGoods.goods" :key="key" v-if="index<3">
 					<div class="good-box">
 						<div class="img-box" ref="priczeImgBox" :style="{height: priczeImgHeight}">
 							<img v-lazy="item.image">
@@ -120,7 +120,7 @@
 				<h4>热门产品<span>HOT PRODUCTS</span></h4>
 			</div>
 			<el-row :gutter="26" class="goods-box">
-				<el-col :span="6" v-for="(item, index) in hotGoods" v-if="index<8">
+				<el-col :span="6" v-for="(item, index) in hotGoods" :key="index" v-if="index<8">
 					<div class="good-box">
 						<div class="img-box price-img">
 							<img v-bind:src="item.image">
