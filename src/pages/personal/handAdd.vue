@@ -400,7 +400,7 @@ export default {
 								showCancelButton: false,
 								center: true
 							}).then(() => {
-								this.$router.push({name: "myDemand"})
+								this.$router.push({ name: 'myGoods', query:{page:1, tabIndex: 18}})
 							}).catch(() => {});
 						} else {
 							this.$message.error(res.data.message);

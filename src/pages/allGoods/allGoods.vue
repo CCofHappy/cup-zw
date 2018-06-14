@@ -127,7 +127,7 @@ export default {
 			})
 			if (this.categoryId) { //请求品牌
 				let brandParams = {
-					apiUrl: this.config.mallApi + "dbcenter/getCategoryFindaBrand?category=" + that.categoryId,
+					apiUrl: this.config.mallApi + "dbcenter/getCategoryFindaBrand?category=" + this.categoryId,
 					apiMethod: 'get',
 				}
 				this.ajaxData(brandParams, (res)=> {

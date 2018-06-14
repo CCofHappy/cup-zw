@@ -95,7 +95,6 @@
 						</div>
 					</div>
 				</div>
-
 				<!--分页器-->
 				<div class="text-right" v-if="(orderData.total)/10>1">
 					<el-pagination layout="prev, pager, next" :total="orderData.total?orderData.total:1" :page-size="10" @current-change="changePage" :current-page="page">

@@ -34,7 +34,7 @@
                                 <span v-else>立即购买</span>
                             </router-link>
 						</div>
-						<!--工具箱-->
+						<!--工具箱 （关注状态）-->
 						<div class="good-box-tool">
 							<div class="button" @click="addToFocus(item.id,item.isFlavor)">
 								<icon name="heart2" scale="2.1" class="icon" v-show="item.isFlavor"></icon>
@@ -84,14 +84,14 @@ export default {
 	methods: {
 		addToFocus: function(proId, boolean) {
 			let that = this;
-			if (that.util.getCookie('token')) {
+			if (that.util.getCookie('customerInfo') && that.util.getCookie('customerInfo').keyCode) {
 				let care = boolean ? 0 : 1;
 				that.$ajax({
 					method: "get",
 					url: that.config.mallApi + "center/favorit/set/" + proId + "/" + care,
 					headers: {
 						'Content-type': 'application/json;charset=UTF-8',
-						'Authentication': that.util.getCookie('token')
+						'Authentication': that.util.getCookie('customerInfo').keyCode
 					},
 					data: {}
 				}).then(function(res) {

@@ -297,7 +297,7 @@ export default {
 				}, ],
 				businessLicenseImg: [{
 					required: true,
-					message: '清上传营业执照',
+					message: '请上传营业执照',
 					trigger: 'blur'
 				}, ],
 			},
